@@ -1,0 +1,61 @@
+:root {
+  --color-dark: #000;
+  --color-light: #fff;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+ 
+}
+
+/*Container with zero padding */
+#header {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: var(--color-dark);
+  color:var(--color-light);
+  z-index: 1000;
+  overflow: hidden;
+  text-align:center;
+
+  transition: height 0.5s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+
+.smaller {
+  height: 10% !important;
+}
+
+#header-logo {
+  font-size: 8rem;
+  transition: font-size 0.3s;
+}
+
+#header.smaller #header-logo {
+  font-size: 0.5rem;
+}
+
+
+
+main {
+  height:2000px;
+  margin-top: 200px;
+}
+
+
