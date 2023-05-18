@@ -1,27 +1,56 @@
 import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
+import {
+  Graveyard
+} from './JS/Graveyard';
+let GRAVEYARD;
+
+init();
+
+async function init() {
+  initEvents();
+  initThree();
+}
+
+async function initThree() {
+  GRAVEYARD = new Graveyard({
+    container: document.getElementById('graveyard-container'),
+    // data: null,
+  });
+  console.log(GRAVEYARD);
+  // await DNA.init()
+  // await DNA.show()
+}
 
 
-document.addEventListener('DOMContentLoaded', function() {
-  let shrinkHeader = 70;
 
-  window.addEventListener('scroll', function() {
-    let scroll = getCurrentScroll();
-    if (scroll >= shrinkHeader) {
-      console.log('scrol >= shrinkHeader');
-      document.getElementById('header').classList.add('smaller');
-    } else {
-      document.getElementById('header').classList.remove('smaller');
-    }
+
+
+function initEvents() {
+  window.addEventListener('scroll', function () {
+    shrinkHeader();
   });
 
   document.getElementById("toggle-controls").addEventListener("click", () => {
-    console.log('toggle-controls');
-    document.getElementById("controls-panel").classList.toggle("fullscreen");
+    toggleControls();
   });
 
-  function getCurrentScroll() {
-    return window.pageYOffset || document.documentElement.scrollTop;
+
+
+}
+
+function shrinkHeader() {
+  let scroll = getCurrentScroll();
+  if (scroll >= 70) {
+    document.getElementById('header').classList.add('smaller');
+  } else {
+    document.getElementById('header').classList.remove('smaller');
   }
-});
+}
+
+function getCurrentScroll() {
+  return window.pageYOffset || document.documentElement.scrollTop;
+}
+
+function toggleControls() {
+  document.getElementById("controls-panel").classList.toggle("fullscreen");
+}
