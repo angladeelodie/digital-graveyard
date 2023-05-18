@@ -13,6 +13,7 @@ import {
 // import mainBus from './MyEventEmitter';
 // import current from "./currentStates";
 import Grave from './Grave.js'
+import Engraving from './Engraving.js';
 
 export class Graveyard {
     constructor({
@@ -27,9 +28,9 @@ export class Graveyard {
         this.clock = new THREE.Clock();
 
 
-        console.log(this.controls)
 
         this.graves = [];
+        this.engravings = [];
         this.textures = [];
         this.models = {}; // {name: gltfmodel}
 
@@ -54,9 +55,6 @@ export class Graveyard {
 
     async init() {
         this.models = await this.loadModels(modelPaths, modelFolder);
-        console.log(this.models);
-        console.log("new scene")
-
         this.initThreeScene();
         this.container.width = this.container.clientWidth;
         this.container.height = this.container.clientHeight;
@@ -138,24 +136,26 @@ export class Graveyard {
 
     }
 
-    initCustomGrave() {
+    async initCustomGrave() {
         let position = {
             x: 0,
             y: 0,
             z: 0
         }
-        console.log(this.models)
         let selectedModel = Object.values(this.models)[0]
-        console.log(selectedModel)
-        const grave = new Grave({
-            position,
-            model: selectedModel,
-            scale: 1,
-            id: 0,
-        })
-        this.graves.push(grave)
-        this.scene.add(grave.model);
-        console.log(this.scene)
+        // const grave = new Grave({
+        //     position,
+        //     model: selectedModel,
+        //     scale: 1,
+        //     id: 0,
+        // });
+        // this.graves.push(grave)
+        // this.scene.add(grave.model);
+
+        const engraving = new Engraving(3, "asalut");
+        engraving.initialize(this.scene);
+        // this.engravings.push(engraving);
+        // this.scene.add(obj.scene);
 
 
 

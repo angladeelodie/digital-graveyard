@@ -16,7 +16,6 @@ async function initThree() {
     container: document.getElementById('graveyard-container'),
     // data: null,
   });
-  console.log(GRAVEYARD);
   // await DNA.init()
   // await DNA.show()
 }

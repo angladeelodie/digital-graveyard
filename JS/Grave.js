@@ -7,7 +7,6 @@ export default class Grave {
         scale,
         id
     }) {
-        console.log(model)
         this.model = model.clone();
         this.graveId = id
         this.scale = scale
@@ -28,7 +27,7 @@ export default class Grave {
 
         this.model.scale.set(this.scale, this.scale, this.scale);
         this.model.position.copy(position)
-        console.log(this.model.position)
+        // console.log(this.model.position)
         // this.model.rotation.set(random(-1.0, 1.0), random(-1.0, 1.0), random(-1.0, 1.0))
         this.show()
     }
