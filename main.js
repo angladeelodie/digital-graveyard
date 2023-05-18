@@ -16,6 +16,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  document.getElementById("toggle-controls").addEventListener("click", () => {
+    console.log('toggle-controls');
+    document.getElementById("controls-panel").classList.toggle("fullscreen");
+  });
+
   function getCurrentScroll() {
     return window.pageYOffset || document.documentElement.scrollTop;
   }

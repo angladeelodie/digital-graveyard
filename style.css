@@ -3,6 +3,10 @@
   --color-light: #fff;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html, body {
   width: 100%;
   height: 100%;
@@ -12,6 +16,11 @@ html, body {
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+ 
+}
+
+body::-webkit-scrollbar{
+  display: none;
 }
 
 header {
@@ -54,8 +63,126 @@ header {
 
 
 main {
-  height:2000px;
-  margin-top: 200px;
+  height:100%;
+  width: 100%;
+  margin-top: 70px;
+  overflow-y: scroll;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
 }
 
 
+.section {
+  scroll-snap-align: start;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5%;
+  border-bottom: 1px solid var(--color-dark);
+}
+
+#graveyard-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: grey;
+}
+
+
+#controls-panel {
+  position: relative;
+
+  background-color: white;
+  color: black;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: 1rem;
+  font-size: 3rem;
+  width: 3.5%;
+  height: 7%;
+  
+  font-size: 1.5rem;
+
+  
+  overflow: hidden;
+  transition: width 0.3s ease-in-out, height 0.6s ease-in-out;
+}
+
+
+#toggle-controls {
+  position: absolute;
+  right:0.5rem;
+  bottom:0rem;
+  font-size: 3rem;
+}
+
+.fullscreen {
+  width: calc(33% - 2rem) !important;
+  height: calc(80% - 2rem)  !important;
+}
+
+.inside-controls {
+  width: 100%;
+  height: 0%;
+  opacity: 0%;
+  transition: opacity 0.3s ease-in-out 0.3s, width 0.3s ease-in-out, height 0.3s ease-in-out;
+
+  display: flex;
+  flex-direction: column;
+  justify-content:end;
+  align-items: space-between;
+
+}
+
+#controls-panel.fullscreen .inside-controls{
+  /* display: block; */
+  height: 100%;
+  opacity: 100%;
+  transition: opacity 0.3s ease-in-out 0s;
+
+}
+
+.control-box {
+  padding: 1rem;
+}
+
+
+form {
+  height: 100%;
+}
+input[type="radio"] {
+  display: none;
+}
+label {
+  cursor: pointer;
+  display: block; 
+}
+input[type="radio"] + label {
+
+  background-color: rgb(220, 220, 220);
+  padding: 0.25rem 1rem;
+  margin: 0.25em 0rem;
+}
+
+input[type="radio"]:checked + label {
+  background-color: green;
+}
+
+#submit {
+  width: 100%;
+  cursor: pointer;
+}
+
+#submit span {
+  display: block;
+  width: 100%;
+  border: solid 1px var(--color-dark);
+  padding: 0.25rem 1rem;
+  margin: 0.25em 0rem;
+  margin-bottom: 0;
+}

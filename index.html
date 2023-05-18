@@ -1,32 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <!-- <header> -->
-      <div id="header">
-        <div class="row">
-            <div id="header-logo">
-              <h1>Digital Graveyard</h1>
-            </div>
-        </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite App</title>
+</head>
+
+<body>
+  <div id="header">
+    <div class="row">
+      <div id="header-logo">
+        <h1>Digital Graveyard</h1>
       </div>
-    <!-- </header> -->
+    </div>
+  </div>
+  <main>
+    <div id="section1" class="section">
+      <h2>Welcome to Digital Graveyard</h2>
+    </div>
+    <div id="section2" class="section">
+      <h2>The first ever unmaterialised cemetary for your loved ones.</h2>
+
+    </div>
+    <div id="section3" class="section">
+      <h2>lol</h2>
+
+    </div>
+    <div id="section4" class="section">
+      <div id="graveyard-container">
+        <div id="controls-panel">
+          <form>
 
 
-    <main>
+            <div class="inside-controls">
+              <div class="control-box">
+                <div>Engrave your text:</div>
+                <input type="text" id="name">
+                <input type="text" id="years">
+                <input type="text" id="epitaph" name="epitaph">
+              </div>
+
+              <div class="control-box">
+                <div class="control-label">Select your material:</div>
+                <input type="radio" id="marble" name="material" value="marble" checked="checked">
+                <label for="marble">Marble</label>
+                <input type="radio" id="gold" name="material" value="gold">
+                <label for="gold">Gold</label>
+                <input type="radio" id="silver" name="material" value="silver">
+                <label for="silver">Silver</label>
+                <input type="radio" id="wood" name="material" value="wood">
+                <label for="wood">Wood</label>
+                
+              </div>
+
+              <div class="control-box">
+                <div class="control-label">Select your ambiance:</div>
+                <input type="radio" id="sound1" name="sound" value="sound1" checked="checked">
+                <label for="sound1">1</label>
+                <input type="radio" id="sound2" name="sound" value="sound2">
+                <label for="sound2">2</label>
+                <input type="radio" id="sound3" name="sound" value="sound3">
+                <label for="sound3">3</label>
+              </div>
+              <div id="submit" class="control-box">
+                <span>Dematerialize</span>
+                
+              </div>
+              
+            </div>
+          </form>
 
 
-    </main>
+          <div id="toggle-controls">+</div>
+        </div>
+
+
+      </div>
+
+    </div>
+  </main>
 
 
 
+  <script type="module" src="/main.js"></script>
+</body>
 
-
-    <script type="module" src="/main.js"></script>
-  </body>
 </html>
