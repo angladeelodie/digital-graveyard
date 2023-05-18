@@ -123,7 +123,7 @@ main {
 
 .fullscreen {
   width: calc(33% - 2rem) !important;
-  height: calc(80% - 2rem)  !important;
+  height: calc(100% - 2rem)  !important;
 }
 
 .inside-controls {
@@ -161,6 +161,25 @@ input[type="radio"] {
 label {
   cursor: pointer;
   display: block; 
+}
+.text-inputs-row {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+#name{
+  width: 65%;
+}
+
+#epitaph {
+  width: 100%;
+}
+
+#years {
+  width: 30%;
 }
 input[type="radio"] + label {
 
