@@ -3,8 +3,6 @@ export const modelFolder = '/models/'
 
 export const models = {
     grave1: "grave1.gltf",
-    blobB: "shapeB.gltf",
-    blobC: "shapeC.gltf",
-    blobD: "shapeD.gltf",
-    blobE: "shapeE.gltf",
+    grave2: "grave2.gltf",
+    grave3: "grave3.gltf",
 }

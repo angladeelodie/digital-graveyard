@@ -1,21 +1,36 @@
 import { MeshPhysicalMaterial } from "three";
+import Engraving from './Engraving.js';
+
 
 export default class Grave {
     constructor({
         position,
         model,
         scale,
-        id
+        id,
+        text,
+        models,
+        scene
     }) {
+        this.position = position;
         this.model = model.clone();
-        this.graveId = id
-        this.scale = scale
+        this.graveId = id;
+        this.text = text;
+        this.scale = scale;
+        this.engraving;
+        this.models = models;
+        this.scene = scene;
 
-        this.model.children.forEach(child => {
+        this.createGrave(this.model)
+    }
+
+    createGrave(model) {
+        // console.log(model)
+        model.children.forEach(child => {
 
             if (child.isMesh) {
                 const material = new MeshPhysicalMaterial({
-                    color: 0xff0000,
+                    color: 0xA0A0A0,
                     roughness: 0.3,
                     metalness: 0.1,
                 });
@@ -25,20 +40,44 @@ export default class Grave {
             }
         });
 
-        this.model.scale.set(this.scale, this.scale, this.scale);
-        this.model.position.copy(position)
-        // console.log(this.model.position)
-        // this.model.rotation.set(random(-1.0, 1.0), random(-1.0, 1.0), random(-1.0, 1.0))
-        this.show()
+        model.scale.set(this.scale, this.scale, this.scale);
+        model.position.copy(this.position);
+        this.scene.add(model);
+        this.addEngraving(this.text)
+
+    }
+    addEngraving(){
+        this.engraving = new Engraving(15, this.text);
+        this.engraving.initialize(this.model);
+
+        // this.model.add()
     }
 
-    show() {
-        // this.model.children.forEach(child => {
-        //     if (child.isMesh) {
-        //         // child.layers.set( 0 );
-        //     }
-        // })
+
+    updateText(text) {
+        this.text = text;
+        this.engraving.updateText(this.model, text)
     }
+
+    updateModel(modelIndex){
+        this.deleteGrave()
+        // console.log(modelIndex)
+        // console.log(this.models)
+        let selectedModel = Object.values(this.models)[modelIndex];
+        this.model = selectedModel.clone();
+        // console.log(selectedModel)
+
+        this.createGrave(this.model)
+        // this.model = selectedModel.clone();
+        // this.model.scale.set(this.scale, this.scale, this.scale);
+        // this.model.position.copy(25,25,0)
+    }
+
+    deleteGrave(){
+        this.model.parent.remove(this.model);
+    }
+
+    
 
     
 

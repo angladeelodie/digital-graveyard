@@ -13,7 +13,6 @@ import {
 // import mainBus from './MyEventEmitter';
 // import current from "./currentStates";
 import Grave from './Grave.js'
-import Engraving from './Engraving.js';
 
 export class Graveyard {
     constructor({
@@ -26,6 +25,7 @@ export class Graveyard {
         this.loader = new GLTFLoader();
         this.controls;
         this.clock = new THREE.Clock();
+        this.currentGrave;
 
 
 
@@ -128,7 +128,7 @@ export class Graveyard {
         this.scene.add(ambientLight);
 
         let spotLight = new THREE.SpotLight(0xffffff, 0.5);
-        spotLight.position.set(50, 50, 10)
+        spotLight.position.set(100, 100, 10)
         this.scene.add(spotLight);
 
         // this.scene.background = new THREE.Color(0xffffff);
@@ -143,17 +143,20 @@ export class Graveyard {
             z: -10,
         }
         let selectedModel = Object.values(this.models)[0]
-        const grave = new Grave({
+        this.currentGrave = new Grave({
             position,
             model: selectedModel,
             scale: 0.5,
             id: 0,
+            text: "test",
+            models: this.models,
+            scene: this.scene,
         });
-        this.graves.push(grave)
-        this.scene.add(grave.model);
+        this.graves.push(this.currentGrave)
+        // this.scene.add(this.currentGrave.model);
 
-        const engraving = new Engraving(10, "Wesh alors");
-        engraving.initialize(this.scene);
+        // const engraving = new Engraving(10, "Wesh alors");
+        // engraving.initialize(this.scene);
         // this.engravings.push(engraving);
         // this.scene.add(obj.scene);
 
@@ -168,6 +171,7 @@ export class Graveyard {
         requestAnimationFrame(this.animate.bind(this));
         this.renderer.render(this.scene, this.camera);
     }
+
 
     onWindowResize() {
         const {
