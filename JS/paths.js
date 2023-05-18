@@ -2,7 +2,7 @@
 export const modelFolder = '/models/'
 
 export const models = {
-    blobA: "shapeA.gltf",
+    grave1: "grave1.gltf",
     blobB: "shapeB.gltf",
     blobC: "shapeC.gltf",
     blobD: "shapeD.gltf",

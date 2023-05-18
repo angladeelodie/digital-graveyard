@@ -128,7 +128,7 @@ export class Graveyard {
         this.scene.add(ambientLight);
 
         let spotLight = new THREE.SpotLight(0xffffff, 0.5);
-        spotLight.position.set(10, 7, 10)
+        spotLight.position.set(50, 50, 10)
         this.scene.add(spotLight);
 
         // this.scene.background = new THREE.Color(0xffffff);
@@ -140,19 +140,19 @@ export class Graveyard {
         let position = {
             x: 0,
             y: 0,
-            z: 0
+            z: -10,
         }
         let selectedModel = Object.values(this.models)[0]
-        // const grave = new Grave({
-        //     position,
-        //     model: selectedModel,
-        //     scale: 1,
-        //     id: 0,
-        // });
-        // this.graves.push(grave)
-        // this.scene.add(grave.model);
+        const grave = new Grave({
+            position,
+            model: selectedModel,
+            scale: 0.5,
+            id: 0,
+        });
+        this.graves.push(grave)
+        this.scene.add(grave.model);
 
-        const engraving = new Engraving(3, "asalut");
+        const engraving = new Engraving(10, "Wesh alors");
         engraving.initialize(this.scene);
         // this.engravings.push(engraving);
         // this.scene.add(obj.scene);
@@ -167,6 +167,17 @@ export class Graveyard {
         this.controls.update(deltaTime);
         requestAnimationFrame(this.animate.bind(this));
         this.renderer.render(this.scene, this.camera);
+    }
+
+    onWindowResize() {
+        const {
+            clientHeight,
+            clientWidth
+        } = this.container
+
+        this.camera.aspect = clientWidth / clientHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(clientWidth, clientHeight);
     }
 
 

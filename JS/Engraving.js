@@ -37,7 +37,7 @@ export default class Engraving {
         const font = await this.fontPromise;
         let textGeo = new TextGeometry(this.text, {
             font: font,
-            size: 10,
+            size: this.size,
             height: 2,
             curveSegments: 12,
             bevelEnabled: true,
@@ -48,9 +48,9 @@ export default class Engraving {
         });
         console.log(textGeo)
 
-        const material = new THREE.MeshPhysicalMaterial({ color: 0xffffff });
+        const material = new THREE.MeshPhysicalMaterial({ color: 0xff0000 });
         this.textMesh = new THREE.Mesh(textGeo, material);
-        this.textMesh.scale.set(10, 10, 10);
+        this.textMesh.scale.set(1, 1, 1);
         console.log(this.textMesh.position)
 
         scene.add(this.textMesh);

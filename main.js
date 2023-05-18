@@ -33,6 +33,10 @@ function initEvents() {
     toggleControls();
   });
 
+  window.addEventListener('resize', function () {
+    GRAVEYARD.onWindowResize();
+  });
+
 
 
 }
