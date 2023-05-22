@@ -118,7 +118,9 @@ export class Graveyard {
         this.camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 100000, 100000);
         this.camera.position.set(this.camPos.x, this.camPos.y, this.camPos.z);
         this.camera.rotation.set(this.camAngle.x, this.camAngle.y, this.camAngle.z);
-
+        //montrer seulement la layer 0 (celle avec toutes les tombes)
+        this.camera.layers.set(0);
+        // this.camera.layers.disable(0);
         this.camera.aspect = clientWidth / clientHeight;
         this.camera.updateProjectionMatrix();
 
@@ -157,6 +159,7 @@ export class Graveyard {
                     y: 0.5,
                     z: 0.5
                 },
+                isVisible: true,
                 id: i,
                 text: database.graves[i].text,
                 models: this.models,
@@ -176,13 +179,18 @@ export class Graveyard {
         this.currentGrave = new Grave({
             position,
             model: selectedModel,
-            scale: {x: 2, y: 2, z: 2},
+            scale: {
+                x: 0.5,
+                y: 0.5,
+                z: 0.5
+            },
+            isVisible: false,
             id: 0,
             text: "test",
             models: this.models,
             scene: this.scene,
         });
-        this.graves.push(this.currentGrave)
+        // this.graves.push(this.currentGrave)
     }
 
     async animate() {
@@ -205,5 +213,19 @@ export class Graveyard {
         this.renderer.setSize(clientWidth, clientHeight);
     }
 
+    switchView(view) {
+        if (view === "editing") {
+            console.log("editing")
+            for (let i = 0; i < this.graves.length; i++) {
+                this.graves[i].hide();
+            }
+        }
 
+        if (view === "exploring") {
+            console.log("exploring")
+            for (let i = 0; i < this.graves.length; i++) {
+                this.graves[i].show();
+            }
+        }
+    }
 }
