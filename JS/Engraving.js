@@ -10,19 +10,17 @@ import {
 } from 'three/addons/geometries/TextGeometry.js';
 
 export default class Engraving {
-    constructor(size,text) {
+    constructor(size,text, isVisible) {
         this.size = size;
         this.text = text;
+        this.isVisible = isVisible;
         this.textMesh;
         this.font = null;
-
         this.fontPromise = this.loadFont();
     }
 
-
     loadFont(text) {
         const loader = new FontLoader();
-
         return new Promise((resolve, reject) => {
             loader.load('../fonts/helvetiker.json', function (font) {
                 resolve(font);
@@ -33,8 +31,6 @@ export default class Engraving {
         });
     }
 
-
- 
     async addTextGeometry(model, text) {
         const font = await this.fontPromise;
         let textGeo = new TextGeometry(text, {
@@ -65,6 +61,12 @@ export default class Engraving {
             metalness: 0.1,
         });
         this.textMesh = new THREE.Mesh(textGeo, material);
+        if(this.isVisible === true){
+           this.show();
+
+        } else {
+            this.hide();
+        }
         this.textMesh.scale.set(1, 1, 1);
         model.add(this.textMesh);
         // console.log(scene)
@@ -79,6 +81,23 @@ export default class Engraving {
 
         // this.textMesh.geometry.dispose();
         this.addTextGeometry(model, text);
+    }
+
+
+
+    show() {
+        console.log(this.textMesh)
+        if(this.textMesh){
+            this.isVisible = true;
+            this.textMesh.layers.set(0)
+        }
+    }
+    hide(){
+        console.log(this.textMesh)
+        if(this.textMesh){
+            this.isVisible = false;
+            this.textMesh.layers.set(1)
+        }
     }
 
 

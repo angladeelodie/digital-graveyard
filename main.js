@@ -28,6 +28,7 @@ async function initThree() {
 
 
 function initEvents() {
+  let numClicks = 0;
   window.addEventListener('scroll', function () {
     shrinkHeader();
   });
@@ -53,6 +54,14 @@ function initEvents() {
 
   document.getElementById("submit").addEventListener("click", (e) => {
     mainBus.emit("graveSubmitted");
+    toggleControls();
+    numClicks++
+
+  });
+
+  document.getElementById("toggle-controls").addEventListener("click", (e) => {
+    mainBus.emit("toggleControls", numClicks);
+    numClicks++;
   });
 
 
@@ -73,8 +82,18 @@ function handleEvents() {
 
   mainBus.on("graveSubmitted", () => {
     console.log("new Grave")
-    // GRAVEYARD.currentGrave.updateModel(modelIndex);
+    GRAVEYARD.pushToGraveyard();
   })
+
+  mainBus.on("toggleControls", (numClicks) => {
+    if(numClicks % 2 === 0){
+      GRAVEYARD.switchView("editing")
+    } else {
+      GRAVEYARD.switchView("exploring")
+    }
+  });
+
+
 }
 
 function shrinkHeader() {

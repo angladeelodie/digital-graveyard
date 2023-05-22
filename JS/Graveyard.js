@@ -190,6 +190,8 @@ export class Graveyard {
             models: this.models,
             scene: this.scene,
         });
+        this.currentGrave.hide();
+        // this.currentGrave.engraving.hide();
         // this.graves.push(this.currentGrave)
     }
 
@@ -219,13 +221,37 @@ export class Graveyard {
             for (let i = 0; i < this.graves.length; i++) {
                 this.graves[i].hide();
             }
+
+            this.currentGrave.show();
+            this.currentGrave.engraving.show();
         }
 
         if (view === "exploring") {
             console.log("exploring")
             for (let i = 0; i < this.graves.length; i++) {
                 this.graves[i].show();
+            
             }
+            this.currentGrave.hide();
+            this.currentGrave.engraving.hide();
+
         }
+    }
+
+    pushToGraveyard() {
+        this.currentGrave.position = {
+            x: random(-400,400),
+            y: random(-400,400),
+            z:0,
+        }
+        this.currentGrave.updatePosition();
+        // this.currentGrave.isVisible = true;
+        // this.currentGrave.show();
+        console.log(this.currentGrave)
+        this.graves.push(this.currentGrave);
+        this.initCustomGrave();
+        this.switchView("exploring")
+
+        console.log(this.graves)
     }
 }
