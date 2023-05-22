@@ -10,8 +10,12 @@ import {
     modelFolder,
     // getTexturePaths
 } from './paths.js'
-// import mainBus from './MyEventEmitter';
-// import current from "./currentStates";
+import {
+    database
+} from '/JS/database.js'
+import {
+    random
+} from '/JS/utils'
 import Grave from './Grave.js'
 
 export class Graveyard {
@@ -42,7 +46,7 @@ export class Graveyard {
         this.camPos = {
             x: 0,
             y: 0,
-            z: 100
+            z: 1000
         }
         this.camAngle = {
             x: 0,
@@ -132,7 +136,33 @@ export class Graveyard {
         this.scene.add(spotLight);
 
         // this.scene.background = new THREE.Color(0xffffff);
+        this.initAllGraves();
         this.initCustomGrave();
+
+    }
+
+    async initAllGraves() {
+        // générer les tombes à partir de la base de données
+        for (let i = 0; i < database.graves.length; i++) {
+            let selectedModel = random(this.models);
+            this.graves.push(new Grave({
+                position: {
+                    x: database.graves[i].position.x,
+                    y: database.graves[i].position.y,
+                    z: database.graves[i].position.z
+                },
+                model: selectedModel,
+                scale: {
+                    x: 0.5,
+                    y: 0.5,
+                    z: 0.5
+                },
+                id: i,
+                text: database.graves[i].text,
+                models: this.models,
+                scene: this.scene,
+            }))
+        }
 
     }
 
@@ -140,28 +170,19 @@ export class Graveyard {
         let position = {
             x: 0,
             y: 0,
-            z: -10,
+            z: 0,
         }
         let selectedModel = Object.values(this.models)[0]
         this.currentGrave = new Grave({
             position,
             model: selectedModel,
-            scale: 0.5,
+            scale: {x: 2, y: 2, z: 2},
             id: 0,
             text: "test",
             models: this.models,
             scene: this.scene,
         });
         this.graves.push(this.currentGrave)
-        // this.scene.add(this.currentGrave.model);
-
-        // const engraving = new Engraving(10, "Wesh alors");
-        // engraving.initialize(this.scene);
-        // this.engravings.push(engraving);
-        // this.scene.add(obj.scene);
-
-
-
     }
 
     async animate() {

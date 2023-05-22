@@ -40,13 +40,14 @@ export default class Grave {
             }
         });
 
-        model.scale.set(this.scale, this.scale, this.scale);
+        model.scale.set(this.scale.x, this.scale.y, this.scale.z);
         model.position.copy(this.position);
         this.scene.add(model);
         this.addEngraving(this.text)
 
     }
     addEngraving(){
+        console.log(this.text)
         this.engraving = new Engraving(15, this.text);
         this.engraving.initialize(this.model);
 

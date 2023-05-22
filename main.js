@@ -51,6 +51,10 @@ function initEvents() {
     mainBus.emit("modelChanged", radio.value);
   }));
 
+  document.getElementById("submit").addEventListener("click", (e) => {
+    mainBus.emit("graveSubmitted");
+  });
+
 
 
 }
@@ -65,6 +69,11 @@ function handleEvents() {
   mainBus.on("modelChanged", (modelIndex) => {
     console.log("model changed")
     GRAVEYARD.currentGrave.updateModel(modelIndex);
+  })
+
+  mainBus.on("graveSubmitted", () => {
+    console.log("new Grave")
+    // GRAVEYARD.currentGrave.updateModel(modelIndex);
   })
 }
 
