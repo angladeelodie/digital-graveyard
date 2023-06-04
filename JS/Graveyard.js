@@ -3,8 +3,8 @@ import {
     GLTFLoader
 } from 'three/examples/jsm/loaders/GLTFLoader'
 import {
-    TrackballControls
-} from 'three/examples/jsm/controls/TrackballControls.js';
+    OrbitControls
+} from 'three/examples/jsm/controls/OrbitControls.js';
 import {
     models as modelPaths,
     modelFolder,
@@ -46,7 +46,7 @@ export class Graveyard {
         this.camPos = {
             x: 0,
             y: 0,
-            z: 1000
+            z: 500
         }
         this.camAngle = {
             x: 0,
@@ -64,7 +64,12 @@ export class Graveyard {
         this.container.height = this.container.clientHeight;
         this.renderer.setClearColor(0xff00000, 0);
         this.container.appendChild(this.renderer.domElement);
-        this.controls = new TrackballControls(this.camera, this.renderer.domElement);
+        this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+        this.controls.enablePan = false;
+        this.controls.enableZoom = false;
+        this.controls.autoRotate = true;
+        this.controls.autoRotateSpeed = 3;
+        this.controls.enableDamping = true;
         this.animate();
 
 
@@ -138,7 +143,7 @@ export class Graveyard {
         this.scene.add(spotLight);
 
         // this.scene.background = new THREE.Color(0xffffff);
-        this.initAllGraves();
+        // this.initAllGraves();
         this.initCustomGrave();
 
     }
@@ -190,7 +195,7 @@ export class Graveyard {
             models: this.models,
             scene: this.scene,
         });
-        this.currentGrave.hide();
+        // this.currentGrave.hide();
         // this.currentGrave.engraving.hide();
         // this.graves.push(this.currentGrave)
     }

@@ -325,6 +325,10 @@ main {
   overflow: hidden;
 }
 
+#section6 {
+  position: relative;
+}
+
 #graveyard-container {
   position: relative;
   width: 100%;
@@ -454,7 +458,8 @@ input {
 
 .control-arrows {
   bottom: 0;
-  position: fixed;
+  position: absolute;
+  left: 0;
   z-index: 2000;
   height: 10%;
   width: 50%;
