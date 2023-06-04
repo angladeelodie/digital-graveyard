@@ -124,7 +124,8 @@ export class Graveyard {
         this.camera.position.set(this.camPos.x, this.camPos.y, this.camPos.z);
         this.camera.rotation.set(this.camAngle.x, this.camAngle.y, this.camAngle.z);
         //montrer seulement la layer 0 (celle avec toutes les tombes)
-        this.camera.layers.set(0);
+        this.camera.layers.enable(0);
+        this.camera.layers.enable(1);
         // this.camera.layers.disable(0);
         this.camera.aspect = clientWidth / clientHeight;
         this.camera.updateProjectionMatrix();
@@ -189,7 +190,7 @@ export class Graveyard {
                 y: 0.5,
                 z: 0.5
             },
-            isVisible: false,
+            isVisible: true,
             id: 0,
             text: "test",
             models: this.models,

@@ -30,87 +30,73 @@ export default class Grave {
         this.engraving;
         this.models = models;
         this.scene = scene;
-
+        this.graveMesh;
+        this.booleMesh;
         this.createGrave(this.model)
     }
 
     createGrave(model) {
-        // console.log(model)
-        // model.children.forEach(child => {
-        //     if (child.isMesh) {
-
         const material = new MeshPhysicalMaterial({
             color: 0xA0A0A0,
             roughness: 0.3,
             metalness: 0.1,
         });
-
-        //         child.material = material
-        //     }
-
-        // });
-
-        // model.scale.set(this.scale.x, this.scale.y, this.scale.z);
-        // model.position.copy(this.position);
-
-        model = new THREE.Mesh(
-            new THREE.BoxGeometry(200, 200, 5),
+        this.graveMesh = new THREE.Mesh(
+            new THREE.BoxGeometry(200, 200, 45),
             material
         );
-        console.log(this.model)
-        // this.scene.add(model);
-        // this.scene.add(model)
-        // console.log(model)
-        this.addEngraving(this.text)
+
+        this.graveMesh.updateMatrix();
+        // this.graveMesh.scale.set(this.scale.x, this.scale.y, this.scale.z);
+        // this.graveMesh.position.copy(this.position);
+        this.addEngraving(this.text);
 
     }
     async addEngraving() {
         console.log("adding engraving with" + this.text)
-        this.engraving = new Engraving(15, this.text, this.isVisible);
+        this.engraving = new Engraving(15, this.text, this.isVisible, this.scene);
+        
+        await this.engraving.initialize();
+        // this.scene.add(this.engraving.textMesh);
+        this.engraving.textMesh.layers.set(0);
+        this.engraving.isVisible = true;
+        // this.engraving.show()
+        this.createBooleMesh()
+    }
+
+    createBooleMesh() {
         const material = new MeshPhysicalMaterial({
-            color: 0xF0F000,
+            color: 0xA0A0A0,
             roughness: 0.3,
             metalness: 0.1,
         });
-        await this.engraving.initialize(this.model);
+        this.booleMesh = CSG.subtract(this.graveMesh, this.engraving.textMesh);
+        this.booleMesh.material = material;
+        
+        this.scene.add(this.booleMesh)
+    }
 
-        console.log(this.engraving.textMesh)
-        //   this.scene.add(this.engraving)
-        // this.engraving.isVisible = true
-
-        // this.engraving.show()
-
-        // this.model.add()
-
-        const material2 = new THREE.MeshNormalMaterial()
-
-        const box = new THREE.Mesh(
-            new THREE.BoxGeometry(200, 200, 3),
-            new THREE.MeshNormalMaterial()
-          );
-        box.updateMatrix();
-
-        // const modelCSG = CSG.fromGeometry(box)
-        // const textCSG = CSG.fromGeometry(
-        //     this.engraving.textMesh.geometry,
-        //     material
-        // )
-
-        const subRes = CSG.subtract(box, this.engraving.textMesh);
-        // const subtractCSG = modelCSG.subtract(textCSG)
-
-        // const finalMesh = CSG.toMesh(
-        //     subtractCSG,
-        //     new THREE.Matrix4()
-        // )
-        // finalMesh.material =material2
-        this.scene.add(subRes)
+    async updateBoolMesh() {
+        const material = new MeshPhysicalMaterial({
+            color: 0xA0FFFF,
+            roughness: 0.3,
+            metalness: 0.1,
+        });
+        this.scene.remove(this.booleMesh);
+        this.booleMesh.geometry.dispose();
+        this.booleMesh.material.dispose();
+        
+        this.createBooleMesh();
     }
 
 
-    updateText(text) {
+    async updateText(text) {
         this.text = text;
-        this.engraving.updateText(this.model, text)
+        console.log(this.text)
+        this.engraving.text = this.text;
+        await this.engraving.updateText(this.text)
+        console.log(this.engraving.textMesh)
+        await this.updateBoolMesh();
     }
 
     updatePosition() {

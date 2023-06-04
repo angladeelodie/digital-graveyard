@@ -254,10 +254,11 @@ nextArrow.addEventListener("click", (e) => {
 });
 
 function scrollToNextDiv() {
+  console.log("scrolling to next div")
   const currentDiv = currentControlDiv;
   const nextDiv = currentDiv.nextElementSibling;
-
   if (nextDiv) {
+    console.log(nextDiv)
     nextDiv.scrollIntoView({ behavior: "smooth" });
     currentControlDiv = nextDiv
   }

@@ -375,6 +375,8 @@ main {
 }
 
 .control-box {
+  scroll-snap-align: start;
+  align-items: center;
   height: 100%;
   flex-shrink: 0;
   /* padding-top: 9vh; */
@@ -533,3 +535,11 @@ canvas {
   left: 2rem;
   z-index: 1200;
 }
+/* 
+.section {
+  display: none;
+}
+
+#section6 {
+  display: flex;
+} */

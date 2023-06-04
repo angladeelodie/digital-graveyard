@@ -10,13 +10,14 @@ import {
 } from 'three/addons/geometries/TextGeometry.js';
 
 export default class Engraving {
-    constructor(size,text, isVisible) {
+    constructor(size,text, isVisible, scene) {
         this.size = size;
         this.text = text;
         this.isVisible = isVisible;
         this.textMesh;
         this.font = null;
         this.fontPromise = this.loadFont();
+        this.scene = scene;
     }
 
     loadFont(text) {
@@ -31,13 +32,14 @@ export default class Engraving {
         });
     }
 
-    async addTextGeometry(model, text) {
+    async addTextGeometry(text) {
+        console.log(text)
         const font = await this.fontPromise;
         let textGeo = new TextGeometry(text, {
             font: font,
             size: this.size*2,
             height: 2,
-            curveSegments: 12,
+            curveSegments: 5,
             bevelEnabled: true,
             bevelThickness: 1,
             bevelSize: 0.2,
@@ -47,13 +49,9 @@ export default class Engraving {
         textGeo.computeBoundingBox();
         const textWidth = textGeo.boundingBox.max.x - textGeo.boundingBox.min.x;
         // const textHeight = textGeo.boundingBox.max.y - textGeo.boundingBox.min.y;
-
         const xOffset = -textWidth / 2;
         // const yOffset = -textHeight / 2;
-
-        textGeo.translate(xOffset, 0, 0);
-
-
+        textGeo.translate(xOffset, 0, 20);
 
         const material = new MeshPhysicalMaterial({
             color: 0xA0A0A0,
@@ -61,33 +59,38 @@ export default class Engraving {
             metalness: 0.1,
         });
         this.textMesh = new THREE.Mesh(textGeo, material);
-        if(this.isVisible === true){
-           this.show();
+        console.log(this.textMesh)
+        // this.scene.add(this.textMesh);
+        // if(this.isVisible === true){
+        // this.show();
 
-        } else {
-            this.hide();
-        }
-        this.textMesh.scale.set(1, 1, 1);
+        // } else {
+        //     this.hide();
+        // }
+        // this.textMesh.scale.set(1, 1, 1);
         // model.add(this.textMesh);
         // console.log(scene)
     }
 
-    async initialize(model) {
-        await this.addTextGeometry(model, this.text);
+    async initialize() {
+        await this.addTextGeometry(this.text);
         console.log("initialize engraving")
     }
 
-    updateText(model, text) {
-        this.textMesh.parent.remove(this.textMesh);
-
-        // this.textMesh.geometry.dispose();
-        this.addTextGeometry(model, text);
+    async updateText(text) {
+        console.log("updating text")
+        console.log(text)
+        this.scene.remove(this.textMesh);
+        this.textMesh.geometry.dispose();
+        this.textMesh.material.dispose();
+        this.textMesh = null;
+        
+        await this.addTextGeometry(text);
     }
 
 
 
     show() {
-        console.log(this.textMesh)
         if(this.textMesh){
             this.isVisible = true;
             this.textMesh.layers.set(1)
