@@ -1,7 +1,13 @@
 import {
     MeshPhysicalMaterial
 } from "three";
+import * as THREE from 'three';
+
 import Engraving from './Engraving.js';
+import {
+    CSG
+} from 'three-csg-ts';
+
 
 
 export default class Grave {
@@ -30,34 +36,75 @@ export default class Grave {
 
     createGrave(model) {
         // console.log(model)
-        model.children.forEach(child => {
-            if (child.isMesh) {
+        // model.children.forEach(child => {
+        //     if (child.isMesh) {
 
-                const material = new MeshPhysicalMaterial({
-                    color: 0xA0A0A0,
-                    roughness: 0.3,
-                    metalness: 0.1,
-                });
-
-                child.material = material
-            }
-
+        const material = new MeshPhysicalMaterial({
+            color: 0xA0A0A0,
+            roughness: 0.3,
+            metalness: 0.1,
         });
 
-        model.scale.set(this.scale.x, this.scale.y, this.scale.z);
-        model.position.copy(this.position);
+        //         child.material = material
+        //     }
 
-        this.scene.add(model);
+        // });
+
+        // model.scale.set(this.scale.x, this.scale.y, this.scale.z);
+        // model.position.copy(this.position);
+
+        model = new THREE.Mesh(
+            new THREE.BoxGeometry(200, 200, 5),
+            material
+        );
+        console.log(this.model)
+        // this.scene.add(model);
+        // this.scene.add(model)
         // console.log(model)
         this.addEngraving(this.text)
 
     }
-    addEngraving() {
+    async addEngraving() {
         console.log("adding engraving with" + this.text)
         this.engraving = new Engraving(15, this.text, this.isVisible);
-        this.engraving.initialize(this.model);
+        const material = new MeshPhysicalMaterial({
+            color: 0xF0F000,
+            roughness: 0.3,
+            metalness: 0.1,
+        });
+        await this.engraving.initialize(this.model);
+
+        console.log(this.engraving.textMesh)
+        //   this.scene.add(this.engraving)
+        // this.engraving.isVisible = true
+
+        // this.engraving.show()
 
         // this.model.add()
+
+        const material2 = new THREE.MeshNormalMaterial()
+
+        const box = new THREE.Mesh(
+            new THREE.BoxGeometry(200, 200, 3),
+            new THREE.MeshNormalMaterial()
+          );
+        box.updateMatrix();
+
+        // const modelCSG = CSG.fromGeometry(box)
+        // const textCSG = CSG.fromGeometry(
+        //     this.engraving.textMesh.geometry,
+        //     material
+        // )
+
+        const subRes = CSG.subtract(box, this.engraving.textMesh);
+        // const subtractCSG = modelCSG.subtract(textCSG)
+
+        // const finalMesh = CSG.toMesh(
+        //     subtractCSG,
+        //     new THREE.Matrix4()
+        // )
+        // finalMesh.material =material2
+        this.scene.add(subRes)
     }
 
 
@@ -66,7 +113,7 @@ export default class Grave {
         this.engraving.updateText(this.model, text)
     }
 
-    updatePosition(){
+    updatePosition() {
         this.model.position.copy(this.position);
     }
 
@@ -85,7 +132,8 @@ export default class Grave {
     }
 
     deleteGrave() {
-        this.model.parent.remove(this.model);
+        // this.model.parent.remove(this.model);
+        this.model.remove(this.model);
     }
 
 

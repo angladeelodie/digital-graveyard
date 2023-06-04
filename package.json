@@ -14,6 +14,7 @@
   "dependencies": {
     "@types/events": "^3.0.0",
     "events": "^3.3.0",
-    "three": "^0.152.2"
+    "three": "^0.152.2",
+    "three-csg-ts": "^3.1.13"
   }
 }

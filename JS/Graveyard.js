@@ -196,7 +196,6 @@ export class Graveyard {
             scene: this.scene,
         });
         // this.currentGrave.hide();
-        // this.currentGrave.engraving.hide();
         // this.graves.push(this.currentGrave)
     }
 

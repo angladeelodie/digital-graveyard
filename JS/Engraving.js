@@ -35,7 +35,7 @@ export default class Engraving {
         const font = await this.fontPromise;
         let textGeo = new TextGeometry(text, {
             font: font,
-            size: this.size,
+            size: this.size*2,
             height: 2,
             curveSegments: 12,
             bevelEnabled: true,
@@ -51,7 +51,7 @@ export default class Engraving {
         const xOffset = -textWidth / 2;
         // const yOffset = -textHeight / 2;
 
-        textGeo.translate(xOffset, 0, 20);
+        textGeo.translate(xOffset, 0, 0);
 
 
 
@@ -68,12 +68,13 @@ export default class Engraving {
             this.hide();
         }
         this.textMesh.scale.set(1, 1, 1);
-        model.add(this.textMesh);
+        // model.add(this.textMesh);
         // console.log(scene)
     }
 
     async initialize(model) {
         await this.addTextGeometry(model, this.text);
+        console.log("initialize engraving")
     }
 
     updateText(model, text) {
@@ -89,7 +90,7 @@ export default class Engraving {
         console.log(this.textMesh)
         if(this.textMesh){
             this.isVisible = true;
-            this.textMesh.layers.set(0)
+            this.textMesh.layers.set(1)
         }
     }
     hide(){
