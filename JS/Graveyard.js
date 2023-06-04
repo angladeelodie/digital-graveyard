@@ -62,7 +62,7 @@ export class Graveyard {
         this.initThreeScene();
         this.container.width = this.container.clientWidth;
         this.container.height = this.container.clientHeight;
-        // this.renderer.setClearColor(0xff00000, 0);
+        this.renderer.setClearColor(0xff00000, 0);
         this.container.appendChild(this.renderer.domElement);
         this.controls = new TrackballControls(this.camera, this.renderer.domElement);
         this.animate();

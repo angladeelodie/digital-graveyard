@@ -6,6 +6,9 @@ import mainBus from "./JS/EventEmitter";
 
 let GRAVEYARD;
 
+let allControlDivs = document.querySelectorAll(".control-box");
+let currentControlDiv = allControlDivs[0];
+
 init();
 
 async function init() {
@@ -33,9 +36,9 @@ function initEvents() {
     shrinkHeader();
   });
 
-  document.getElementById("toggle-controls").addEventListener("click", () => {
-    toggleControls();
-  });
+  // document.getElementById("toggle-controls").addEventListener("click", () => {
+  //   toggleControls();
+  // });
 
   window.addEventListener('resize', function () {
     GRAVEYARD.onWindowResize();
@@ -59,10 +62,10 @@ function initEvents() {
 
   });
 
-  document.getElementById("toggle-controls").addEventListener("click", (e) => {
-    mainBus.emit("toggleControls", numClicks);
-    numClicks++;
-  });
+  // document.getElementById("toggle-controls").addEventListener("click", (e) => {
+  //   mainBus.emit("toggleControls", numClicks);
+  //   numClicks++;
+  // });
 
 
 
@@ -112,3 +115,163 @@ function getCurrentScroll() {
 function toggleControls() {
   document.getElementById("controls-panel").classList.toggle("fullscreen");
 }
+
+
+// HOMEPAGE
+const video = document.getElementById('welcomevid');
+video.play();
+
+window.addEventListener('load', function() {
+  // setTimeout(function() {
+  //   var homepage = document.getElementById('home');
+  //   homepage.style.opacity = '0';
+  // // }, 1000);
+  // }, 6000);
+
+  setTimeout(function() {
+    var homepage = document.getElementById('home');
+    var commentedHTML = '<!-- ' + homepage.outerHTML + ' -->';
+    homepage.outerHTML = commentedHTML;
+  // }, 1000);
+  }, 8000);
+});
+
+// POSITIF NEGATIF
+  const colorSwitchButton = document.getElementById('colorSwitchButton');
+  colorSwitchButton.addEventListener('click', () => {
+    const root = document.querySelector(':root');
+    const darkColor = getComputedStyle(root).getPropertyValue('--color-dark');
+    const lightColor = getComputedStyle(root).getPropertyValue('--color-light');
+    
+    root.style.setProperty('--color-dark', lightColor);
+    root.style.setProperty('--color-light', darkColor);
+  });
+
+
+// PANEL
+
+const opacityToggleBtn = document.getElementById('panelButton');
+const targetElement = document.getElementById('panel');
+
+opacityToggleBtn.addEventListener('click', () => {
+  if (targetElement.style.left === '0%') {
+    targetElement.style.left = '100%';
+    targetElement.style.pointerEvents = 'none';
+  } else {
+    targetElement.style.left = '0%';
+    if (targetElement.style.pointerEvents !== 'all') {
+      targetElement.style.pointerEvents = 'all';
+    }
+  }
+});
+
+
+
+const sequenceImages = [];
+let currentImageIndex = 0;
+let currentImageElement = null;
+let isMouseMoving = false;
+let isLoadingImage = false;
+let intervalId = null;
+
+for (let i = 0; i <= 180; i++) {
+  let image = new Image();
+  image.src = `./imgs/showroom/paul_rand_${i}.png`;
+  sequenceImages.push(image);
+}
+
+const scrollIncrement = 1; // Adjust this value to control the scroll speed
+const autoChangeDelay = 30; // Delay in milliseconds for automatic image change
+
+document.addEventListener("mousemove", (e) => {
+  const mouseX = e.clientX;
+  const imageIndex = Math.floor((mouseX / window.innerWidth) * sequenceImages.length);
+  currentImageIndex = imageIndex;
+  isMouseMoving = true;
+
+  clearTimeout(intervalId); // Clear the automatic image change interval
+  intervalId = setTimeout(() => {
+    isMouseMoving = false;
+    autoChangeImage();
+  }, autoChangeDelay);
+
+  updateImage();
+});
+
+
+function updateImage() {
+  if (currentImageElement) {
+    currentImageElement.remove();
+  }
+
+  const image = sequenceImages[currentImageIndex >= 0 ? currentImageIndex : 0];
+  currentImageElement = image.cloneNode();
+  let showroomContainer = document.getElementById("showroomcontainer");
+  showroomContainer.innerHTML = '';
+  showroomContainer.appendChild(currentImageElement);
+}
+
+function autoChangeImage() {
+  if (!isMouseMoving) {
+    currentImageIndex = (currentImageIndex + scrollIncrement);
+    if (currentImageIndex >= sequenceImages.length) {
+      currentImageIndex = 0;
+    }
+    if (!isLoadingImage) {
+      isLoadingImage = true;
+      const image = sequenceImages[currentImageIndex];
+      image.onload = () => {
+        isLoadingImage = false;
+        updateImage();
+        intervalId = setTimeout(autoChangeImage, autoChangeDelay);
+      };
+    }
+  }
+}
+
+function setup() {
+  updateImage();
+  intervalId = setTimeout(autoChangeImage, autoChangeDelay);
+}
+
+window.onload = setup;
+
+
+
+// ENTER SCROLL
+
+const prevArrow = document.getElementById("arrow-prev");
+const nextArrow = document.getElementById("arrow-next");
+
+prevArrow.addEventListener("click", (e) => {
+    e.preventDefault();
+    scrollToPrevDiv();
+});
+
+nextArrow.addEventListener("click", (e) => {
+  e.preventDefault();
+  scrollToNextDiv();
+});
+
+function scrollToNextDiv() {
+  const currentDiv = currentControlDiv;
+  const nextDiv = currentDiv.nextElementSibling;
+
+  if (nextDiv) {
+    nextDiv.scrollIntoView({ behavior: "smooth" });
+    currentControlDiv = nextDiv
+  }
+}
+
+function scrollToPrevDiv() {
+  const currentDiv = currentControlDiv;
+  const prevDiv = currentDiv.previousElementSibling;
+
+  if (prevDiv) {
+    prevDiv.scrollIntoView({ behavior: "smooth" });
+    currentControlDiv = prevDiv
+
+  }
+}
+
+

@@ -1,78 +1,296 @@
 :root {
-  --color-dark: #000;
-  --color-light: #fff;
+  --color-dark: #fffef4;
+  --color-light: #a67854;
 }
 
-* {
-  box-sizing: border-box;
+@font-face {
+  font-family: 'Graveyard';
+  src: url(./fonts/230531444Graveyard-Regular-serif.otf);
 }
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
-  margin: 0;
-  padding: 0;
+  font-size: 0.8vw;
+  /* font-variant-ligatures: common-ligatures; */
+}
+
+#page {
+  overflow: hidden;
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Graveyard';
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+
   background-color: var(--color-dark);
   color: var(--color-light);
- 
 }
 
-body::-webkit-scrollbar{
-  display: none;
+::-webkit-scrollbar {
+  display: none !important;
+}
+/* 
+#welcomevid {
+  width: 100vw;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+} */
+
+
+/* STYLES DE PARAGRAPHES */
+
+.font-mini {
+  font-size: 1.5rem;
+  line-height: 1.8rem;
 }
 
+.font-small {
+  font-size: 3rem;
+  line-height: 3rem;
+}
+
+.font-medium {
+  font-size: 6rem;
+  line-height: 6.5rem;
+  text-align: center;
+  font-variant-ligatures: common-ligatures !important;
+}
+
+.font-large {
+  font-size: 9rem;
+  line-height: 10rem;
+  /* letter-spacing: -.2rem; */
+  text-align: center;
+  font-variant-ligatures: common-ligatures !important;
+}
+
+.font-larger {
+  font-size: 12rem;
+  line-height: 11rem;
+  text-align: center;
+  font-variant-ligatures: common-ligatures !important;
+}
+
+.font-extra-large {
+  font-size: 22rem;
+  line-height: 25rem;
+  /* letter-spacing: -4rem; */
+}
+
+.font-big {
+  font-size: 44rem;
+  line-height: 50rem;
+  /* letter-spacing: -4rem; */
+}
+
+
+/* SPECIMEN */
+
+#panelButton {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1200;
+}
+
+#panel {
+  /* opacity: 0; */
+  pointer-events: none;
+  transition: opacity 2s ease-in-out;
+
+  position: relative;
+  top: 0;
+  left: 1000%;
+  min-height: 1000%;
+  width: 100%;
+  overflow-y: scroll;
+  z-index: 1100;
+  background-color: var(--color-dark);
+
+  transition: left 1s ease-in-out;
+}
+
+.panelcontain {
+  position: relative;
+  top: 0%;
+  /* width: 100%; */
+  width: 98%;
+  padding: 1%;
+
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+/* PANEL 1 */
+
+#panelcontain1 {
+  position: relative;
+  height: 40rem;
+  background-color: var(--color-light);
+
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  flex-direction: row;
+  overflow: none;
+}
+
+#contain1 {
+  position: relative;
+  top: 7rem;
+  width: 100%;
+  height: auto;
+  text-align: center;
+  color: var(--color-dark);
+}
+
+/* PANEL 2 */
+
+#panelcontain2 {
+  position: relative;
+  height: 40rem;
+  background-color: var(--color-dark);
+  text-align: left;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  /* Adjust the gap between columns */
+}
+
+.col3 {
+  /* padding-top: .8rem; */
+  padding-left: 1rem;
+}
+
+
+#contain2 {
+  position: relative;
+  /* top: 7rem; */
+  color: var(--color-light);
+}
+
+
+#contain3 {
+  position: relative;
+
+  color: var(--color-light);
+}
+
+#contain4 {
+  position: relative;
+
+  padding-right: 1.3rem;
+  color: var(--color-light);
+}
+
+#contain5 {
+  text-align: center;
+  line-height: 7.5rem;
+  width: 100%;
+}
+
+#contain6 {
+  text-align: center;
+  font-size: 55rem;
+  line-height: 23rem;
+  vertical-align: bottom;
+  width: 100%;
+}
+
+#contain7 {
+  text-align: center;
+
+
+  width: 100%;
+}
+
+
+li {
+  list-style-type: "";
+}
+
+h1 {
+  line-height: 17rem;
+}
+
+h2 {
+  padding-left: 5vw;
+  padding-right: 5vw;
+}
+
+/* HOME */
+
+#home {
+  position: absolute;
+  z-index: 2000;
+  width: 100%;
+  height: 100%;
+
+  opacity: 1;
+  transition: opacity 2s ease-in-out;
+  overflow: hidden;
+} 
+
+#home video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100%;
+  height: auto;
+}
 
 /*Container with zero padding */
 #header {
-  height: 100%;
   width: 100%;
+  height: 8%;
   position: fixed;
   top: 0;
   left: 0;
-  background-color: var(--color-dark);
 
-  color:var(--color-light);
-  z-index: 1000;
+  color: var(--color-light);
+  z-index: 1050;
   overflow: hidden;
-  text-align:center;
+  text-align: center;
 
-  transition: height 0.5s ease-in-out;
+  transition: height 1s ease-in-out, top 1s ease-in-out;
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-}
-
-.smaller {
-  height: 10% !important;
-  background-color: #00000000 !important;
-
-}
-
-#header-logo {
-  font-size: 8rem;
-  transition: font-size 0.3s;
-}
-
-#header.smaller #header-logo {
-  font-size: 0.5rem;
 }
 
 
+.logo {
+  /* font-size: 15rem; */
+  font-size: 2.5rem;
 
+
+  position: relative;
+  top: 50%;
+  transform: translate(-0%, -50%);
+
+  transition: font-size 0.5s ease-in-out;
+}
+
+/* BODY */
 main {
-  height:100%;
+  position: absolute;
+  height: 100%;
   width: 100%;
-  margin-top: 70px;
-  overflow-y: scroll;
+  top: 0;
+  left: 0;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
 }
-
 
 .section {
   scroll-snap-align: start;
@@ -83,8 +301,28 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* padding-top: 5%; */
-  border-bottom: 1px solid var(--color-dark);
+  /* border-bottom: 1px solid var(--color-dark); */
+}
+
+.section-txt {
+  position: relative;
+  /* top: -9%; */
+  text-align: center;
+}
+
+
+#section2 {
+  text-align: center;
+}
+
+
+#section3 {
+  padding-bottom: 10vh;
+}
+
+.section4 {
+  height: 100vh;
+  overflow: hidden;
 }
 
 #graveyard-container {
@@ -107,93 +345,161 @@ main {
   bottom: 0;
   margin: 1rem;
   font-size: 3rem;
-  width: 3.5%;
-  height: 7%;
-  
+  width: 100%;
+  /* height: 100%; */
+
   font-size: 1.5rem;
 
-  
   overflow: hidden;
-  transition: width 0.3s ease-in-out, height 0.6s ease-in-out;
 }
 
-
-#toggle-controls {
-  position: absolute;
-  right:0.5rem;
-  bottom:0rem;
-  font-size: 3rem;
-}
 
 .fullscreen {
   width: calc(33% - 2rem) !important;
-  height: calc(100% - 2rem)  !important;
+  height: calc(100% - 2rem) !important;
 }
 
 .inside-controls {
-  width: 100%;
-  height: 0%;
-  opacity: 0%;
+  opacity: 1000%;
   transition: opacity 0.3s ease-in-out 0.3s, width 0.3s ease-in-out, height 0.3s ease-in-out;
 
   display: flex;
   flex-direction: column;
-  justify-content:end;
+  justify-content: end;
   align-items: space-between;
 
 }
 
-#controls-panel.fullscreen .inside-controls{
-  /* display: block; */
-  height: 100%;
-  opacity: 100%;
-  transition: opacity 0.3s ease-in-out 0s;
-
-}
-
 .control-box {
-  padding: 1rem;
-}
-
-
-form {
   height: 100%;
+  flex-shrink: 0;
+  /* padding-top: 9vh; */
+  /* padding-bottom: 9vh; */
+  box-sizing: border-box;
+  font-size: 13rem;
+  line-height: 14rem;
+  text-align: center;
+
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
 }
+
+.split-screen {
+  display: flex;
+  flex-direction: row;
+  display: flex;
+  flex-direction: row;
+  overflow: scroll;
+}
+
+.split-left {
+  height: 100%;
+  width: 50%;
+  position: relative;
+  /* padding: 1%; */
+  box-sizing: border-box;
+  height: 100%;
+  overflow-x: scroll;
+  background-color: var(--color-light);
+  color: var(--color-dark);
+  scroll-snap-type: x mandatory;
+
+  display: flex;
+  flex-direction: row;
+  /* width: 500%; */
+  overflow: hidden;
+}
+
+.split-right {
+  width: 50%;
+  height: 100vh;
+}
+
+
 input[type="radio"] {
   display: none;
 }
+
 label {
   cursor: pointer;
-  display: block; 
+  display: block;
 }
-.text-inputs-row {
+
+input {
   position: relative;
+  font-family: 'Graveyard';
+  color: var(--color-dark);
+  text-align: center;
+  box-sizing: border-box;
+  border: none;
+  width: 100%;
+  height: 17%;
+  background: transparent;
+  /* bottom: 12vh; */
+}
+
+.control-label {
+  height: fit-content;
+  font-size: 3rem;
+  position: relative;
+  top: 0%;
+  height: 8rem;
+  display: flex;
+  align-items: center;
+}
+
+.control-arrows {
+  bottom: 0;
+  position: fixed;
+  z-index: 2000;
+  height: 10%;
+  width: 50%;
   display: flex;
   flex-direction: row;
+  align-items: flex-end;
   justify-content: space-between;
-  align-items: center;
+}
+
+.arrow {
+  height: fit-content;
+  font-size: 5rem;
+  color: var(--color-dark);
+  cursor: pointer;
+}
+
+label {
+  position: relative;
+  font-family: 'Graveyard';
+  color: var(--color-dark);
+  text-align: center;
+  box-sizing: border-box;
+  border: none;
   width: 100%;
-}
-#name{
-  width: 65%;
-}
-
-#epitaph {
-  width: 100%;
-}
-
-#years {
-  width: 30%;
-}
-input[type="radio"] + label {
-
-  background-color: rgb(220, 220, 220);
-  padding: 0.25rem 1rem;
-  margin: 0.25em 0rem;
+  /* padding: 2rem; */
+  /* height: 17%; */
+  background: transparent;
+  white-space: nowrap;
+  font-size: 8rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
-input[type="radio"]:checked + label {
-  background-color: green;
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: var(--color-dark); 
+  opacity: 1; /* Firefox */
+}
+
+.yearstxt {
+  margin: 0.5vh;
+}
+
+input[type="radio"]:checked+label {
+  background-color: var(--color-dark);
+  color: var(--color-light);
 }
 
 #submit {
@@ -214,4 +520,11 @@ canvas {
   width: 100%;
   height: 100%;
   position: absolute;
+}
+
+#colorSwitchButton {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  z-index: 1200;
 }
