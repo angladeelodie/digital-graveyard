@@ -33,7 +33,6 @@ export default class Engraving {
     }
 
     async addTextGeometry(text) {
-        console.log(text)
         const font = await this.fontPromise;
         let textGeo = new TextGeometry(text, {
             font: font,

@@ -55,6 +55,14 @@ function initEvents() {
     mainBus.emit("modelChanged", radio.value);
   }));
 
+  let materialRadioButtons = document.querySelectorAll('input[type=radio][name="material"]');
+  materialRadioButtons.forEach(radio => radio.addEventListener('change', () => {
+    mainBus.emit("materialChanged", radio.value);
+  }));
+
+
+
+
   document.getElementById("submit").addEventListener("click", (e) => {
     mainBus.emit("graveSubmitted");
     toggleControls();
@@ -82,6 +90,13 @@ function handleEvents() {
     console.log("model changed")
     GRAVEYARD.currentGrave.updateModel(modelIndex);
   })
+
+  mainBus.on("materialChanged", (materialIndex) => {
+    console.log("material changed")
+    GRAVEYARD.currentGrave.updateMaterial(materialIndex);
+  })
+
+
 
   mainBus.on("graveSubmitted", () => {
     console.log("new Grave")

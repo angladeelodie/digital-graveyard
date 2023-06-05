@@ -15,6 +15,8 @@ export default class Grave {
         position,
         modelName,
         scale,
+        texture,
+        textures,
         isVisible,
         id,
         text,
@@ -26,6 +28,8 @@ export default class Grave {
         this.graveId = id;
         this.text = text;
         this.scale = scale;
+        this.texture = texture;
+        this.textures = textures;
         this.isVisible = isVisible;
         this.engraving;
         this.models = models;
@@ -36,12 +40,11 @@ export default class Grave {
     }
 
     createGrave() {
-        const material = new MeshPhysicalMaterial({
-            color: 0xA0A0A0,
+        const material = new THREE.MeshStandardMaterial({
             roughness: 0.3,
             metalness: 0.1,
+            map : this.texture
         });
-        console.log(this.modelName)
         if(this.modelName === "paul-rand"){
             this.graveMesh = new THREE.Mesh(
                 new THREE.BoxGeometry(200, 200, 200),
@@ -69,7 +72,6 @@ export default class Grave {
 
     }
     async addEngraving() {
-        console.log("adding engraving with" + this.text)
         this.engraving = new Engraving(15, this.text, this.isVisible, this.scene);
         
         await this.engraving.initialize();
@@ -83,12 +85,10 @@ export default class Grave {
 
     createBooleMesh() {
         const material = new MeshPhysicalMaterial({
-            color: 0xA0A0A0,
+            map : this.texture,
             roughness: 0.3,
             metalness: 0.1,
         });
-        console.log(this.graveMesh)
-        console.log(this.engraving.textMesh)
 
         this.booleMesh = CSG.subtract(this.graveMesh, this.engraving.textMesh);
         this.booleMesh.material = material;
@@ -98,7 +98,7 @@ export default class Grave {
 
     async updateBoolMesh() {
         const material = new MeshPhysicalMaterial({
-            color: 0xA0FFFF,
+            map : this.texture,
             roughness: 0.3,
             metalness: 0.1,
         });
@@ -117,6 +117,14 @@ export default class Grave {
         await this.engraving.updateText(this.text)
         console.log(this.engraving.textMesh)
         await this.updateBoolMesh();
+    }
+
+    updateMaterial(textureIndex) {
+        textureIndex = parseInt(textureIndex)
+        this.texture = this.textures[textureIndex];
+
+        this.booleMesh.material.map = this.texture;
+        console.log(this.texture)
     }
 
     updatePosition() {

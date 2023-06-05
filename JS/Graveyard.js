@@ -6,9 +6,7 @@ import {
     OrbitControls
 } from 'three/examples/jsm/controls/OrbitControls.js';
 import {
-    models as modelPaths,
-    modelFolder,
-    // getTexturePaths
+    getTexturePaths
 } from './paths.js'
 import {
     database
@@ -59,7 +57,8 @@ export class Graveyard {
     }
 
     async init() {
-
+        let texturePaths = getTexturePaths();
+        this.textures = await this.loadTextures(texturePaths);
         this.initThreeScene();
         this.container.width = this.container.clientWidth;
         this.container.height = this.container.clientHeight;
@@ -76,7 +75,24 @@ export class Graveyard {
 
     }
 
-    
+    async loadTextures(pathArray) {
+        const textureLoader = new THREE.TextureLoader();
+        console.log(pathArray.length)
+        const promises = pathArray.map(((path, index) => {
+            return new Promise((resolve, reject) => {
+                textureLoader.load(
+                    path,
+                    (texture) => {
+                        // texture.encoding = THREE.sRGBEncoding;
+                        resolve(texture)
+                    },
+
+                    undefined, reject);
+            })
+        }))
+        return await Promise.all(promises)
+    }
+
 
     initThreeScene() {
         const {
@@ -146,7 +162,6 @@ export class Graveyard {
             z: 0,
         }
         let selectedModel = this.models[0]
-        console.log(selectedModel)
         this.currentGrave = new Grave({
             position,
             modelName: selectedModel,
@@ -155,6 +170,8 @@ export class Graveyard {
                 y: 0.5,
                 z: 0.5
             },
+            texture: this.textures[0],
+            textures: this.textures,
             isVisible: true,
             id: 0,
             text: "test",
