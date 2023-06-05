@@ -5,6 +5,7 @@ import {
 import mainBus from "./JS/EventEmitter";
 
 let GRAVEYARD;
+let GRAVEYARD2;
 
 let allControlDivs = document.querySelectorAll(".control-box");
 let currentControlDiv = allControlDivs[0];
@@ -19,11 +20,14 @@ async function init() {
 
 async function initThree() {
   GRAVEYARD = new Graveyard({
-    container: document.getElementById('graveyard-container'),
-    // data: null,
+    container: document.getElementById('custom-grave-container'),
+    id: 1,
   });
-  // await DNA.init()
-  // await DNA.show()
+  GRAVEYARD2 = new Graveyard({
+    container: document.getElementById('graveyard-container'),
+    id: 2
+  });
+  // GRAVEYARD2.initAllGraves();
 }
 
 

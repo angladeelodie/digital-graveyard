@@ -2,11 +2,16 @@ export const database = {
   "graves": [
     {
       position: {
-        x: -345,
-        y: 78,
+        x: 10,
+        y: 10,
         z: 0,
       },
       text: "John Smith",
+      name: "John",
+      surname: "Smith",
+      age: 50,
+      birthDate: "1973-06-10",
+      deathDate: "2023-02-15",
     },
     {
       position: {
@@ -15,6 +20,11 @@ export const database = {
         z: 0,
       },
       text: "Emily Johnson",
+      name: "Emily",
+      surname: "Johnson",
+      age: 78,
+      birthDate: "1945-09-22",
+      deathDate: "2024-07-07",
     },
     {
       position: {
@@ -23,6 +33,11 @@ export const database = {
         z: 0,
       },
       text: "Michael Williams",
+      name: "Michael",
+      surname: "Williams",
+      age: 32,
+      birthDate: "1991-03-17",
+      deathDate: "2023-12-29",
     },
     {
       position: {
@@ -31,6 +46,11 @@ export const database = {
         z: 0,
       },
       text: "Olivia Brown",
+      name: "Olivia",
+      surname: "Brown",
+      age: 92,
+      birthDate: "1931-12-02",
+      deathDate: "2024-03-11",
     },
     {
       position: {
@@ -39,6 +59,11 @@ export const database = {
         z: 0,
       },
       text: "James Miller",
+      name: "James",
+      surname: "Miller",
+      age: 64,
+      birthDate: "1959-08-18",
+      deathDate: "2024-10-24",
     },
     {
       position: {
@@ -47,6 +72,11 @@ export const database = {
         z: 0,
       },
       text: "Sophia Davis",
+      name: "Sophia",
+      surname: "Davis",
+      age: 78,
+      birthDate: "1945-07-11",
+      deathDate: "2024-09-05",
     },
     {
       position: {
@@ -55,6 +85,11 @@ export const database = {
         z: 0,
       },
       text: "Robert Anderson",
+      name: "Robert",
+      surname: "Anderson",
+      age: 22,
+      birthDate: "2001-02-27",
+      deathDate: "2023-08-09",
     },
     {
       position: {
@@ -63,6 +98,11 @@ export const database = {
         z: 0,
       },
       text: "Emma Wilson",
+      name: "Emma",
+      surname: "Wilson",
+      age: 18,
+      birthDate: "20006-11-03",
+      deathDate: "2024-01-28",
     },
     {
       position: {
@@ -71,6 +111,11 @@ export const database = {
         z: 0,
       },
       text: "Daniel Taylor",
+      name: "Daniel",
+      surname: "Taylor",
+      age: 45,
+      birthDate: "1978-09-01",
+      deathDate: "2023-10-19",
     },
     {
       position: {
@@ -79,6 +124,11 @@ export const database = {
         z: 0,
       },
       text: "Ava Martinez",
+      name: "Ava",
+      surname: "Martinez",
+      age: 89,
+      birthDate: "1938-09-01",
+      deathDate: "2023-10-19",
     },
   ],
 };

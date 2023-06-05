@@ -9,7 +9,7 @@ import {
 } from 'three/addons/geometries/TextGeometry.js';
 
 export default class Engraving {
-    constructor(size,text, isVisible, scene) {
+    constructor(size,text, isVisible, scene, zOffset) {
         this.size = size;
         this.text = text;
         this.isVisible = isVisible;
@@ -17,6 +17,7 @@ export default class Engraving {
         this.font = null;
         this.fontPromise = this.loadFont();
         this.scene = scene;
+        this.zOffset = zOffset;
     }
 
     loadFont(text) {
@@ -36,20 +37,20 @@ export default class Engraving {
         let textGeo = new TextGeometry(text, {
             font: font,
             size: this.size,
-            height: 2,
+            height: 40,
             curveSegments: 5,
-            bevelEnabled: true,
-            bevelThickness: 1,
-            bevelSize: 0.2,
-            bevelOffset: 0,
-            bevelSegments: 5
+            bevelEnabled: false,
+            // bevelThickness: 1,
+            // bevelSize: 0.2,
+            // bevelOffset: 0,
+            // bevelSegments: 5
         });
         textGeo.computeBoundingBox();
         const textWidth = textGeo.boundingBox.max.x - textGeo.boundingBox.min.x;
         // const textHeight = textGeo.boundingBox.max.y - textGeo.boundingBox.min.y;
         const xOffset = -textWidth / 2;
         // const yOffset = -textHeight / 2;
-        textGeo.translate(xOffset, 0, 20);
+        textGeo.translate(xOffset, 0, this.zOffset);
 
         const material = new MeshPhysicalMaterial({
             color: 0xA0A0A0,
@@ -57,7 +58,6 @@ export default class Engraving {
             metalness: 0.1,
         });
         this.textMesh = new THREE.Mesh(textGeo, material);
-        console.log(this.textMesh)
         // this.scene.add(this.textMesh);
         // if(this.isVisible === true){
         // this.show();
@@ -72,12 +72,9 @@ export default class Engraving {
 
     async initialize() {
         await this.addTextGeometry(this.text);
-        console.log("initialize engraving")
     }
 
     async updateText(text) {
-        console.log("updating text")
-        console.log(text)
         this.scene.remove(this.textMesh);
         this.textMesh.geometry.dispose();
         this.textMesh.material.dispose();
@@ -95,7 +92,6 @@ export default class Engraving {
         }
     }
     hide(){
-        console.log(this.textMesh)
         if(this.textMesh){
             this.isVisible = false;
             this.textMesh.layers.set(1)

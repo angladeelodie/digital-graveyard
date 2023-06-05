@@ -18,7 +18,8 @@ import Grave from './Grave.js'
 
 export class Graveyard {
     constructor({
-        container
+        container,
+        id
     }) {
         this.container = container;
         this.scene = new THREE.Scene();
@@ -36,17 +37,27 @@ export class Graveyard {
             "pierre-keller",
             "anthony-wilson"
         ];
+        this.id = id;
 
         // this.modelPaths = modelPaths;
         // this.modelFolder = modelFolder;
         // this.getTexturePaths = getTexturePaths;
         // this.current = current;
 
-        this.camPos = {
-            x: 0,
-            y: 0,
-            z: 500
+        if (this.id === 1) {
+            this.camPos = {
+                x: 0,
+                y: 0,
+                z: 500
+            }
+        } else if (this.id === 2) {
+            this.camPos = {
+                x: 0,
+                y: 0,
+                z: 1000
+            }
         }
+
         this.camAngle = {
             x: 0,
             y: 0,
@@ -66,10 +77,23 @@ export class Graveyard {
         this.container.appendChild(this.renderer.domElement);
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.controls.enablePan = false;
-        this.controls.enableZoom = false;
         this.controls.autoRotate = true;
-        this.controls.autoRotateSpeed = 3;
         this.controls.enableDamping = true;
+
+
+        switch (this.id) {
+            case 1:
+                this.controls.enableZoom = false;
+                this.controls.autoRotateSpeed = 3;
+                break;
+            case 2:
+                this.controls.enableZoom = true;
+                this.controls.autoRotateSpeed = 1.5;
+                break;
+
+        }
+
+
         this.animate();
 
 
@@ -77,7 +101,6 @@ export class Graveyard {
 
     async loadTextures(pathArray) {
         const textureLoader = new THREE.TextureLoader();
-        console.log(pathArray.length)
         const promises = pathArray.map(((path, index) => {
             return new Promise((resolve, reject) => {
                 textureLoader.load(
@@ -103,10 +126,9 @@ export class Graveyard {
         this.camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 100000, 100000);
         this.camera.position.set(this.camPos.x, this.camPos.y, this.camPos.z);
         this.camera.rotation.set(this.camAngle.x, this.camAngle.y, this.camAngle.z);
-        //montrer seulement la layer 0 (celle avec toutes les tombes)
         this.camera.layers.enable(0);
         this.camera.layers.enable(1);
-        // this.camera.layers.disable(0);
+        this.camera.layers.enable(2);
         this.camera.aspect = clientWidth / clientHeight;
         this.camera.updateProjectionMatrix();
 
@@ -123,35 +145,39 @@ export class Graveyard {
         spotLight.position.set(100, 100, 10)
         this.scene.add(spotLight);
 
-        // this.scene.background = new THREE.Color(0xffffff);
-        // this.initAllGraves();
-        this.initCustomGrave();
-
+        if (this.id === 1) {
+            this.initCustomGrave();
+        } else if (this.id === 2) {
+            this.initAllGraves();
+        }
     }
 
     async initAllGraves() {
         // générer les tombes à partir de la base de données
         for (let i = 0; i < database.graves.length; i++) {
-            let selectedModel = random(this.models);
             this.graves.push(new Grave({
                 position: {
-                    x: database.graves[i].position.x,
-                    y: database.graves[i].position.y,
-                    z: database.graves[i].position.z
+                    x: random(-400, 400),
+                    y: random(-10, 10),
+                    z: random(-400, 400)
                 },
-                model: selectedModel,
-                scale: {
-                    x: 0.5,
-                    y: 0.5,
-                    z: 0.5
-                },
+                modelName: random(this.models),
+                birth: database.graves[i].age,
                 isVisible: true,
-                id: i,
-                text: database.graves[i].text,
+                birthDate: database.graves[i].birthDate,
+                deathDate: database.graves[i].deathDate,
+                texture: random(this.textures),
+                textures: this.textures,
+
+                name: database.graves[i].name,
+                surname: database.graves[i].surname,
                 models: this.models,
                 scene: this.scene,
             }))
+            // this.scene.add(this.graves[i].booleMesh)
+
         }
+        console.log(this.graves)
 
     }
 
@@ -176,6 +202,10 @@ export class Graveyard {
             id: 0,
             // text: "firstname \nlastname",
             text: "firstname \nlastname",
+            name: "John",
+            surname: "Doe",
+            birthDate: new Date("1950-04-02"),
+            deathDate: new Date("2023-06-05"),
             models: this.models,
             scene: this.scene,
         });
@@ -219,7 +249,7 @@ export class Graveyard {
             console.log("exploring")
             for (let i = 0; i < this.graves.length; i++) {
                 this.graves[i].show();
-            
+
             }
             this.currentGrave.hide();
             this.currentGrave.engraving.hide();
@@ -229,9 +259,9 @@ export class Graveyard {
 
     pushToGraveyard() {
         this.currentGrave.position = {
-            x: random(-400,400),
-            y: random(-400,400),
-            z:0,
+            x: random(-400, 400),
+            y: random(-400, 400),
+            z: 0,
         }
         this.currentGrave.updatePosition();
         // this.currentGrave.isVisible = true;

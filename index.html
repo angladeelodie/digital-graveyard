@@ -23,7 +23,7 @@
   <!-- header -->
   <div id="header" class="smaller" onclick="location.reload(); return false;">
     <div class="row">
-      
+
     </div>
   </div>
 
@@ -229,10 +229,12 @@
     <div id="section6" class="split-screen section">
       <div class="control-arrows">
         <div id="arrow-prev" class="arrow-prev arrow">
-          <svg width="60" height="60" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M2.117 12l7.527 6.235-.644.765-9-7.521 9-7.479.645.764-7.529 6.236h21.884v1h-21.883z"/></svg>
+          <svg width="60" height="60" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
+            <path d="M2.117 12l7.527 6.235-.644.765-9-7.521 9-7.479.645.764-7.529 6.236h21.884v1h-21.883z" /></svg>
         </div>
         <div id="arrow-next" class="arrow-next arrow">
-          <svg width="60" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"/></svg>
+          <svg width="60" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
+            <path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
         </div>
       </div>
       <form class="split-left">
@@ -275,6 +277,8 @@
           <label for="silver">Silver</label>
           <input type="radio" id="wood" name="material" value="3">
           <label for="wood">Wood</label>
+          <input type="color" id="color" name="material" value="#ffffff">
+          <label for="color">Color</label>
         </div>
 
         <!-- sounds -->
@@ -307,12 +311,12 @@
 
       </form>
       <div id="canvas-bg" class="split-right custom-bg">
-        <div id="graveyard-container"></div>
+        <div id="custom-grave-container" class="canvas-container"></div>
       </div>
 
     </div>
     <div id="section7" class="section custom-bg">
-
+      <div id="graveyard-container" class="canvas-container"></div>
     </div>
 
     </div>

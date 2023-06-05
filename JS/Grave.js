@@ -2,7 +2,9 @@ import {
     MeshPhysicalMaterial
 } from "three";
 import * as THREE from 'three';
-import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
+import {
+    RoundedBoxGeometry
+} from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 
 
 
@@ -24,6 +26,10 @@ export default class Grave {
         isVisible,
         id,
         text,
+        name,
+        surname,
+        birthDate,
+        deathDate,
         models,
         scene
     }) {
@@ -40,12 +46,12 @@ export default class Grave {
         this.scene = scene;
         this.graveMesh;
         this.booleMesh;
-        this.name = "John",
-            this.surname = "Doe",
-            this.birthDate = new Date("1950-04-02");
-        this.deathDate = new Date("2023-06-05");
+        this.name = name,
+        this.surname = surname,
+        this.birthDate = birthDate;
+        this.deathDate = deathDate;
         this.age;
-        console.log(RoundedBoxGeometry)
+        this.zOffset;
         this.createGrave()
     }
 
@@ -59,45 +65,49 @@ export default class Grave {
         });
         if (this.modelName === "paul-rand") {
             this.graveMesh = new THREE.Mesh(
-                new THREE.BoxGeometry(200, 200, 200),
+                new RoundedBoxGeometry(150, 150, 150, 1, 10),
                 material
             );
+            this.zOffset = 70;
+
         } else if (this.modelName === "pierre-keller") {
             // this.graveMesh = new THREE.Mesh(
             //     new THREE.BoxGeometry(100, 200, 45),
             //     material
             // );
             this.graveMesh = new THREE.Mesh(
-                new RoundedBoxGeometry(100, 200, 45, 1, 5),
+                new RoundedBoxGeometry(120, 200, 45, 1, 10),
                 material
-                );
+            );
+            this.zOffset = 20;
+
+
 
         } else if (this.modelName === "anthony-wilson") {
             this.graveMesh = new THREE.Mesh(
-                new THREE.CylinderGeometry(20, 20, 150, 20),
+                new THREE.CylinderGeometry(30, 30, 200, 20),
                 material
             );
+            this.zOffset = 20;
+            this.graveMesh.rotation.z = Math.PI / 2;
+
+
+
         }
         this.age = map(this.age, 0, 100, 0, 1.5);
         this.graveMesh.scale.y = this.age;
 
         this.graveMesh.updateMatrix();
-        console.log(this.age)
 
-        // this.graveMesh.position.copy(this.position);
+        this.graveMesh.position.copy(this.position);
         this.text = this.name + " \n" + this.surname;
         this.addEngraving(this.text);
 
     }
     async addEngraving() {
-        this.engraving = new Engraving(15, this.text, this.isVisible, this.scene);
-
+        
+        this.engraving = new Engraving(15, this.text, this.isVisible, this.scene, this.zOffset);
         await this.engraving.initialize();
-        // this.scene.add(this.engraving.textMesh);
-        this.engraving.textMesh.layers.set(0);
-        this.engraving.isVisible = true;
-        // this.engraving.show()
-
         this.createBooleMesh()
     }
 
@@ -110,6 +120,7 @@ export default class Grave {
 
         this.booleMesh = CSG.subtract(this.graveMesh, this.engraving.textMesh);
         this.booleMesh.material = material;
+        this.booleMesh.position.copy(this.position);
 
         this.scene.add(this.booleMesh)
     }
@@ -131,20 +142,16 @@ export default class Grave {
     async updateName(name) {
         this.name = name;
         this.text = this.name + " \n" + this.surname;
-        console.log(this.text)
         this.engraving.text = this.text;
         await this.engraving.updateText(this.text)
-        console.log(this.engraving.textMesh)
         await this.updateBoolMesh();
     }
 
     async updateSurname(surname) {
         this.surname = surname;
         this.text = this.name + " \n" + this.surname;
-        console.log(this.text)
         this.engraving.text = this.text;
         await this.engraving.updateText(this.text)
-        console.log(this.engraving.textMesh)
         await this.updateBoolMesh();
     }
 
@@ -152,7 +159,6 @@ export default class Grave {
         textureIndex = parseInt(textureIndex)
         this.texture = this.textures[textureIndex];
         this.booleMesh.material.map = this.texture;
-        console.log(this.texture)
     }
 
     updatePosition() {
@@ -163,7 +169,6 @@ export default class Grave {
         this.deleteGrave()
         let selectedModel = this.models[modelIndex];
         this.modelName = selectedModel;
-        console.log(this.modelName)
         this.createGrave(this.modelName)
     }
 
@@ -196,9 +201,11 @@ export default class Grave {
     // }
 
     calculateAge() {
+        console.log(this.deathDate)
+        this.deathDate = new Date(this.deathDate)
+        this.birthDate = new Date(this.birthDate)
         let timeDiff = this.deathDate.getTime() - this.birthDate.getTime();
         this.age = timeDiff / (1000 * 3600 * 24 * 365.25);
-        console.log(this.age)
     }
 
     resize() {
