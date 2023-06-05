@@ -131,13 +131,15 @@ function handleEvents() {
 
   mainBus.on("backgroundChanged", (backgroundIndex) => {
     console.log("background changed " + backgroundIndex)
-    let bgImage = document.getElementById("canvas-bg");
-    if(backgroundIndex == 0){
-      bgImage.style.backgroundImage = "url('/imgs/backgrounds/bg1.svg')";
-    } else if(backgroundIndex == 1){
-      bgImage.style.backgroundImage = "url('/imgs/backgrounds/bg2.svg')";
-    }  else if(backgroundIndex == 2){
-      bgImage.style.backgroundImage = "url('/imgs/backgrounds/bg3.svg')";
+    let bgImages = document.getElementsByClassName("custom-bg");
+    for (let i = 0; i < bgImages.length; i++) {  
+      if(backgroundIndex == 0){
+        bgImages[i].style.backgroundImage = "url('/imgs/backgrounds/bg1.svg')";
+      } else if(backgroundIndex == 1){
+        bgImages[i].style.backgroundImage = "url('/imgs/backgrounds/bg2.svg')";
+      }  else if(backgroundIndex == 2){
+        bgImages[i].style.backgroundImage = "url('/imgs/backgrounds/bg3.svg')";
+      }
     }
   });
 
@@ -236,7 +238,7 @@ for (let i = 0; i <= 180; i++) {
 const scrollIncrement = 1; // Adjust this value to control the scroll speed
 const autoChangeDelay = 30; // Delay in milliseconds for automatic image change
 
-document.addEventListener("mousemove", (e) => {
+document.getElementById("showroomcontainer").addEventListener("mousemove", (e) => {
   const mouseX = e.clientX;
   const imageIndex = Math.floor((mouseX / window.innerWidth) * sequenceImages.length);
   currentImageIndex = imageIndex;
@@ -330,7 +332,8 @@ function scrollToPrevDiv() {
 var audioElements = [
   document.getElementById("audio1"),
   document.getElementById("audio2"),
-  document.getElementById("audio3")
+  document.getElementById("audio3"),
+  document.getElementById("audio4")
 ];
 
 function playAudio(selectedIndex){

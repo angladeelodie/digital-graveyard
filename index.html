@@ -16,14 +16,14 @@
 
   <button id="colorSwitchButton">Switch Colors</button>
   <button id="panelButton">Open Panel</button>
-
+  <div id="header-logo" class="logo smallerlogo">
+    DC
+  </div>
 
   <!-- header -->
   <div id="header" class="smaller" onclick="location.reload(); return false;">
     <div class="row">
-      <div id="header-logo" class="logo smallerlogo">
-        DC
-      </div>
+      
     </div>
   </div>
 
@@ -228,14 +228,18 @@
 
     <div id="section6" class="split-screen section">
       <div class="control-arrows">
-        <div id="arrow-prev" class="arrow-prev arrow">←</div>
-        <div id="arrow-next" class="arrow-next arrow">→</div>
+        <div id="arrow-prev" class="arrow-prev arrow">
+          <svg width="60" height="60" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M2.117 12l7.527 6.235-.644.765-9-7.521 9-7.479.645.764-7.529 6.236h21.884v1h-21.883z"/></svg>
+        </div>
+        <div id="arrow-next" class="arrow-next arrow">
+          <svg width="60" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"/></svg>
+        </div>
       </div>
       <form class="split-left">
 
         <!-- Stone -->
         <div class="control-box font-large" tabindex="0">
-          <div class="control-label">Stone’s shape:</div>
+          <!-- <div class="control-label">Stone’s shape:</div> -->
           <input type="radio" id="model1" name="model" value="0" checked="checked">
           <label for="model1">Paul Rand</label>
           <input type="radio" id="model2" name="model" value="1">
@@ -255,9 +259,9 @@
 
         <!-- birth & death -->
         <div class="control-box" tabindex="2">
-          <div class="control-label">Birth</div>
+          <!-- <div class="control-label">Birth</div> -->
           <input type="date" value="1999-04-02" id="birth" class="font-large" placeholder="Birth" autocomplete="off">
-          <div class="control-label">Death</div>
+          <!-- <div class="control-label">Death</div> -->
           <input type="date" id="death" class="font-large" placeholder="Death" autocomplete="off">
         </div>
 
@@ -282,7 +286,7 @@
           <input type="radio" id="sound3" name="sound" value="2">
           <label for="sound3">Veridis Quo</label>
           <input type="radio" id="sound4" name="sound" value="3">
-          <label for="sound4">Veridis Quo</label>
+          <label for="sound4">Sound 4</label>
         </div>
 
         <!-- Background -->
@@ -302,12 +306,12 @@
         </div>
 
       </form>
-      <div id="canvas-bg" class="split-right">
+      <div id="canvas-bg" class="split-right custom-bg">
         <div id="graveyard-container"></div>
       </div>
 
     </div>
-    <div id="section7" class="section">
+    <div id="section7" class="section custom-bg">
 
     </div>
 
@@ -319,7 +323,7 @@
   <audio id="audio1" src="sounds/sound1.wav" lopp></audio>
   <audio id="audio2" src="sounds/sound2.wav" lopp></audio>
   <audio id="audio3" src="sounds/sound3.wav" loop></audio>
-  <audio id="audio4" src="sounds/sound3.wav" loop></audio>
+  <audio id="audio4" src="sounds/sound4.wav" loop></audio>
 
 
   <script type="module" src="/main.js"></script>

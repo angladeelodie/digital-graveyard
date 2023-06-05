@@ -5,7 +5,7 @@
 
 @font-face {
   font-family: 'Graveyard';
-  src: url(./fonts/230531444Graveyard-Regular-serif.otf);
+  src: url(fonts/Graveyard-Regular-serif.otf);
 }
 
 html,
@@ -274,11 +274,13 @@ h2 {
 .logo {
   /* font-size: 15rem; */
   font-size: 2.5rem;
-
-
-  position: relative;
-  top: 50%;
-  transform: translate(-0%, -50%);
+  mix-blend-mode: difference;
+  color: #5987ab;
+  z-index: 3000;
+  position: fixed;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, 50%);
 
   transition: font-size 0.5s ease-in-out;
 }
@@ -480,6 +482,15 @@ input {
   cursor: pointer;
 }
 
+.arrow svg {
+  height: 10vh;
+  fill: var(--color-dark);
+  position: relative;
+}
+
+.arrow svg path {
+  transform: scale(2);
+}
 label {
   position: relative;
   font-family: 'Graveyard';
@@ -492,7 +503,7 @@ label {
   /* height: 17%; */
   background: transparent;
   white-space: nowrap;
-  font-size: 8rem;
+  font-size: 6rem;
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -544,17 +555,22 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     -webkit-appearance: none;
 }
 
-/* .section {
+.section {
   display: none;
 }
 
-#section6 {
+#section6, #section7 {
   display: flex;
-} */
+}
 
-#canvas-bg {
+.custom-bg {
   background-image: url("/imgs/backgrounds/bg1.svg");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+#section7 {
+  height: 100%;
+  width: 100%;
 }

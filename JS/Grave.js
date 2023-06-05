@@ -42,7 +42,7 @@ export default class Grave {
         this.booleMesh;
         this.name = "John",
             this.surname = "Doe",
-            this.birthDate = new Date("2000-04-02");
+            this.birthDate = new Date("1950-04-02");
         this.deathDate = new Date("2023-06-05");
         this.age;
         console.log(RoundedBoxGeometry)
@@ -78,8 +78,10 @@ export default class Grave {
                 material
             );
         }
+        this.age = map(this.age, 0, 100, 0, 1.5);
+        this.graveMesh.scale.y = this.age;
 
-        // this.graveMesh.updateMatrix();
+        this.graveMesh.updateMatrix();
         console.log(this.age)
 
         // this.graveMesh.position.copy(this.position);
@@ -149,7 +151,6 @@ export default class Grave {
     updateMaterial(textureIndex) {
         textureIndex = parseInt(textureIndex)
         this.texture = this.textures[textureIndex];
-
         this.booleMesh.material.map = this.texture;
         console.log(this.texture)
     }
@@ -160,43 +161,39 @@ export default class Grave {
 
     updateModel(modelIndex) {
         this.deleteGrave()
-
         let selectedModel = this.models[modelIndex];
         this.modelName = selectedModel;
         console.log(this.modelName)
         this.createGrave(this.modelName)
-
     }
-    deleteGrave() {
-        // this.model.parent.remove(this.model);
-        // this.graveMesh.remove(this.graveMesh);
 
+    deleteGrave() {
         this.scene.remove(this.booleMesh);
         this.booleMesh.geometry.dispose();
         this.booleMesh.material.dispose();
     }
 
 
-    hide() {
-        this.isVisible = false;
-        this.model.children.forEach(child => {
-            if (child.isMesh) {
-                // this.engraving.hide();
-                child.layers.set(1)
-            }
-        });
-    }
+    // hide() {
+    //     this.isVisible = false;
+    //     this.model.children.forEach(child => {
+    //         if (child.isMesh) {
+    //             // this.engraving.hide();
+    //             child.layers.set(1)
+    //         }
+    //     });
+    // }
 
-    show() {
-        console.log("doing show function")
-        this.isVisible = true;
-        this.model.children.forEach(child => {
-            if (child.isMesh) {
-                // this.engraving.show();
-                child.layers.set(0)
-            }
-        });
-    }
+    // show() {
+    //     console.log("doing show function")
+    //     this.isVisible = true;
+    //     this.model.children.forEach(child => {
+    //         if (child.isMesh) {
+    //             // this.engraving.show();
+    //             child.layers.set(0)
+    //         }
+    //     });
+    // }
 
     calculateAge() {
         let timeDiff = this.deathDate.getTime() - this.birthDate.getTime();
