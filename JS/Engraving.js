@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { MeshPhysicalMaterial } from "three";
 
-
 import {
     FontLoader
 } from 'three/addons/loaders/FontLoader.js';
@@ -23,7 +22,7 @@ export default class Engraving {
     loadFont(text) {
         const loader = new FontLoader();
         return new Promise((resolve, reject) => {
-            loader.load('../fonts/helvetiker.json', function (font) {
+            loader.load('../fonts/graveyard-v1.json', function (font) {
                 resolve(font);
 
                 // console.log(textMesh)

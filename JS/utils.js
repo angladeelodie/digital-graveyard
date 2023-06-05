@@ -26,8 +26,8 @@ export function isNumber(elem) {
 
 export function lerp(start, stop, amount) {
     return amount * (stop - start) + start
-  }
+}
 
-  export function map(num, start1, stop1, start2, stop2) {
+export function map(num, start1, stop1, start2, stop2) {
     return ((num - start1) / (stop1 - start1)) * (stop2 - start2) + start2
-  }
+}

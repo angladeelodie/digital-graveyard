@@ -31,15 +31,11 @@ async function initThree() {
 
 
 function initEvents() {
-  let numClicks = 0;
   window.addEventListener('scroll', function () {
     shrinkHeader();
   });
 
   document.getElementById('death').valueAsDate = new Date();
-  // document.getElementById("toggle-controls").addEventListener("click", () => {
-  //   toggleControls();
-  // });
 
   window.addEventListener('resize', function () {
     GRAVEYARD.onWindowResize();
@@ -50,6 +46,18 @@ function initEvents() {
     console.log(newName)
     mainBus.emit("nameChanged", newName);
   });
+
+  document.getElementById("birth").addEventListener("blur", (e) => {
+    let birthDate = e.target.value;
+    mainBus.emit("birthChanged", birthDate);
+  });
+
+
+  document.getElementById("death").addEventListener("blur", (e) => {
+    let deathDate = e.target.value;
+    mainBus.emit("deathChanged", deathDate);
+  });
+
 
   document.getElementById("surname").addEventListener("change", (e) => {
     let newSurname = e.target.value;
@@ -67,34 +75,31 @@ function initEvents() {
     mainBus.emit("materialChanged", radio.value);
   }));
 
+  let soundRadioButtons = document.querySelectorAll('input[type=radio][name="sound"]');
+  soundRadioButtons.forEach(radio => radio.addEventListener('change', () => {
+    mainBus.emit("soundChanged", radio.value);
+  }));
 
+
+  let backgroundRadioButtons = document.querySelectorAll('input[type=radio][name="background"]');
+  backgroundRadioButtons.forEach(radio => radio.addEventListener('change', () => {
+    mainBus.emit("backgroundChanged", radio.value);
+  }));
 
 
   document.getElementById("submit").addEventListener("click", (e) => {
     mainBus.emit("graveSubmitted");
-    toggleControls();
-    numClicks++
-
   });
-
-  // document.getElementById("toggle-controls").addEventListener("click", (e) => {
-  //   mainBus.emit("toggleControls", numClicks);
-  //   numClicks++;
-  // });
-
-
-
 }
 
 function handleEvents() {
   mainBus.on("nameChanged", (name) => {
     console.log("name changed")
-    // GRAVEYARD.currentGrave.engraving.text = text;
     GRAVEYARD.currentGrave.updateName(name);
   })
+
   mainBus.on("surnameChanged", (surname) => {
     console.log("surname changed")
-    // GRAVEYARD.currentGrave.engraving.text = text;
     GRAVEYARD.currentGrave.updateSurname(surname);
   })
 
@@ -108,20 +113,45 @@ function handleEvents() {
     GRAVEYARD.currentGrave.updateMaterial(materialIndex);
   })
 
+  mainBus.on("birthChanged", (birthDateString) => {
+    let birthDate = new Date(birthDateString);
+    GRAVEYARD.currentGrave.birthDate = birthDate;
+    GRAVEYARD.currentGrave.calculateAge();
+    GRAVEYARD.currentGrave.resize();
 
+  })
+
+  mainBus.on("deathChanged", (deathDateString) => {
+    let deathDate = new Date(deathDateString);
+    GRAVEYARD.currentGrave.deathDate = deathDate;
+    GRAVEYARD.currentGrave.calculateAge();
+    GRAVEYARD.currentGrave.resize();
+
+  })
+
+  mainBus.on("backgroundChanged", (backgroundIndex) => {
+    console.log("background changed " + backgroundIndex)
+    let bgImage = document.getElementById("canvas-bg");
+    if(backgroundIndex == 0){
+      bgImage.style.backgroundImage = "url('/imgs/backgrounds/bg1.svg')";
+    } else if(backgroundIndex == 1){
+      bgImage.style.backgroundImage = "url('/imgs/backgrounds/bg2.svg')";
+    }  else if(backgroundIndex == 2){
+      bgImage.style.backgroundImage = "url('/imgs/backgrounds/bg3.svg')";
+    }
+  });
+
+  mainBus.on("soundChanged", (soundIndex) => {
+    console.log("sound changed " + soundIndex)
+    playAudio(soundIndex);
+  });
 
   mainBus.on("graveSubmitted", () => {
     console.log("new Grave")
     GRAVEYARD.pushToGraveyard();
   })
 
-  mainBus.on("toggleControls", (numClicks) => {
-    if(numClicks % 2 === 0){
-      GRAVEYARD.switchView("editing")
-    } else {
-      GRAVEYARD.switchView("exploring")
-    }
-  });
+
 
 
 }
@@ -137,10 +167,6 @@ function shrinkHeader() {
 
 function getCurrentScroll() {
   return window.pageYOffset || document.documentElement.scrollTop;
-}
-
-function toggleControls() {
-  document.getElementById("controls-panel").classList.toggle("fullscreen");
 }
 
 
@@ -281,11 +307,9 @@ nextArrow.addEventListener("click", (e) => {
 });
 
 function scrollToNextDiv() {
-  console.log("scrolling to next div")
   const currentDiv = currentControlDiv;
   const nextDiv = currentDiv.nextElementSibling;
   if (nextDiv) {
-    console.log(nextDiv)
     nextDiv.scrollIntoView({ behavior: "smooth" });
     currentControlDiv = nextDiv
   }
@@ -303,3 +327,23 @@ function scrollToPrevDiv() {
 }
 
 
+var audioElements = [
+  document.getElementById("audio1"),
+  document.getElementById("audio2"),
+  document.getElementById("audio3")
+];
+
+function playAudio(selectedIndex){
+  for (var i = 0; i < audioElements.length; i++) {
+    console.log(selectedIndex)
+    if (i == selectedIndex) {
+      audioElements[i].muted = false; // Unmute the selected audio
+      audioElements[i].loop = true; // Enable looping
+
+      audioElements[i].play();
+    } else {
+      audioElements[i].muted = true; // Mute the other audios
+      audioElements[i].pause();
+    }
+  }
+}

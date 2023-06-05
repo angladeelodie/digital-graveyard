@@ -2,14 +2,18 @@ import {
     MeshPhysicalMaterial
 } from "three";
 import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
+
+
 
 import Engraving from './Engraving.js';
 import {
     CSG
 } from 'three-csg-ts';
 
-
-
+import {
+    map
+} from '/JS/utils'
 export default class Grave {
     constructor({
         position,
@@ -37,47 +41,55 @@ export default class Grave {
         this.graveMesh;
         this.booleMesh;
         this.name = "John",
-        this.surname =  "Doe",
+            this.surname = "Doe",
+            this.birthDate = new Date("2000-04-02");
+        this.deathDate = new Date("2023-06-05");
+        this.age;
+        console.log(RoundedBoxGeometry)
         this.createGrave()
     }
 
+
     createGrave() {
+        this.calculateAge()
         const material = new THREE.MeshStandardMaterial({
             roughness: 0.3,
             metalness: 0.1,
-            map : this.texture
+            map: this.texture
         });
-        if(this.modelName === "paul-rand"){
+        if (this.modelName === "paul-rand") {
             this.graveMesh = new THREE.Mesh(
                 new THREE.BoxGeometry(200, 200, 200),
                 material
             );
-        } 
-        else if(this.modelName === "pierre-keller"){
+        } else if (this.modelName === "pierre-keller") {
+            // this.graveMesh = new THREE.Mesh(
+            //     new THREE.BoxGeometry(100, 200, 45),
+            //     material
+            // );
             this.graveMesh = new THREE.Mesh(
-                new THREE.BoxGeometry(100, 200, 45),
+                new RoundedBoxGeometry(100, 200, 45, 1, 5),
                 material
-            );
+                );
 
-        }
-        else if(this.modelName === "anthony-wilson"){
+        } else if (this.modelName === "anthony-wilson") {
             this.graveMesh = new THREE.Mesh(
                 new THREE.CylinderGeometry(20, 20, 150, 20),
                 material
             );
-        } 
+        }
 
         // this.graveMesh.updateMatrix();
-        // this.graveMesh.scale.set(this.scale.x, this.scale.y, this.scale.z);
+        console.log(this.age)
+
         // this.graveMesh.position.copy(this.position);
         this.text = this.name + " \n" + this.surname;
-        console.log(this.text)
         this.addEngraving(this.text);
 
     }
     async addEngraving() {
         this.engraving = new Engraving(15, this.text, this.isVisible, this.scene);
-        
+
         await this.engraving.initialize();
         // this.scene.add(this.engraving.textMesh);
         this.engraving.textMesh.layers.set(0);
@@ -89,7 +101,7 @@ export default class Grave {
 
     createBooleMesh() {
         const material = new MeshPhysicalMaterial({
-            map : this.texture,
+            map: this.texture,
             roughness: 0.3,
             metalness: 0.1,
         });
@@ -102,14 +114,14 @@ export default class Grave {
 
     async updateBoolMesh() {
         const material = new MeshPhysicalMaterial({
-            map : this.texture,
+            map: this.texture,
             roughness: 0.3,
             metalness: 0.1,
         });
         this.scene.remove(this.booleMesh);
         this.booleMesh.geometry.dispose();
         this.booleMesh.material.dispose();
-        
+
         this.createBooleMesh();
     }
 
@@ -148,12 +160,12 @@ export default class Grave {
 
     updateModel(modelIndex) {
         this.deleteGrave()
-       
+
         let selectedModel = this.models[modelIndex];
         this.modelName = selectedModel;
         console.log(this.modelName)
         this.createGrave(this.modelName)
-        
+
     }
     deleteGrave() {
         // this.model.parent.remove(this.model);
@@ -184,5 +196,17 @@ export default class Grave {
                 child.layers.set(0)
             }
         });
+    }
+
+    calculateAge() {
+        let timeDiff = this.deathDate.getTime() - this.birthDate.getTime();
+        this.age = timeDiff / (1000 * 3600 * 24 * 365.25);
+        console.log(this.age)
+    }
+
+    resize() {
+        this.age = map(this.age, 0, 100, 0, 1.5);
+        this.booleMesh.scale.y = this.age;
+
     }
 }
