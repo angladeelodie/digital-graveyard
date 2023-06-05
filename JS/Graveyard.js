@@ -30,13 +30,14 @@ export class Graveyard {
         this.controls;
         this.clock = new THREE.Clock();
         this.currentGrave;
-
-
-
         this.graves = [];
         this.engravings = [];
         this.textures = [];
-        this.models = {}; // {name: gltfmodel}
+        this.models = [
+            "paul-rand",
+            "pierre-keller",
+            "anthony-wilson"
+        ];
 
         // this.modelPaths = modelPaths;
         // this.modelFolder = modelFolder;
@@ -58,7 +59,7 @@ export class Graveyard {
     }
 
     async init() {
-        this.models = await this.loadModels(modelPaths, modelFolder);
+
         this.initThreeScene();
         this.container.width = this.container.clientWidth;
         this.container.height = this.container.clientHeight;
@@ -75,44 +76,7 @@ export class Graveyard {
 
     }
 
-    loadModels(paths, folder) {
-        const loadedModels = {}
-        return new Promise((resolve, reject) => {
-            const manager = new THREE.LoadingManager();
-
-            manager.onLoad = () => {
-                // console.log('Loading complete!');
-                resolve(loadedModels)
-            };
-
-            manager.onError = (url) => {
-                console.log(`There was an error loading ${url}`);
-            };
-
-            const loader = new GLTFLoader(manager);
-            loader.setPath(folder);
-
-            Object.entries(paths).forEach(([key, path]) => {
-
-                loader.load(path, (object) => {
-
-                    const scaleFactor = 10
-                    const model = object.scene;
-                    const [firstChild] = model.children // destructuring
-
-                    model.scale.set(scaleFactor, scaleFactor, scaleFactor);
-                    model.castShadow = true;
-                    model.receiveShadow = true;
-
-                    loadedModels[key] = model
-
-                }, undefined, (e) => {
-                    console.error(e);
-                });
-            })
-
-        })
-    }
+    
 
     initThreeScene() {
         const {
@@ -181,10 +145,11 @@ export class Graveyard {
             y: 0,
             z: 0,
         }
-        let selectedModel = Object.values(this.models)[0]
+        let selectedModel = this.models[0]
+        console.log(selectedModel)
         this.currentGrave = new Grave({
             position,
-            model: selectedModel,
+            modelName: selectedModel,
             scale: {
                 x: 0.5,
                 y: 0.5,
@@ -196,6 +161,7 @@ export class Graveyard {
             models: this.models,
             scene: this.scene,
         });
+        // this.currentGrave.model
         // this.currentGrave.hide();
         // this.graves.push(this.currentGrave)
     }

@@ -13,7 +13,7 @@ import {
 export default class Grave {
     constructor({
         position,
-        model,
+        modelName,
         scale,
         isVisible,
         id,
@@ -22,7 +22,7 @@ export default class Grave {
         scene
     }) {
         this.position = position;
-        this.model = model.clone();
+        this.modelName = modelName;
         this.graveId = id;
         this.text = text;
         this.scale = scale;
@@ -32,21 +32,37 @@ export default class Grave {
         this.scene = scene;
         this.graveMesh;
         this.booleMesh;
-        this.createGrave(this.model)
+        this.createGrave()
     }
 
-    createGrave(model) {
+    createGrave() {
         const material = new MeshPhysicalMaterial({
             color: 0xA0A0A0,
             roughness: 0.3,
             metalness: 0.1,
         });
-        this.graveMesh = new THREE.Mesh(
-            new THREE.BoxGeometry(200, 200, 45),
-            material
-        );
+        console.log(this.modelName)
+        if(this.modelName === "paul-rand"){
+            this.graveMesh = new THREE.Mesh(
+                new THREE.BoxGeometry(200, 200, 200),
+                material
+            );
+        } 
+        else if(this.modelName === "pierre-keller"){
+            this.graveMesh = new THREE.Mesh(
+                new THREE.BoxGeometry(100, 200, 45),
+                material
+            );
 
-        this.graveMesh.updateMatrix();
+        }
+        else if(this.modelName === "anthony-wilson"){
+            this.graveMesh = new THREE.Mesh(
+                new THREE.CylinderGeometry(20, 20, 150, 20),
+                material
+            );
+        } 
+
+        // this.graveMesh.updateMatrix();
         // this.graveMesh.scale.set(this.scale.x, this.scale.y, this.scale.z);
         // this.graveMesh.position.copy(this.position);
         this.addEngraving(this.text);
@@ -61,6 +77,7 @@ export default class Grave {
         this.engraving.textMesh.layers.set(0);
         this.engraving.isVisible = true;
         // this.engraving.show()
+
         this.createBooleMesh()
     }
 
@@ -70,9 +87,12 @@ export default class Grave {
             roughness: 0.3,
             metalness: 0.1,
         });
+        console.log(this.graveMesh)
+        console.log(this.engraving.textMesh)
+
         this.booleMesh = CSG.subtract(this.graveMesh, this.engraving.textMesh);
         this.booleMesh.material = material;
-        
+
         this.scene.add(this.booleMesh)
     }
 
@@ -105,21 +125,20 @@ export default class Grave {
 
     updateModel(modelIndex) {
         this.deleteGrave()
-        // console.log(modelIndex)
-        // console.log(this.models)
-        let selectedModel = Object.values(this.models)[modelIndex];
-        this.model = selectedModel.clone();
-        // console.log(selectedModel)
-
-        this.createGrave(this.model)
-        // this.model = selectedModel.clone();
-        // this.model.scale.set(this.scale, this.scale, this.scale);
-        // this.model.position.copy(25,25,0)
+       
+        let selectedModel = this.models[modelIndex];
+        this.modelName = selectedModel;
+        console.log(this.modelName)
+        this.createGrave(this.modelName)
+        
     }
-
     deleteGrave() {
         // this.model.parent.remove(this.model);
-        this.model.remove(this.model);
+        // this.graveMesh.remove(this.graveMesh);
+
+        this.scene.remove(this.booleMesh);
+        this.booleMesh.geometry.dispose();
+        this.booleMesh.material.dispose();
     }
 
 
