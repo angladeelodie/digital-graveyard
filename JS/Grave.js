@@ -36,6 +36,8 @@ export default class Grave {
         this.scene = scene;
         this.graveMesh;
         this.booleMesh;
+        this.name = "John",
+        this.surname =  "Doe",
         this.createGrave()
     }
 
@@ -68,6 +70,8 @@ export default class Grave {
         // this.graveMesh.updateMatrix();
         // this.graveMesh.scale.set(this.scale.x, this.scale.y, this.scale.z);
         // this.graveMesh.position.copy(this.position);
+        this.text = this.name + " \n" + this.surname;
+        console.log(this.text)
         this.addEngraving(this.text);
 
     }
@@ -110,8 +114,19 @@ export default class Grave {
     }
 
 
-    async updateText(text) {
-        this.text = text;
+    async updateName(name) {
+        this.name = name;
+        this.text = this.name + " \n" + this.surname;
+        console.log(this.text)
+        this.engraving.text = this.text;
+        await this.engraving.updateText(this.text)
+        console.log(this.engraving.textMesh)
+        await this.updateBoolMesh();
+    }
+
+    async updateSurname(surname) {
+        this.surname = surname;
+        this.text = this.name + " \n" + this.surname;
         console.log(this.text)
         this.engraving.text = this.text;
         await this.engraving.updateText(this.text)

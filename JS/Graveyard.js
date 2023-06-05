@@ -174,7 +174,8 @@ export class Graveyard {
             textures: this.textures,
             isVisible: true,
             id: 0,
-            text: "test",
+            // text: "firstname \nlastname",
+            text: "firstname \nlastname",
             models: this.models,
             scene: this.scene,
         });

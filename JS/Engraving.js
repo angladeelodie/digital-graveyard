@@ -36,7 +36,7 @@ export default class Engraving {
         const font = await this.fontPromise;
         let textGeo = new TextGeometry(text, {
             font: font,
-            size: this.size*2,
+            size: this.size,
             height: 2,
             curveSegments: 5,
             bevelEnabled: true,

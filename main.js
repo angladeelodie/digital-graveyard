@@ -36,6 +36,7 @@ function initEvents() {
     shrinkHeader();
   });
 
+  document.getElementById('death').valueAsDate = new Date();
   // document.getElementById("toggle-controls").addEventListener("click", () => {
   //   toggleControls();
   // });
@@ -45,9 +46,15 @@ function initEvents() {
   });
 
   document.getElementById("name").addEventListener("change", (e) => {
-    let newText = e.target.value;
-    console.log(newText)
-    mainBus.emit("nameChanged", newText);
+    let newName = e.target.value;
+    console.log(newName)
+    mainBus.emit("nameChanged", newName);
+  });
+
+  document.getElementById("surname").addEventListener("change", (e) => {
+    let newSurname = e.target.value;
+    console.log(newSurname)
+    mainBus.emit("surnameChanged", newSurname);
   });
 
   let modelRadioButtons = document.querySelectorAll('input[type=radio][name="model"]');
@@ -80,10 +87,15 @@ function initEvents() {
 }
 
 function handleEvents() {
-  mainBus.on("nameChanged", (text) => {
+  mainBus.on("nameChanged", (name) => {
     console.log("name changed")
     // GRAVEYARD.currentGrave.engraving.text = text;
-    GRAVEYARD.currentGrave.updateText(text);
+    GRAVEYARD.currentGrave.updateName(name);
+  })
+  mainBus.on("surnameChanged", (surname) => {
+    console.log("surname changed")
+    // GRAVEYARD.currentGrave.engraving.text = text;
+    GRAVEYARD.currentGrave.updateSurname(surname);
   })
 
   mainBus.on("modelChanged", (modelIndex) => {
