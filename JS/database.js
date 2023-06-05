@@ -101,7 +101,7 @@ export const database = {
       name: "Emma",
       surname: "Wilson",
       age: 18,
-      birthDate: "20006-11-03",
+      birthDate: "2006-11-03",
       deathDate: "2024-01-28",
     },
     {

@@ -26,8 +26,6 @@ body {
   font-family: 'Graveyard';
   display: flex;
   flex-direction: column;
-  overflow: scroll;
-
   background-color: var(--color-dark);
   color: var(--color-light);
 }
@@ -274,15 +272,18 @@ h2 {
 .logo {
   /* font-size: 15rem; */
   font-size: 2.5rem;
-  mix-blend-mode: difference;
-  color: #5987ab;
+  color: var(--color-light);
   z-index: 3000;
   position: fixed;
   top: 0%;
   left: 50%;
   transform: translate(-50%, 50%);
+}
 
-  transition: font-size 0.5s ease-in-out;
+#header-logo {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+
 }
 
 /* BODY */
@@ -292,7 +293,7 @@ main {
   width: 100%;
   top: 0;
   left: 0;
-  overflow-y: scroll;
+  overflow: hidden;
   scroll-snap-type: y mandatory;
 }
 
@@ -563,13 +564,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     -webkit-appearance: none;
 }
 
-.section {
+/* .section {
   display: none;
 }
 
 #section6, #section7 {
   display: flex;
-}
+} */
 
 .custom-bg {
   background-image: url("/imgs/backgrounds/bg1.svg");
@@ -581,4 +582,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 #section7 {
   height: 100%;
   width: 100%;
+}
+
+input[type=color] {
+  position: absolute;
+  bottom: 0;
 }

@@ -47,8 +47,8 @@ export default class Grave {
         this.graveMesh;
         this.booleMesh;
         this.name = name,
-        this.surname = surname,
-        this.birthDate = birthDate;
+            this.surname = surname,
+            this.birthDate = birthDate;
         this.deathDate = deathDate;
         this.age;
         this.zOffset;
@@ -105,7 +105,7 @@ export default class Grave {
 
     }
     async addEngraving() {
-        
+
         this.engraving = new Engraving(15, this.text, this.isVisible, this.scene, this.zOffset);
         await this.engraving.initialize();
         this.createBooleMesh()
@@ -156,9 +156,16 @@ export default class Grave {
     }
 
     updateMaterial(textureIndex) {
-        textureIndex = parseInt(textureIndex)
-        this.texture = this.textures[textureIndex];
-        this.booleMesh.material.map = this.texture;
+        if (textureIndex == "0" || textureIndex == "1" || textureIndex == "2" || textureIndex == "3") {
+            textureIndex = parseInt(textureIndex)
+            this.texture = this.textures[textureIndex];
+            this.booleMesh.material.map = this.texture;
+        } else {
+            console.log(textureIndex)
+            this.booleMesh.material.map = null;
+            this.booleMesh.material.needsUpdate = true;
+            this.booleMesh.material.color = new THREE.Color(textureIndex);
+        }
     }
 
     updatePosition() {

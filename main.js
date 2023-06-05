@@ -79,6 +79,12 @@ function initEvents() {
     mainBus.emit("materialChanged", radio.value);
   }));
 
+  let colorInput = document.getElementById('color');
+  colorInput.addEventListener('input', (e) => {
+    console.log(e.value)
+    mainBus.emit("materialChanged", colorInput.value);
+  });
+
   let soundRadioButtons = document.querySelectorAll('input[type=radio][name="sound"]');
   soundRadioButtons.forEach(radio => radio.addEventListener('change', () => {
     mainBus.emit("soundChanged", radio.value);
@@ -181,11 +187,14 @@ const video = document.getElementById('welcomevid');
 video.play();
 
 window.addEventListener('load', function() {
-  // setTimeout(function() {
-  //   var homepage = document.getElementById('home');
-  //   homepage.style.opacity = '0';
-  // // }, 1000);
-  // }, 6000);
+  setTimeout(function() {
+    var homepage = document.getElementById('home');
+    homepage.style.opacity = '0';
+
+    document.getElementById("main").style.overflow = 'scroll';
+    document.getElementById("header-logo").style.opacity = '1';
+  // }, 1000);
+  }, 6000);
 
   setTimeout(function() {
     var homepage = document.getElementById('home');
