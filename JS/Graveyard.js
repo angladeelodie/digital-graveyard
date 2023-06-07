@@ -168,7 +168,7 @@ export class Graveyard {
                 deathDate: database.graves[i].deathDate,
                 texture: random(this.textures),
                 textures: this.textures,
-
+                color: database.graves[i].color,
                 name: database.graves[i].name,
                 surname: database.graves[i].surname,
                 models: this.models,
@@ -177,8 +177,6 @@ export class Graveyard {
             // this.scene.add(this.graves[i].booleMesh)
 
         }
-        console.log(this.graves)
-
     }
 
     async initCustomGrave() {
@@ -204,6 +202,7 @@ export class Graveyard {
             text: "firstname \nlastname",
             name: "John",
             surname: "Doe",
+            color: null,
             birthDate: new Date("1950-04-02"),
             deathDate: new Date("2023-06-05"),
             models: this.models,

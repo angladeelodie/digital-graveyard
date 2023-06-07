@@ -33,6 +33,7 @@ body {
 ::-webkit-scrollbar {
   display: none !important;
 }
+
 /* 
 #welcomevid {
   width: 100vw;
@@ -238,7 +239,7 @@ h2 {
   opacity: 1;
   transition: opacity 2s ease-in-out;
   overflow: hidden;
-} 
+}
 
 #home video {
   position: absolute;
@@ -341,7 +342,7 @@ main {
 }
 
 #graveyard-container {
-  
+
   /* background-color: rgb(32, 32, 32); */
 }
 
@@ -439,7 +440,7 @@ input[type="radio"] {
   display: none;
 }
 
-#color{
+#color {
   display: none;
 }
 
@@ -476,11 +477,11 @@ input {
   position: absolute;
   left: 0;
   z-index: 2000;
-  height: 10%;
+  height: 5%;
   width: 50%;
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: space-between;
 }
 
@@ -500,6 +501,7 @@ input {
 .arrow svg path {
   transform: scale(2);
 }
+
 label {
   position: relative;
   font-family: 'Graveyard';
@@ -517,9 +519,11 @@ label {
   overflow: hidden;
 }
 
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: var(--color-dark); 
-  opacity: 1; /* Firefox */
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: var(--color-dark);
+  opacity: 1;
+  /* Firefox */
 }
 
 .yearstxt {
@@ -543,6 +547,7 @@ input[type="radio"]:checked+label {
   padding: 0.25rem 1rem;
   margin: 0.25em 0rem;
   margin-bottom: 0;
+  font-size: 9rem;
 }
 
 canvas {
@@ -560,17 +565,17 @@ canvas {
 
 input[type="date"]::-webkit-inner-spin-button,
 input[type="date"]::-webkit-calendar-picker-indicator {
-    display: none;
-    -webkit-appearance: none;
+  display: none;
+  -webkit-appearance: none;
 }
 
-/* .section {
+.section {
   display: none;
 }
 
 #section6, #section7 {
   display: flex;
-} */
+}
 
 .custom-bg {
   background-image: url("/imgs/backgrounds/bg1.svg");
@@ -587,4 +592,32 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 input[type=color] {
   position: absolute;
   bottom: 0;
+}
+
+
+@media screen and (max-width: 700px) {
+  html {
+    font-size: 2vw;
+  }
+  .split-screen {
+    flex-direction: column;
+  }
+
+  .split-left, .split-right {
+    width: 100%;
+    height: 50%;
+  }
+
+  .control-arrows {
+    bottom: 35%;
+    width: 100%;
+  }
+
+  .control-box {
+    line-height: 9rem;
+  }
+  label {
+
+  }
+
 }

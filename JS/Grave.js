@@ -28,6 +28,7 @@ export default class Grave {
         text,
         name,
         surname,
+        color,
         birthDate,
         deathDate,
         models,
@@ -39,6 +40,7 @@ export default class Grave {
         this.text = text;
         this.scale = scale;
         this.texture = texture;
+        this.color = color;
         this.textures = textures;
         this.isVisible = isVisible;
         this.engraving;
@@ -63,6 +65,7 @@ export default class Grave {
             metalness: 0.1,
             map: this.texture
         });
+        
         if (this.modelName === "paul-rand") {
             this.graveMesh = new THREE.Mesh(
                 new RoundedBoxGeometry(150, 150, 150, 1, 10),
@@ -112,12 +115,17 @@ export default class Grave {
     }
 
     createBooleMesh() {
-        const material = new MeshPhysicalMaterial({
+        let material = new MeshPhysicalMaterial({
             map: this.texture,
             roughness: 0.3,
             metalness: 0.1,
         });
-
+        if(this.color !== null){
+            material.map = null;
+            material.needsUpdate = true;
+            material.color = new THREE.Color(this.color);
+        }
+        
         this.booleMesh = CSG.subtract(this.graveMesh, this.engraving.textMesh);
         this.booleMesh.material = material;
         this.booleMesh.position.copy(this.position);
@@ -164,7 +172,8 @@ export default class Grave {
             console.log(textureIndex)
             this.booleMesh.material.map = null;
             this.booleMesh.material.needsUpdate = true;
-            this.booleMesh.material.color = new THREE.Color(textureIndex);
+            this.color = textureIndex
+            this.booleMesh.material.color = new THREE.Color(this.color);
         }
     }
 
@@ -208,7 +217,6 @@ export default class Grave {
     // }
 
     calculateAge() {
-        console.log(this.deathDate)
         this.deathDate = new Date(this.deathDate)
         this.birthDate = new Date(this.birthDate)
         let timeDiff = this.deathDate.getTime() - this.birthDate.getTime();
