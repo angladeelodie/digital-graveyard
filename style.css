@@ -568,14 +568,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: none;
   -webkit-appearance: none;
 }
-
+/* 
 .section {
   display: none;
 }
 
 #section6, #section7 {
   display: flex;
-}
+} */
 
 .custom-bg {
   background-image: url("/imgs/backgrounds/bg1.svg");
