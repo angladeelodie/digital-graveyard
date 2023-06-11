@@ -1,6 +1,9 @@
 :root {
   --color-dark: #fffef4;
   --color-light: #a67854;
+  --color-transition:  transition: color 0.5s ease-in-out;
+  --bg-color-transition:  transition: background-colo 0.5s ease-in-out;
+
 
 }
 
@@ -166,7 +169,7 @@ body {
   overflow-x: none;
   z-index: 1100;
 
-  transition: left 1s ease-in-out;
+  transition: left 1s ease-in-out,  background-color 0.5s ease-in-out, color 0.5s ease-in-out;
 }
 
 #panelcontain {
@@ -350,8 +353,7 @@ h2 {
   z-index: 1200;
   overflow: hidden;
   text-align:center;
-
-  transition: height 1s ease-in-out, top 1s ease-in-out;
+  transition: height 1s ease-in-out, top 1s ease-in-out,  background-color 0.5s ease-in-out, color 0.5s ease-in-out;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -491,6 +493,8 @@ main {
   flex-direction: row;
   /* width: 500%; */
   overflow: hidden;
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+
 }
 
 .split-right {
@@ -622,6 +626,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .section {
   display: none;
+  position: relative;
 }
 
 #section6, #section7 {
@@ -643,4 +648,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 input[type=color] {
   position: absolute;
   bottom: 0;
+}
+
+#resetCameraButton {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  width: 10%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }

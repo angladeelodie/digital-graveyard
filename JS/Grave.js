@@ -113,8 +113,6 @@ export default class Grave {
         this.graveMesh.position.copy(this.position);
         if (this.modelName === "anthony-wilson") {
             this.graveMesh.position.setY(-200) ;
-            console.log("update position")
-            console.log(this.graveMesh.position)
         }
 
         this.text = this.name + " \n" + this.surname;
@@ -142,6 +140,8 @@ export default class Grave {
             map: this.texture.diffuseMap,
             roughness: 0.3,
             metalness: 0.1,
+            transparent: true,
+            opacity: 1,
         });
         if (this.texture.normalMap) {
             material.normalMap = this.texture.normalMap;
@@ -229,27 +229,6 @@ export default class Grave {
         this.booleMesh.material.dispose();
     }
 
-
-    // hide() {
-    //     this.isVisible = false;
-    //     this.model.children.forEach(child => {
-    //         if (child.isMesh) {
-    //             // this.engraving.hide();
-    //             child.layers.set(1)
-    //         }
-    //     });
-    // }
-
-    // show() {
-    //     console.log("doing show function")
-    //     this.isVisible = true;
-    //     this.model.children.forEach(child => {
-    //         if (child.isMesh) {
-    //             // this.engraving.show();
-    //             child.layers.set(0)
-    //         }
-    //     });
-    // }
 
     calculateAge() {
         // console.log(this.deathDate)

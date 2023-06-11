@@ -161,7 +161,8 @@ function handleEvents() {
 
   mainBus.on("graveSubmitted", () => {
     console.log("new Grave")
-    GRAVEYARD.pushToGraveyard();
+    let customizedGrave = GRAVEYARD.currentGrave;
+    GRAVEYARD2.pushToGraveyard(customizedGrave);
   })
 
 

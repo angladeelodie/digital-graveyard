@@ -112,7 +112,7 @@ export class Graveyard {
         }
 
         // HERBE
-        
+
         this.loader.load(
             '/models/grass.gltf',
             (gltf) => {
@@ -169,55 +169,62 @@ export class Graveyard {
         const textureLoader = new THREE.TextureLoader();
         const promises = textures.map(textureObject => {
             return new Promise((resolve, reject) => {
-                const { diffuseMap, displacementMap, normalMap, specularMap, normal, specular } = textureObject;
-                
+                const {
+                    diffuseMap,
+                    displacementMap,
+                    normalMap,
+                    specularMap,
+                    normal,
+                    specular
+                } = textureObject;
+
                 const loadedTextureObject = {};
-                
+
                 if (diffuseMap) {
                     const diffuseTexture = this.loadTexture(diffuseMap);
                     loadedTextureObject.diffuseMap = diffuseTexture;
                 }
-                
+
                 if (displacementMap) {
                     const displacementTexture = this.loadTexture(displacementMap);
                     loadedTextureObject.displacementMap = displacementTexture;
                 }
-                
+
                 if (normalMap) {
                     const normalTexture = this.loadTexture(normalMap);
                     loadedTextureObject.normalMap = normalTexture;
                 }
-                
+
                 if (specularMap) {
                     const specularTexture = this.loadTexture(specularMap);
                     loadedTextureObject.specularMap = specularTexture;
                 }
-                
+
                 if (normal) {
                     const normalTexture = this.loadTexture(normal);
                     loadedTextureObject.normal = normalTexture;
                 }
-                
+
                 if (specular) {
                     const specularTexture = this.loadTexture(specular);
                     loadedTextureObject.specular = specularTexture;
                 }
-                
+
                 Promise.all(Object.values(loadedTextureObject))
                     .then(textures => {
                         Object.keys(loadedTextureObject).forEach((key, index) => {
                             loadedTextureObject[key] = textures[index];
                         });
-                        
+
                         resolve(loadedTextureObject);
                     })
                     .catch(reject);
             });
         });
-        
+
         return Promise.all(promises);
     }
-    
+
     loadTexture(path) {
         return new Promise((resolve, reject) => {
             const textureLoader = new THREE.TextureLoader();
@@ -376,6 +383,36 @@ export class Graveyard {
             scene: this.scene,
         });
     }
+
+    async pushToGraveyard(grave) {
+        new TWEEN.Tween(grave.booleMesh.material)
+            .to({
+                opacity: 0
+            }, 2000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(() => {
+                grave.booleMesh.material.needsUpdate = true;
+            }).start().onComplete(() => {
+                this.scene.add(grave.booleMesh)
+                document.getElementById("section7").scrollIntoView({
+                    behavior: 'smooth'
+                });
+                setTimeout(() => {
+                    new TWEEN.Tween(grave.booleMesh.material)
+                        .to({
+                            opacity: 1
+                        }, 1000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(() => {
+                            grave.booleMesh.material.needsUpdate = true;
+                        }).start();
+                }, 500);
+            });
+
+
+
+
+
+
+
+    }
+
     async animate() {
         const deltaTime = this.clock.getDelta();
 
@@ -391,9 +428,11 @@ export class Graveyard {
             clientWidth
         } = this.container;
 
+        const pixelRatio = window.devicePixelRatio;
         this.camera.aspect = clientWidth / clientHeight;
         this.camera.updateProjectionMatrix();
-        this.renderer.setSize(clientWidth, clientHeight);
+
+        this.renderer.setSize(clientWidth * pixelRatio, clientHeight * pixelRatio);
     }
 
     switchView(view) {
@@ -417,20 +456,4 @@ export class Graveyard {
         }
     }
 
-    pushToGraveyard() {
-        this.currentGrave.position = {
-            x: random(-400, 400),
-            y: random(-5, 100),
-            z: random(-400, 400),
-        };
-        this.currentGrave.updatePosition();
-        // this.currentGrave.isVisible = true;
-        // this.currentGrave.show();
-        console.log(this.currentGrave);
-        this.graves.push(this.currentGrave);
-        this.initCustomGrave();
-        this.switchView("exploring");
-
-        console.log(this.graves);
-    }
 };
