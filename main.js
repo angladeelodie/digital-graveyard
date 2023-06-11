@@ -77,6 +77,7 @@ function initEvents() {
 
   let materialRadioButtons = document.querySelectorAll('input[type=radio][name="material"]');
   materialRadioButtons.forEach(radio => radio.addEventListener('change', () => {
+    
     mainBus.emit("materialChanged", radio.value);
   }));
 
