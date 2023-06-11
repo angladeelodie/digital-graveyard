@@ -12,10 +12,12 @@
     "vite": "^4.3.2"
   },
   "dependencies": {
+    "@tweenjs/tween.js": "^20.0.3",
     "@types/events": "^3.0.0",
     "events": "^3.3.0",
     "three": "^0.152.2",
     "three-csg-ts": "^3.1.13",
+    "typed.js": "^2.0.16",
     "vercel": "^30.1.2"
   }
 }

@@ -48,13 +48,13 @@ export default class Grave {
         this.scene = scene;
         this.graveMesh;
         this.booleMesh;
-        this.name = name,
-            this.surname = surname,
-            this.birthDate = birthDate;
+        this.name = name;
+        this.surname = surname;
+        this.birthDate = birthDate;
         this.deathDate = deathDate;
         this.age;
         this.zOffset;
-        this.createGrave()
+        this.createGrave();    
     }
 
 
@@ -63,25 +63,26 @@ export default class Grave {
         const material = new THREE.MeshStandardMaterial({
             roughness: 0.3,
             metalness: 0.1,
-            map: this.texture
+            map: this.texture.diffuseMap
         });
-        
+        // console.log(this.texture.diffuseMap)
         if (this.modelName === "paul-rand") {
             this.graveMesh = new THREE.Mesh(
-                new RoundedBoxGeometry(150, 150, 150, 1, 10),
+                // new RoundedBoxGeometry(150, 150, 150, 1, 10),
+                new THREE.BoxGeometry(150, 150, 150),
                 material
             );
             this.zOffset = 70;
 
         } else if (this.modelName === "pierre-keller") {
-            // this.graveMesh = new THREE.Mesh(
-            //     new THREE.BoxGeometry(100, 200, 45),
-            //     material
-            // );
             this.graveMesh = new THREE.Mesh(
-                new RoundedBoxGeometry(120, 200, 45, 1, 10),
+                new THREE.BoxGeometry(100, 200, 45),
                 material
             );
+            // this.graveMesh = new THREE.Mesh(
+            //     new RoundedBoxGeometry(120, 200, 45, 1, 10),
+            //     material
+            // );
             this.zOffset = 20;
 
 
@@ -114,18 +115,8 @@ export default class Grave {
         this.createBooleMesh()
     }
 
-    createBooleMesh() {
-        let material = new MeshPhysicalMaterial({
-            map: this.texture,
-            roughness: 0.3,
-            metalness: 0.1,
-        });
-        if(this.color !== null){
-            material.map = null;
-            material.needsUpdate = true;
-            material.color = new THREE.Color(this.color);
-        }
-        
+    createBooleMesh() { 
+        let material = this.createMaterial();
         this.booleMesh = CSG.subtract(this.graveMesh, this.engraving.textMesh);
         this.booleMesh.material = material;
         this.booleMesh.position.copy(this.position);
@@ -133,16 +124,41 @@ export default class Grave {
         this.scene.add(this.booleMesh)
     }
 
-    async updateBoolMesh() {
-        const material = new MeshPhysicalMaterial({
-            map: this.texture,
+    createMaterial() {
+        let material = new MeshPhysicalMaterial({
+            map: this.texture.diffuseMap,
             roughness: 0.3,
             metalness: 0.1,
         });
+        if (this.texture.normalMap) {
+            material.normalMap = this.texture.normalMap;
+            material.normalScale.set(0.5, 0.5);
+        }
+        
+        if (this.texture.specular) {
+            material.specular = this.texture.specular;
+        }
+        
+        if (this.texture.displacementMap) {
+            material.displacementMap = this.texture.displacementMap;
+        }
+
+        if(this.color != null){
+            material.map = null;
+            material.needsUpdate = true;
+            material.color = new THREE.Color(this.color);
+        }
+
+
+
+        return material;
+    }
+
+    async updateBoolMesh() {
+        // let material = this.createMaterial();
         this.scene.remove(this.booleMesh);
         this.booleMesh.geometry.dispose();
         this.booleMesh.material.dispose();
-
         this.createBooleMesh();
     }
 
@@ -167,13 +183,16 @@ export default class Grave {
         if (textureIndex == "0" || textureIndex == "1" || textureIndex == "2" || textureIndex == "3") {
             textureIndex = parseInt(textureIndex)
             this.texture = this.textures[textureIndex];
-            this.booleMesh.material.map = this.texture;
+            let material = this.createMaterial();
+            this.booleMesh.material = material;
+
+
         } else {
             console.log(textureIndex)
             this.booleMesh.material.map = null;
             this.booleMesh.material.needsUpdate = true;
             this.color = textureIndex
-            this.booleMesh.material.color = new THREE.Color(this.color);
+            this.booleMesh.material.color = new THREE.Color(textureIndex);
         }
     }
 
@@ -217,6 +236,7 @@ export default class Grave {
     // }
 
     calculateAge() {
+        // console.log(this.deathDate)
         this.deathDate = new Date(this.deathDate)
         this.birthDate = new Date(this.birthDate)
         let timeDiff = this.deathDate.getTime() - this.birthDate.getTime();

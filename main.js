@@ -3,6 +3,7 @@ import {
   Graveyard
 } from './JS/Graveyard';
 import mainBus from "./JS/EventEmitter";
+import Typed from './JS/typed.js';
 
 let GRAVEYARD;
 let GRAVEYARD2;
@@ -193,15 +194,16 @@ window.addEventListener('load', function() {
 
     document.getElementById("main").style.overflow = 'scroll';
     document.getElementById("header-logo").style.opacity = '1';
-  // }, 1000);
-  }, 6000);
+    // document.body.style.display = 'content'
+  }, 1);
+  // }, 6000);
 
   setTimeout(function() {
     var homepage = document.getElementById('home');
     var commentedHTML = '<!-- ' + homepage.outerHTML + ' -->';
     homepage.outerHTML = commentedHTML;
-  // }, 1000);
-  }, 8000);
+  }, 1);
+  // }, 8000);
 });
 
 // POSITIF NEGATIF
@@ -216,10 +218,10 @@ window.addEventListener('load', function() {
   });
 
 
-// PANEL
+// SPECIMEN
 
 const opacityToggleBtn = document.getElementById('panelButton');
-const targetElement = document.getElementById('panel');
+const targetElement = document.getElementById('specimen');
 
 opacityToggleBtn.addEventListener('click', () => {
   if (targetElement.style.left === '0%') {
@@ -363,3 +365,15 @@ function playAudio(selectedIndex){
     }
   }
 }
+
+
+var typed = new Typed('#typedtitle', {
+    // strings: ['COEMETER'],
+    strings: ['L&#8217;an 2K23,<br>MMXXIII'],
+    typeSpeed: 90,
+    backSpeed: 10,
+    // smartBackspace: true, // this is a default
+    bindInputFocusEvents: true,
+    startDelay: 1000,
+    loop: true
+  });
