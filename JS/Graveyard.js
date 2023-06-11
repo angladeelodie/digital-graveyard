@@ -63,7 +63,7 @@ export class Graveyard {
         } else if (this.id === 2) {
             this.camPos = {
                 x: 0,
-                y: 50,
+                y: 30,
                 z: 800
             }
         }
@@ -81,14 +81,13 @@ export class Graveyard {
     async init() {
         let texturePaths = getTexturePaths();
         this.textures = await this.loadTextures(texturePaths);
-        console.log(this.textures)
         this.initThreeScene();
         this.container.width = this.container.clientWidth;
         this.container.height = this.container.clientHeight;
         this.renderer.setClearColor(0xff00000, 0);
         this.container.appendChild(this.renderer.domElement);
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-        this.controls.enablePan = false;
+        this.controls.target = new THREE.Vector3(0, 100, 0);
         this.controls.autoRotate = true;
         this.controls.enableDamping = true;
 
@@ -97,6 +96,8 @@ export class Graveyard {
             case 1:
                 this.controls.enableZoom = false;
                 this.controls.autoRotateSpeed = 2;
+                this.controls.minPolarAngle = Math.PI / 4; // Minimum angle (in radians)
+                this.controls.maxPolarAngle = Math.PI / 2; // Maximum angle (in radians)
                 break;
             case 2:
                 this.controls.enableZoom = true;
@@ -119,7 +120,7 @@ export class Graveyard {
                 const model = gltf.scene;
 
                 // Modify position
-                model.position.set(0, -350, 0);
+                model.position.set(0, -275, 0);
 
                 // Modify scale
                 model.scale.set(2, 2, 2);
@@ -150,19 +151,6 @@ export class Graveyard {
         this.animate();
     }
 
-    // async loadTextures(pathArray) {
-    //     const textureLoader = new THREE.TextureLoader();
-    //     const promises = pathArray.map((path) => {
-    //       return new Promise((resolve, reject) => {
-    //         const texture = textureLoader.load(path.texture, (texture) => {
-    //           // Set texture properties or perform other operations
-    //           resolve(texture);
-    //         }, undefined, reject);
-    //       
-    //     });
-
-    //     return await Promise.all(promises);
-    //   }
 
 
     async loadTextures(textures) {
@@ -283,11 +271,6 @@ export class Graveyard {
                 .start();
         });
 
-
-
-
-
-
         // LIGHTS
 
 
@@ -355,7 +338,6 @@ export class Graveyard {
     }
 
     async initCustomGrave() {
-        console.log(this.textures)
         let position = {
             x: 0,
             y: 0,

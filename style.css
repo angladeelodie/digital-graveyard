@@ -138,6 +138,8 @@ body {
   transform: translate(-0%,-50%);
   width: 3.5vh;
   fill: var(--color-light);
+  cursor: pointer;
+  transition: fill 0.5s ease-in-out;
 
 }
 
@@ -372,6 +374,11 @@ h2 {
 }
 
 #header-logo {
+  left: 50%;
+  top:0;
+  transform: translateX(-50%);
+  width: fit-content;
+  cursor: pointer;
   opacity: 0;
   transition: opacity 1s ease-in-out;
 
@@ -624,14 +631,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     -webkit-appearance: none;
 }
 
-.section {
+/* .section {
   display: none;
   position: relative;
 }
 
 #section6, #section7 {
   display: flex;
-}
+} */
 
 .custom-bg {
   background-image: url("/imgs/backgrounds/bg1.svg");
@@ -643,6 +650,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 #section7 {
   height: 100%;
   width: 100%;
+  z-index: 0;
+  position: relative;
 }
 
 input[type=color] {

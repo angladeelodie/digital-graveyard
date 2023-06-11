@@ -54,16 +54,21 @@ export default class Grave {
         this.deathDate = deathDate;
         this.age;
         this.offset = {
-            x:0,
-            y:0,
-            z:0
+            x: 0,
+            y: 0,
+            z: 0
         };
-        this.createGrave();    
+        this.sizeFactor;
+        this.createGrave();
     }
 
 
     createGrave() {
-        this.calculateAge()
+        this.calculateAge();
+        // this.age = 100
+        this.remapAgeToGraveSize();
+        // console.log(this.age)
+        // console.log(this.sizeFactor)
         const material = new THREE.MeshStandardMaterial({
             roughness: 0.3,
             metalness: 0.1,
@@ -73,34 +78,43 @@ export default class Grave {
         if (this.modelName === "paul-rand") {
             this.graveMesh = new THREE.Mesh(
                 // new RoundedBoxGeometry(150, 150, 150, 1, 10),
-                new THREE.BoxGeometry(150, 150, 150),
+                new THREE.BoxGeometry(this.sizeFactor, this.sizeFactor, this.sizeFactor),
                 material
             );
-            this.offset.y = 0;
-            this.offset.z = 70;
+            const yOffset = this.sizeFactor / 2; // Half of the size factor
+            this.graveMesh.geometry.translate(0, yOffset, 0);
 
+            this.offset.y = yOffset;
+            this.offset.z = this.sizeFactor/2 - 5;
         } else if (this.modelName === "pierre-keller") {
             this.graveMesh = new THREE.Mesh(
-                new THREE.BoxGeometry(100, 200, 45),
+                new THREE.BoxGeometry(100, this.sizeFactor, 45),
                 material
             );
             // this.graveMesh = new THREE.Mesh(
             //     new RoundedBoxGeometry(120, 200, 45, 1, 10),
             //     material
             // );
-            this.offset.y = 0;
-            this.offset.z = 20;
+            const yOffset = this.sizeFactor / 2; // Half of the size factor
+            this.graveMesh.geometry.translate(0, yOffset, 0);
+
+            this.offset.y = this.sizeFactor / 2;
+            this.offset.z = 21.5-5;
 
 
         } else if (this.modelName === "anthony-wilson") {
             this.graveMesh = new THREE.Mesh(
-                new THREE.CylinderGeometry(30, 30, 200, 20),
+                new THREE.CylinderGeometry(30, 30, this.sizeFactor, 20),
                 material
             );
-            this.graveMesh.geometry.translate(-40, 0, 0);
-            this.offset.z = 20;
-            this.offset.y = -30;
             this.graveMesh.rotation.z = Math.PI / 2;
+            //les axes sont inversés à cuase de la rotation, donc pour baisser la forme il faut faire une translation sur l'axe X au lieu de Y
+            this.graveMesh.geometry.translate(30, 0, 0);
+            // const yOffset = this.sizeFactor / 2; // Half of the size factor
+            // this.graveMesh.geometry.translate(0, yOffset, 0);
+
+            this.offset.z = 15;
+            this.offset.y = 30;
 
 
 
@@ -112,7 +126,7 @@ export default class Grave {
 
         this.graveMesh.position.copy(this.position);
         if (this.modelName === "anthony-wilson") {
-            this.graveMesh.position.setY(-200) ;
+            this.graveMesh.position.setY(-200);
         }
 
         this.text = this.name + " \n" + this.surname;
@@ -126,7 +140,7 @@ export default class Grave {
         this.createBooleMesh()
     }
 
-    createBooleMesh() { 
+    createBooleMesh() {
         let material = this.createMaterial();
         this.booleMesh = CSG.subtract(this.graveMesh, this.engraving.textMesh);
         this.booleMesh.material = material;
@@ -147,16 +161,16 @@ export default class Grave {
             material.normalMap = this.texture.normalMap;
             material.normalScale.set(0.5, 0.5);
         }
-        
+
         if (this.texture.specular) {
             material.specular = this.texture.specular;
         }
-        
+
         if (this.texture.displacementMap) {
             material.displacementMap = this.texture.displacementMap;
         }
 
-        if(this.color != null){
+        if (this.color != null) {
             material.map = null;
             material.needsUpdate = true;
             material.color = new THREE.Color(this.color);
@@ -244,8 +258,27 @@ export default class Grave {
     }
 
     resize() {
-        this.age = map(this.age, 0, 100, 0, 1.5);
-        this.booleMesh.scale.y = this.age;
+        this.deleteGrave()
+        this.createGrave()
+        // this.age = map(this.age, 0, 100, 0, 1.5);
+        // this.booleMesh.scale.y = this.age;
 
+    }
+
+    remapAgeToGraveSize() {
+
+        if (this.modelName === "paul-rand") {
+            //taile du cube peut aller de 100 à 180 selon l'age	
+            this.sizeFactor = map(this.age, 0, 100, 100, 180);
+
+        } else if (this.modelName === "pierre-keller") {
+            //hauteur de la pierre peut aller de 150 à 200 selon l'age
+            this.sizeFactor = map(this.age, 0, 100, 150, 200);
+
+
+        } else if (this.modelName === "anthony-wilson") {
+            //longueur du cylindre peut aller de 150 à 200 selon l'age
+            this.sizeFactor = map(this.age, 0, 100, 150, 200);
+        }
     }
 }

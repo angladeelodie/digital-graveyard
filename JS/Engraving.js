@@ -58,16 +58,7 @@ export default class Engraving {
             metalness: 0.1,
         });
         this.textMesh = new THREE.Mesh(textGeo, material);
-        // this.scene.add(this.textMesh);
-        // if(this.isVisible === true){
-        // this.show();
 
-        // } else {
-        //     this.hide();
-        // }
-        // this.textMesh.scale.set(1, 1, 1);
-        // model.add(this.textMesh);
-        // console.log(scene)
     }
 
     async initialize() {
