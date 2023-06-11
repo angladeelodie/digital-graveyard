@@ -53,7 +53,11 @@ export default class Grave {
         this.birthDate = birthDate;
         this.deathDate = deathDate;
         this.age;
-        this.zOffset;
+        this.offset = {
+            x:0,
+            y:0,
+            z:0
+        };
         this.createGrave();    
     }
 
@@ -72,7 +76,8 @@ export default class Grave {
                 new THREE.BoxGeometry(150, 150, 150),
                 material
             );
-            this.zOffset = 70;
+            this.offset.y = 0;
+            this.offset.z = 70;
 
         } else if (this.modelName === "pierre-keller") {
             this.graveMesh = new THREE.Mesh(
@@ -83,8 +88,8 @@ export default class Grave {
             //     new RoundedBoxGeometry(120, 200, 45, 1, 10),
             //     material
             // );
-            this.zOffset = 20;
-
+            this.offset.y = 0;
+            this.offset.z = 20;
 
 
         } else if (this.modelName === "anthony-wilson") {
@@ -92,7 +97,9 @@ export default class Grave {
                 new THREE.CylinderGeometry(30, 30, 200, 20),
                 material
             );
-            this.zOffset = 20;
+            this.graveMesh.geometry.translate(-40, 0, 0);
+            this.offset.z = 20;
+            this.offset.y = -30;
             this.graveMesh.rotation.z = Math.PI / 2;
 
 
@@ -104,13 +111,19 @@ export default class Grave {
         this.graveMesh.updateMatrix();
 
         this.graveMesh.position.copy(this.position);
+        if (this.modelName === "anthony-wilson") {
+            this.graveMesh.position.setY(-200) ;
+            console.log("update position")
+            console.log(this.graveMesh.position)
+        }
+
         this.text = this.name + " \n" + this.surname;
         this.addEngraving(this.text);
 
     }
     async addEngraving() {
 
-        this.engraving = new Engraving(15, this.text, this.isVisible, this.scene, this.zOffset);
+        this.engraving = new Engraving(15, this.text, this.isVisible, this.scene, this.offset);
         await this.engraving.initialize();
         this.createBooleMesh()
     }
@@ -160,6 +173,9 @@ export default class Grave {
         this.booleMesh.geometry.dispose();
         this.booleMesh.material.dispose();
         this.createBooleMesh();
+        // await this.engraving.updateName(this.name)
+        // await this.engraving.updateSurname(this.surname)
+
     }
 
 

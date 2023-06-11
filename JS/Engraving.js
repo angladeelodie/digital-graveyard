@@ -9,7 +9,7 @@ import {
 } from 'three/addons/geometries/TextGeometry.js';
 
 export default class Engraving {
-    constructor(size,text, isVisible, scene, zOffset) {
+    constructor(size,text, isVisible, scene, offset) {
         this.size = size;
         this.text = text;
         this.isVisible = isVisible;
@@ -17,7 +17,7 @@ export default class Engraving {
         this.font = null;
         this.fontPromise = this.loadFont();
         this.scene = scene;
-        this.zOffset = zOffset;
+        this.offset = offset;
     }
 
     loadFont(text) {
@@ -50,7 +50,7 @@ export default class Engraving {
         // const textHeight = textGeo.boundingBox.max.y - textGeo.boundingBox.min.y;
         const xOffset = -textWidth / 2;
         // const yOffset = -textHeight / 2;
-        textGeo.translate(xOffset, 0, this.zOffset);
+        textGeo.translate(this.offset.x + xOffset, this.offset.y, this.offset.z);
 
         const material = new MeshPhysicalMaterial({
             color: 0xA0A0A0,
