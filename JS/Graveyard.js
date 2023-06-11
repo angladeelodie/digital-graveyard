@@ -404,18 +404,10 @@ export class Graveyard {
                         }).start();
                 }, 500);
             });
-
-
-
-
-
-
-
     }
 
     async animate() {
         const deltaTime = this.clock.getDelta();
-
         this.controls.update(deltaTime);
         requestAnimationFrame(() => this.animate());
         this.renderer.render(this.scene, this.camera);
@@ -427,11 +419,9 @@ export class Graveyard {
             clientHeight,
             clientWidth
         } = this.container;
-
         const pixelRatio = window.devicePixelRatio;
         this.camera.aspect = clientWidth / clientHeight;
         this.camera.updateProjectionMatrix();
-
         this.renderer.setSize(clientWidth * pixelRatio, clientHeight * pixelRatio);
     }
 
@@ -441,7 +431,6 @@ export class Graveyard {
             for (let i = 0; i < this.graves.length; i++) {
                 this.graves[i].hide();
             }
-
             this.currentGrave.show();
             this.currentGrave.engraving.show();
         }

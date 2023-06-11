@@ -200,12 +200,17 @@ export default class Grave {
             textureIndex = parseInt(textureIndex)
             this.texture = this.textures[textureIndex];
             let material = this.createMaterial();
+            this.color = null;
+            this.booleMesh.material.color = null;
             this.booleMesh.material = material;
 
 
         } else {
-            console.log(textureIndex)
+            console.log(this.booleMesh.material)
             this.booleMesh.material.map = null;
+            this.booleMesh.material.displacementMap = null;
+            this.booleMesh.material.normalMap = null;
+            this.booleMesh.material.specularMap = null;
             this.booleMesh.material.needsUpdate = true;
             this.color = textureIndex
             this.booleMesh.material.color = new THREE.Color(textureIndex);
