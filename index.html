@@ -37,6 +37,14 @@
   <polygon points="221.8,105.9 174.1,105.9 174.1,176.7 103.3,176.7 103.3,224.4 174.1,224.4 174.1,295.6 221.8,295.6 221.8,224.4 
    293,224.4 293,176.7 221.8,176.7 	"/>
     </svg>
+    
+    <svg version="1.1" id="panelButtonminus" class="pagebutton" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+   viewBox="0 0 400 400" xml:space="preserve">
+   <path d="M198.4,29.7c-95.1,0-173.1,77.2-173.1,172.2c0,95.5,78.1,172.7,173.1,172.7s173.1-77.2,173.1-172.7
+		C371.5,106.9,293.5,29.7,198.4,29.7z M198.4,348.9c-80.4,0-145.1-66.6-145.1-147c0-80.8,64.8-146,145.1-146
+		c80.8,0,145.6,65.2,145.6,146C344,282.3,279.2,348.9,198.4,348.9z"/>
+	<polygon points="103.3,176.7 103.3,224.4 198,224.4 293,224.4 293,176.7 198,176.7 	"/>
+    </svg>
   </div>
   
 
@@ -61,10 +69,6 @@
   
     <!-- PANEL 1 -->
     <div id="panelcontain" class="font-4xl panelcontain1">
-          <!-- <div id="contain1" class="typed-strings font-4xl">
-            MMXXIII<br>
-            DC
-          </div>  -->
           <span id="txtcontain">DC</span>
     </div> 
 
@@ -127,9 +131,13 @@
         </div>
       </div>
     </div>
-
-    <!-- PANEL 5 -->
-
+    
+    <!-- SHOWROOM -->
+    <!-- <div id="panelcontain"> 
+      <div id="showroomcontainer" class="colonne section section4">
+      </div>
+    </div> -->
+    
 
 
 </div> 
@@ -164,12 +172,12 @@
     </div> -->
     <div id="section1" class="section font-xl">
       <div class="section-txt">
-        Welcome<br>to <div class="lig">DC</div>
+        Welcome to<div class="lig">DC</div>
       </div>
     </div>
-    <div id="section2" class="section font-xl">
+    <div id="section2" class="section font-l">
       <div class="section-txt">
-        One of the first<br> digital cemetaries,<br>for you, and for<br>your loved ones.
+        One of the first<br>digital cemetaries,<br>for you, and for<br>your loved ones.
       </div>
     </div>
 
@@ -179,126 +187,129 @@
         <li>Resourceful</li>
         <li>No attachment</li>
         <li>Lightweight</li>
-        <li>Whenever, wherever</li>
+        <!-- <li>Whenever, wherever</li> -->
       </div>
       </h2>
     </div>
+    
+          <div id="section6" class="split-screen section">
+            <div class="controls font-xs">
+              <div id="arrow-prev" class="arrow-prev arrow">
+                <!-- &#8592; -->
+                PREV
+              </div>
+              <div id="arrow-next" class="arrow-next arrow">
+                  NEXT
+                  <!-- &#8594; -->
+              </div>
+            
+              <div class="navtop">(USE KEYBOARD'S ARROWS OR PRESS PREV/NEXT)</div>
+              <div Id="navbottom"></div>
+            </div>
+                     
+        <form class="split-left font-setup">
+              <!-- Stone -->
+              <div class="control-box font-setup" tabindex="0">
+                <div class="section-txt">
+                  Set up your<br>mourning space
+                </div>
+              </div>
 
-    <div id="showroomcontainer" class="section section4">
-    </div>
+
+              <div class="control-box font-setup" tabindex="0">
+                <input type="radio" id="model2" name="model" value="1">
+                <label for="model2">Saville</label>
+                <input type="radio" id="model1" name="model" value="0" checked="checked">
+                <label for="model1">Rand</label>
+                <input type="radio" id="model3" name="model" value="2">
+                <label for="model3">Pierre</label>
+                <!-- <input type="radio" id="model3" name="model" value="2">
+                <label for="model3">Anto</label> -->
+              </div>
+              
+              <!-- materials -->
+              <div class="control-box font-setup" tabindex="3">
+                <input type="radio" id="gold" name="material" value="1">
+                <label for="gold">Gold</label>
+                <input type="radio" id="silver" name="material" value="2">
+                <label for="silver">Silver</label>
+                <input type="radio" id="marble" name="material" value="0" checked="checked">
+                <label for="marble">Marble</label>
+                <input type="radio" id="wood" name="material" value="3">
+                <label for="wood">Wood</label>
+                <input type="color" id="color" name="material" value="#ffffff">
+                <label for="color" width="0" height="0">Color</label>
+              </div>
+
+              <!-- name -->
+              <div class="control-box font-setup" tabindex="1">
+                <!-- <div>Engrave your text:</div> -->
+                <input type="text" id="name" placeholder="Name" autocomplete="off" class="font-setup">
+                <input type="text" id="surname" placeholder="Surname" autocomplete="off" class="font-setup">
+              </div>
+
+              <!-- birth & death -->
+              <div class="control-box font-setup" tabindex="2" class="font-setup">
+                <!-- <div class="control-label">Birth</div> -->
+                <input type="date" value="1950-04-02" id="birth" autocomplete="off" class="font-setup">
+                <!-- <div class="control-label">Death</div> -->
+                <input type="date" id="death" autocomplete="off" class="font-setup">
+              </div>
 
 
-    <div id="section6" class="split-screen section">
-      <div class="control-arrows">
-        <div id="arrow-prev" class="arrow-prev arrow">
-          <svg width="60" height="60" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
-            <path d="M2.117 12l7.527 6.235-.644.765-9-7.521 9-7.479.645.764-7.529 6.236h21.884v1h-21.883z" /></svg>
-        </div>
-        <div id="arrow-next" class="arrow-next arrow">
-          <svg width="60" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
-            <path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
-        </div>
-      </div>
-      <form class="split-left">
+              <!-- sounds -->
+              <div class="control-box font-setup" tabindex="4">
+                <input type="radio" id="sound1" name="sound" value="0">
+                <label for="sound1" for="sound1">Veridis</label>
+                <input type="radio" id="sound2" name="sound" value="1">
+                <label for="sound2">Bulle</label>
+                <input type="radio" id="sound3" name="sound" value="2">
+                <label for="sound3">Piano</label>
+                <input type="radio" id="sound4" name="sound" value="3">
+                <label for="sound4">Oni</label>
+                <input type="radio" id="sound5" name="sound" value="4">
+                <label for="sound5">Violin</label>
+                <!-- <input type="radio" id="sound6" name="sound" value="5"> -->
+                <!-- <label for="sound2" class="coemetersong">DC</label> -->
+              </div>
 
-        <!-- Stone -->
-        <div class="control-box font-l" tabindex="0">
-          <div class="section-txt">
-            Create your own<br>mourning space
+              <!-- Background -->
+              <div class="control-box font-setup" tabindex="5">
+                <input type="radio" id="bg2" name="background" value="1">
+                <label for="bg2">Day</label>
+                <input type="radio" id="bg1" name="background" value="0" checked="checked">
+                <label for="bg1">Night</label>
+                <input type="radio" id="bg3" name="background" value="2">
+                <label for="bg3">Dusk</label>
+              </div>
+
+
+              <div id="submit" class="control-box font-setup" tabindex="5">
+                <span Id="border">Dematerialize</span>
+
+              </div>
+
+        </form>
+            
+            <div id="canvas-bg" class="split-right custom-bg">
+              <div id="custom-grave-container" class="canvas-container"></div>
+            </div>
           </div>
-        </div>
-
-
-        <div class="control-box font-l" tabindex="0">
-          <div>Select stone's shape:</div>
-          <input type="radio" id="model1" name="model" value="0" checked="checked">
-          <label for="model1">Not a Rand</label>
-          <input type="radio" id="model2" name="model" value="1">
-          <label for="model2">Saville</label>
-          <input type="radio" id="model3" name="model" value="2">
-          <label for="model3">Pierre</label>
-          <input type="radio" id="model3" name="model" value="2">
-          <label for="model3">Anto</label>
-        </div>
-        
-        <!-- materials -->
-        <div class="control-box font-l" tabindex="3">
-          <input type="radio" id="marble" name="material" value="0" checked="checked">
-          <label for="marble">Marble</label>
-          <input type="radio" id="gold" name="material" value="1">
-          <label for="gold">Gold</label>
-          <input type="radio" id="silver" name="material" value="2">
-          <label for="silver">Silver</label>
-          <input type="radio" id="wood" name="material" value="3">
-          <label for="wood">Wood</label>
-          <input type="color" id="color" name="material" value="#ffffff">
-          <label for="color" width="0" height="0">Color</label>
-        </div>
-
-        <!-- name -->
-        <div class="control-box font-l" tabindex="1">
-          <!-- <div>Engrave your text:</div> -->
-          <input type="text" id="name" class="font-creation" placeholder="Name" autocomplete="off">
-          <input type="text" id="surname" class="font-creation" placeholder="Surname" autocomplete="off">
-        </div>
-
-        <!-- birth & death -->
-        <div class="control-box font-l" tabindex="2">
-          <!-- <div class="control-label">Birth</div> -->
-          <input type="date" value="1950-04-02" id="birth" class="font-creation" placeholder="Birth" autocomplete="off">
-          <!-- <div class="control-label">Death</div> -->
-          <input type="date" id="death" class="font-creation" placeholder="Death" autocomplete="off">
-        </div>
-
-
-        <!-- sounds -->
-        <div class="control-box font-l" tabindex="4">
-          <input type="radio" id="sound1" name="sound" value="0">
-          <label for="sound1">Arnaud</label>
-          <input type="radio" id="sound2" name="sound" value="1">
-          <label for="sound2">Jul</label>
-          <input type="radio" id="sound3" name="sound" value="2">
-          <label for="sound3">Veridis Quo</label>
-          <input type="radio" id="sound4" name="sound" value="3">
-          <label for="sound4">Sound 4</label>
-        </div>
-
-        <!-- Background -->
-        <div class="control-box font-l" tabindex="5">
-          <input type="radio" id="bg1" name="background" value="0" checked="checked">
-          <label for="bg1">Night</label>
-          <input type="radio" id="bg2" name="background" value="1">
-          <label for="bg2">Day</label>
-          <input type="radio" id="bg3" name="background" value="2">
-          <label for="bg3">Dusk</label>
-        </div>
-
-
-        <div id="submit" class="control-box font-l" tabindex="5">
-          <span>Dematerialize</span>
-
-        </div>
-
-      </form>
-      <div id="canvas-bg" class="split-right custom-bg">
-        <div id="custom-grave-container" class="canvas-container"></div>
-      </div>
-      
-    </div>
-    <div id="section7" class="section custom-bg">
-      <div id="graveyard-container" class="canvas-container"></div>
-      <button id="resetCameraButton">Reset Camera</button>
-    </div>
-
-    </div>
+          
+          <div id="sectionfinal" class="section custom-bg">
+            <div id="graveyard-container" class="canvas-container"></div>
+            <!-- <button id="resetCameraButton">Reset Camera</button> -->
+          </div>
     </div>
 
   </main>
 
-  <audio id="audio1" src="sounds/sound1.wav" lopp></audio>
-  <audio id="audio2" src="sounds/sound2.wav" lopp></audio>
-  <audio id="audio3" src="sounds/sound3.wav" loop></audio>
-  <audio id="audio4" src="sounds/sound4.wav" loop></audio>
+  <audio id="audio1" src="sounds/veridis.mp3" loop></audio>
+  <!-- <audio id="audio2" src="sounds/sound2.wav" loop></audio> -->
+  <audio id="audio2" src="sounds/bulle.mp3" loop></audio>
+  <audio id="audio3" src="sounds/piano.wav" loop></audio>
+  <audio id="audio4" src="sounds/oni.mp3" loop></audio>
+  <audio id="audio5" src="sounds/violon.wav" loop></audio>
 
 
   <script type="module" src="/main.js"></script>

@@ -23,7 +23,7 @@ export default class Engraving {
     loadFont(text) {
         const loader = new FontLoader();
         return new Promise((resolve, reject) => {
-            loader.load('../fonts/graveyard-v1.json', function (font) {
+            loader.load('../fonts/444Graveyard-Regular-serif.json', function (font) {
                 resolve(font);
 
                 // console.log(textMesh)

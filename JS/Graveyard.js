@@ -17,6 +17,17 @@ import {
 import Grave from './Grave.js'
 import TWEEN from '@tweenjs/tween.js'
 
+// import { 
+//     RGBELoader
+//  } from 'three/examples/jsm/loaders/RGBELoader.js';
+// import { 
+//     PMREMGenerator 
+// } from 'three/src/extras/PMREMGenerator.js';
+// import { 
+//     PMREMCubeUVPacker 
+// } from 'three/src/extras/PMREMCubeUVPacker.js';
+
+
 
 export class Graveyard {
     constructor({
@@ -64,7 +75,7 @@ export class Graveyard {
             this.camPos = {
                 x: 0,
                 y: 30,
-                z: 800
+                z: 400
             }
         }
 
@@ -238,58 +249,60 @@ export class Graveyard {
 
         this.renderer.setSize(clientWidth, clientHeight);
 
-        const resetCameraButton = document.getElementById('resetCameraButton');
-        resetCameraButton.addEventListener('click', () => {
-            let targetCameraPosition;
-            if (this.id === 1) {
-                targetCameraPosition = new THREE.Vector3(0, 0, 400);
-            } else if (this.id === 2) {
-                targetCameraPosition = new THREE.Vector3(0, 50, 800);
-            }
+        // const resetCameraButton = document.getElementById('resetCameraButton');
+        // resetCameraButton.addEventListener('click', () => {
+        //     let targetCameraPosition;
+        //     if (this.id === 1) {
+        //         targetCameraPosition = new THREE.Vector3(0, 0, 400);
+        //     } else if (this.id === 2) {
+        //         targetCameraPosition = new THREE.Vector3(0, 50, 800);
+        //     }
 
-            const targetCameraRotation = new THREE.Euler(this.camAngle.x, this.camAngle.y, this.camAngle.z);
-            const duration = 2000;
+        //     const targetCameraRotation = new THREE.Euler(this.camAngle.x, this.camAngle.y, this.camAngle.z);
+        //     const duration = 2000;
 
-            new TWEEN.Tween(this.camera.position)
-                .to(targetCameraPosition, duration)
-                .easing(TWEEN.Easing.Quadratic.InOut)
-                .onUpdate(() => {
-                    this.controls.target.set(this.camera.position.x, this.camera.position.y, this.camera.position.z);
-                })
-                .start();
+        //     new TWEEN.Tween(this.camera.position)
+        //         .to(targetCameraPosition, duration)
+        //         .easing(TWEEN.Easing.Quadratic.InOut)
+        //         .onUpdate(() => {
+        //             this.controls.target.set(this.camera.position.x, this.camera.position.y, this.camera.position.z);
+        //         })
+        //         .start();
 
-            new TWEEN.Tween(this.camera.rotation)
-                .to({
-                    x: targetCameraRotation.x,
-                    y: targetCameraRotation.y,
-                    z: targetCameraRotation.z
-                }, duration)
-                .easing(TWEEN.Easing.Quadratic.InOut)
-                .onUpdate(() => {
-                    this.camera.rotation.set(this.camera.rotation.x, this.camera.rotation.y, this.camera.rotation.z);
-                })
-                .start();
-        });
+        //     new TWEEN.Tween(this.camera.rotation)
+        //         .to({
+        //             x: targetCameraRotation.x,
+        //             y: targetCameraRotation.y,
+        //             z: targetCameraRotation.z
+        //         }, duration)
+        //         .easing(TWEEN.Easing.Quadratic.InOut)
+        //         .onUpdate(() => {
+        //             this.camera.rotation.set(this.camera.rotation.x, this.camera.rotation.y, this.camera.rotation.z);
+        //         })
+        //         .start();
+        // });
 
         // LIGHTS
 
 
-        let directionalLight = new THREE.DirectionalLight(0xF5D3B3, .1);
-        directionalLight.position.set(300, 10, 800)
+        // let directionalLight = new THREE.DirectionalLight(0xF5D3B3, .3);
+        // directionalLight.position.set(300, 100, 800)
+        let directionalLight = new THREE.DirectionalLight(0xF5D3B3, .3);
+        directionalLight.position.set(300, 5, 800)
 
         const targetObject = new THREE.Object3D();
-        targetObject.position.set(-100, 10, 80);
+        targetObject.position.set(0, 0, 0);
         this.scene.add(directionalLight);
         this.scene.add(targetObject);
         directionalLight.target = targetObject;
 
-        const helper = new THREE.DirectionalLightHelper(directionalLight, 3);
+        // const helper = new THREE.DirectionalLightHelper(directionalLight, 3);
         // this.scene.add(helper);
 
         let ambientLight = new THREE.AmbientLight(0xF5D3B3, .1);
         this.scene.add(ambientLight);
 
-        let spotLight = new THREE.SpotLight(0xF5D3B3, 1);
+        let spotLight = new THREE.SpotLight(0xF5D3B3, .3);
         spotLight.position.set(0, 450, -16000)
         this.scene.add(spotLight);
         // const spotLightHelper = new THREE.SpotLightHelper( spotLight );
@@ -313,11 +326,21 @@ export class Graveyard {
         // générer les tombes à partir de la base de données
         for (let i = 0; i < database.graves.length; i++) {
             this.graves.push(new Grave({
+                // position: {
+                //     x: random(-2000, 2000),
+                //     y: random(-10, -10),
+                //     z: random(-2000, 2000)
+                // },
+
                 position: {
-                    x: random(-2000, 2000),
-                    y: random(-10, -10),
-                    z: random(-2000, 2000)
-                },
+                    x: Math.random() < 0.5
+                      ? Math.floor(Math.random() * (800 - (-2000) + 1)) + (-2000)
+                      : Math.floor(Math.random() * (2000 - 800 + 1)) + 800,
+                    y: -10,
+                    z: Math.floor(Math.random() * (2000 - (-2000) + 1)) + (-2000)
+                  },
+
+
                 modelName: random(this.models),
                 birth: database.graves[i].age,
                 isVisible: true,
@@ -357,8 +380,9 @@ export class Graveyard {
             isVisible: true,
             id: 0,
             text: "firstname \nlastname",
-            name: "John",
-            surname: "Doe",
+            // name: "DC",
+            name: "%",
+            surname: "",
             birthDate: new Date("1950-04-02"),
             deathDate: new Date("2023-06-05"),
             models: this.models,
@@ -374,7 +398,7 @@ export class Graveyard {
                 grave.booleMesh.material.needsUpdate = true;
             }).start().onComplete(() => {
                 this.scene.add(grave.booleMesh)
-                document.getElementById("section7").scrollIntoView({
+                document.getElementById("sectionfinal").scrollIntoView({
                     behavior: 'smooth'
                 });
                 setTimeout(() => {

@@ -70,6 +70,24 @@ function initEvents() {
     mainBus.emit("surnameChanged", newSurname);
   });
 
+  const textInputs = document.querySelectorAll('input[type="text"], input[type="date"]');
+
+textInputs.forEach(input => {
+  input.addEventListener('input', function() {
+    if (input.value !== '') {
+      input.classList.add('txtchanged');
+    } else {
+      input.classList.remove('txtchanged');
+    }
+  });
+
+
+  input.addEventListener('focus', function() {
+    input.classList.remove('txtchanged');
+  });
+});
+
+
   let modelRadioButtons = document.querySelectorAll('input[type=radio][name="model"]');
   modelRadioButtons.forEach(radio => radio.addEventListener('change', () => {
     mainBus.emit("modelChanged", radio.value);
@@ -99,10 +117,12 @@ function initEvents() {
   }));
 
 
-  document.getElementById("submit").addEventListener("click", (e) => {
+  document.getElementById("border").addEventListener("click", (e) => {
     mainBus.emit("graveSubmitted");
-  });
+    const submitButton = document.getElementById("border");
+  });  
 }
+
 
 function handleEvents() {
   mainBus.on("nameChanged", (name) => {
@@ -150,7 +170,8 @@ function handleEvents() {
       } else if(backgroundIndex == 1){
         bgImages[i].style.backgroundImage = "url('/imgs/backgrounds/bg2.svg')";
       }  else if(backgroundIndex == 2){
-        bgImages[i].style.backgroundImage = "url('/imgs/backgrounds/bg3.svg')";
+        bgImages[i].style.backgroundImage = "url('/imgs/backgrounds/bg4.png')";
+        // bgImages[i].style.backgroundImage = "url('/imgs/backgrounds/bg3.svg')";
       }
     }
   });
@@ -161,15 +182,41 @@ function handleEvents() {
   });
 
   mainBus.on("graveSubmitted", () => {
-    console.log("new Grave")
-    let customizedGrave = GRAVEYARD.currentGrave;
-    GRAVEYARD2.pushToGraveyard(customizedGrave);
-  })
+  console.log("new Grave");
+  let customizedGrave = GRAVEYARD.currentGrave;
+  GRAVEYARD2.pushToGraveyard(customizedGrave);
 
+  var elementsLeft = document.getElementsByClassName("split-left");
+  for (var i = 0; i < elementsLeft.length; i++) {
+    elementsLeft[i].style.left = "-100%";
+  }
 
+  var elementsControl = document.getElementsByClassName("controls");
+  for (var i = 0; i < elementsControl.length; i++) {
+    elementsControl[i].style.left = "-100%";
+  }
 
+  var elementsRight = document.getElementsByClassName("split-right");
+  for (var i = 0; i < elementsRight.length; i++) {
+    elementsRight[i].style.right = "-100%";
+  }
 
+  const graveyardContainer = document.getElementById('sectionfinal');
+  setTimeout(() => {
+    graveyardContainer.style.zIndex = '2';
+  }, 2000);
+
+  const header = document.getElementById('header');
+  header.style.backgroundColor = "transparent";
+  header.style.color = "var(--color-dark)";
+
+  const bout = document.getElementsByClassName("pagebutton");
+  for (var i = 0; i < bout.length; i++) {
+    bout[i].style.fill = "var(--color-dark)";
+  }
+  });
 }
+
 
 function shrinkHeader() {
   let scroll = getCurrentScroll();
@@ -197,15 +244,15 @@ window.addEventListener('load', function() {
     document.getElementById("main").style.overflow = 'scroll';
     document.getElementById("header-logo").style.opacity = '1';
     // document.body.style.display = 'content'
-  }, 1);
-  // }, 6000);
+  // }, 1);
+  }, 6000);
 
   setTimeout(function() {
     var homepage = document.getElementById('home');
     var commentedHTML = '<!-- ' + homepage.outerHTML + ' -->';
     homepage.outerHTML = commentedHTML;
-  }, 1);
-  // }, 8000);
+  // }, 1);
+  }, 8000);
 });
 
 // POSITIF NEGATIF
@@ -223,106 +270,65 @@ window.addEventListener('load', function() {
 // SPECIMEN
 
 const opacityToggleBtn = document.getElementById('panelButton');
+const opacityToggleBtnMinus = document.getElementById('panelButtonminus');
 const targetElement = document.getElementById('specimen');
 
-opacityToggleBtn.addEventListener('click', () => {
+opacityToggleBtn.addEventListener('click', togglePanel);
+opacityToggleBtnMinus.addEventListener('click', togglePanel);
+
+function togglePanel() {
   if (targetElement.style.left === '0%') {
     targetElement.style.left = '100%';
     targetElement.style.pointerEvents = 'none';
+    opacityToggleBtnMinus.style.display = 'none';
+    opacityToggleBtn.style.display = 'block';
   } else {
     targetElement.style.left = '0%';
     if (targetElement.style.pointerEvents !== 'all') {
       targetElement.style.pointerEvents = 'all';
-    }
-  }
-});
-
-
-
-const sequenceImages = [];
-let currentImageIndex = 0;
-let currentImageElement = null;
-let isMouseMoving = false;
-let isLoadingImage = false;
-let intervalId = null;
-
-for (let i = 0; i <= 180; i++) {
-  let image = new Image();
-  image.src = `./imgs/showroom/paul_rand_${i}.png`;
-  sequenceImages.push(image);
-}
-
-const scrollIncrement = 1; // Adjust this value to control the scroll speed
-const autoChangeDelay = 30; // Delay in milliseconds for automatic image change
-
-document.getElementById("showroomcontainer").addEventListener("mousemove", (e) => {
-  const mouseX = e.clientX;
-  const imageIndex = Math.floor((mouseX / window.innerWidth) * sequenceImages.length);
-  currentImageIndex = imageIndex;
-  isMouseMoving = true;
-
-  clearTimeout(intervalId); // Clear the automatic image change interval
-  intervalId = setTimeout(() => {
-    isMouseMoving = false;
-    autoChangeImage();
-  }, autoChangeDelay);
-
-  updateImage();
-});
-
-
-function updateImage() {
-  if (currentImageElement) {
-    currentImageElement.remove();
-  }
-
-  const image = sequenceImages[currentImageIndex >= 0 ? currentImageIndex : 0];
-  currentImageElement = image.cloneNode();
-  let showroomContainer = document.getElementById("showroomcontainer");
-  showroomContainer.innerHTML = '';
-  showroomContainer.appendChild(currentImageElement);
-}
-
-function autoChangeImage() {
-  if (!isMouseMoving) {
-    currentImageIndex = (currentImageIndex + scrollIncrement);
-    if (currentImageIndex >= sequenceImages.length) {
-      currentImageIndex = 0;
-    }
-    if (!isLoadingImage) {
-      isLoadingImage = true;
-      const image = sequenceImages[currentImageIndex];
-      image.onload = () => {
-        isLoadingImage = false;
-        updateImage();
-        intervalId = setTimeout(autoChangeImage, autoChangeDelay);
-      };
+      opacityToggleBtnMinus.style.display = 'block';
+      opacityToggleBtn.style.display = 'none';
     }
   }
 }
 
-function setup() {
-  updateImage();
-  intervalId = setTimeout(autoChangeImage, autoChangeDelay);
-}
-
-window.onload = setup;
-
-
-
-// ENTER SCROLL
+// SCROLL
 
 const prevArrow = document.getElementById("arrow-prev");
 const nextArrow = document.getElementById("arrow-next");
+const navTop = document.querySelector(".navtop");
 
-prevArrow.addEventListener("click", (e) => {
-    e.preventDefault();
-    scrollToPrevDiv();
-});
+const data = [
+  "(USE KEYBOARD'S ARROWS OR PRESS PREV/NEXT)", // already defined
+  "TOMB'S MODEL", // add your additional data here
+  "MATERIAL",
+  "NAME",
+  "D. BIRTH\u2009–\u2009D. DEATH",
+  "AMBIENT SONG",
+  "ENVIRONMENT",
+  "END/BEGINNING",
+];
+
+let currentValue = 1;
+const totalValues = 9; // Change this value to match the total number of values
+
+const numberDisplay = document.getElementById("navbottom");
+numberDisplay.textContent = `${currentValue}/${totalValues}`;
 
 nextArrow.addEventListener("click", (e) => {
   e.preventDefault();
   scrollToNextDiv();
+  currentValue = (currentValue % totalValues) + 1;
+  updateNavTop();
+  numberDisplay.textContent = `${currentValue}/${totalValues}`;
+});
+
+prevArrow.addEventListener("click", (e) => {
+  e.preventDefault();
+  scrollToPrevDiv();
+  currentValue = ((currentValue - 2 + totalValues) % totalValues) + 1;
+  updateNavTop();
+  numberDisplay.textContent = `${currentValue}/${totalValues}`;
 });
 
 function scrollToNextDiv() {
@@ -330,27 +336,47 @@ function scrollToNextDiv() {
   const nextDiv = currentDiv.nextElementSibling;
   if (nextDiv) {
     nextDiv.scrollIntoView({ behavior: "smooth" });
-    currentControlDiv = nextDiv
+    currentControlDiv = nextDiv;
   }
 }
 
 function scrollToPrevDiv() {
   const currentDiv = currentControlDiv;
   const prevDiv = currentDiv.previousElementSibling;
-
   if (prevDiv) {
     prevDiv.scrollIntoView({ behavior: "smooth" });
-    currentControlDiv = prevDiv
-
+    currentControlDiv = prevDiv;
   }
 }
 
+function updateNavTop() {
+  const currentIndex = currentValue - 1;
+  navTop.textContent = data[currentIndex];
+
+  if (currentValue === 1) {
+    prevArrow.style.display = "none";
+  } else {
+    prevArrow.style.display = "block";
+  }
+
+  if (currentValue === 8) {
+    nextArrow.style.display = "none";
+  } else {
+    nextArrow.style.display = "block";
+  }
+}
+
+
+
+// AUDIO
 
 var audioElements = [
   document.getElementById("audio1"),
   document.getElementById("audio2"),
   document.getElementById("audio3"),
-  document.getElementById("audio4")
+  document.getElementById("audio4"),
+  document.getElementById("audio5"),
+  document.getElementById("audio6"),
 ];
 
 function playAudio(selectedIndex){
@@ -379,3 +405,75 @@ var typed = new Typed('#typedtitle', {
     startDelay: 1000,
     loop: true
   });
+
+
+// SHOWROOM
+
+// const sequenceImages = [];
+// let currentImageIndex = 0;
+// let currentImageElement = null;
+// let isMouseMoving = false;
+// let isLoadingImage = false;
+// let intervalId = null;
+
+// for (let i = 0; i <= 180; i++) {
+//   let image = new Image();
+//   image.src = `./imgs/showroom/paul_rand_${i}.png`;
+//   sequenceImages.push(image);
+// }
+
+// const scrollIncrement = 1; // Adjust this value to control the scroll speed
+// const autoChangeDelay = 30; // Delay in milliseconds for automatic image change
+
+// document.getElementById("showroomcontainer").addEventListener("mousemove", (e) => {
+//   const mouseX = e.clientX;
+//   const imageIndex = Math.floor((mouseX / window.innerWidth) * sequenceImages.length);
+//   currentImageIndex = imageIndex;
+//   isMouseMoving = true;
+
+//   clearTimeout(intervalId); // Clear the automatic image change interval
+//   intervalId = setTimeout(() => {
+//     isMouseMoving = false;
+//     autoChangeImage();
+//   }, autoChangeDelay);
+
+//   updateImage();
+// });
+
+
+// function updateImage() {
+//   if (currentImageElement) {
+//     currentImageElement.remove();
+//   }
+
+//   const image = sequenceImages[currentImageIndex >= 0 ? currentImageIndex : 0];
+//   currentImageElement = image.cloneNode();
+//   let showroomContainer = document.getElementById("showroomcontainer");
+//   showroomContainer.innerHTML = '';
+//   showroomContainer.appendChild(currentImageElement);
+// }
+
+// function autoChangeImage() {
+//   if (!isMouseMoving) {
+//     currentImageIndex = (currentImageIndex + scrollIncrement);
+//     if (currentImageIndex >= sequenceImages.length) {
+//       currentImageIndex = 0;
+//     }
+//     if (!isLoadingImage) {
+//       isLoadingImage = true;
+//       const image = sequenceImages[currentImageIndex];
+//       image.onload = () => {
+//         isLoadingImage = false;
+//         updateImage();
+//         intervalId = setTimeout(autoChangeImage, autoChangeDelay);
+//       };
+//     }
+//   }
+// }
+
+// function setup() {
+//   updateImage();
+//   intervalId = setTimeout(autoChangeImage, autoChangeDelay);
+// }
+
+// window.onload = setup;
