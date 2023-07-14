@@ -7,7 +7,7 @@ import Typed from './JS/typed.js';
 
 let GRAVEYARD;
 let GRAVEYARD2;
-
+let graveSubmitted = false;
 let allControlDivs = document.querySelectorAll(".control-box");
 let currentControlDiv = allControlDivs[0];
 
@@ -111,15 +111,11 @@ textInputs.forEach(input => {
   }));
 
 
-  let backgroundRadioButtons = document.querySelectorAll('input[type=radio][name="background"]');
-  backgroundRadioButtons.forEach(radio => radio.addEventListener('change', () => {
-    mainBus.emit("backgroundChanged", radio.value);
-  }));
-
-
   document.getElementById("border").addEventListener("click", (e) => {
     mainBus.emit("graveSubmitted");
-    const submitButton = document.getElementById("border");
+    graveSubmitted = true;
+    console.log(graveSubmitted)
+    const submitButton = document.getElementById("submit");
   });  
 }
 
@@ -161,20 +157,8 @@ function handleEvents() {
 
   })
 
-  mainBus.on("backgroundChanged", (backgroundIndex) => {
-    console.log("background changed " + backgroundIndex)
-    let bgImages = document.getElementsByClassName("custom-bg");
-    for (let i = 0; i < bgImages.length; i++) {  
-      if(backgroundIndex == 0){
-        bgImages[i].style.backgroundImage = "url('/imgs/backgrounds/bg1.svg')";
-      } else if(backgroundIndex == 1){
-        bgImages[i].style.backgroundImage = "url('/imgs/backgrounds/bg2.svg')";
-      }  else if(backgroundIndex == 2){
-        bgImages[i].style.backgroundImage = "url('/imgs/backgrounds/bg4.png')";
-        // bgImages[i].style.backgroundImage = "url('/imgs/backgrounds/bg3.svg')";
-      }
-    }
-  });
+
+  
 
   mainBus.on("soundChanged", (soundIndex) => {
     console.log("sound changed " + soundIndex)
@@ -233,27 +217,108 @@ function getCurrentScroll() {
 
 
 // HOMEPAGE
-const video = document.getElementById('welcomevid');
-video.play();
 
-window.addEventListener('load', function() {
-  setTimeout(function() {
+// SHOWROOM
+
+const sequenceImages = [];
+let currentImageIndex = 0;
+let currentImageElement = null;
+let isMouseMoving = false;
+let isLoadingImage = false;
+let intervalId = null;
+
+for (let i = 0; i <= 298; i++) {
+  let image = new Image();
+  image.src = `./imgs/showroom/edit_${i}.jpg`;
+  sequenceImages.push(image);
+}
+
+const scrollIncrement = 1; // Adjust this value to control the scroll speed
+const autoChangeDelay = 30; // Delay in milliseconds for automatic image change
+
+document.getElementById("showroomcontainer").addEventListener("mousemove", (e) => {
+  const mouseX = e.clientX;
+  const imageIndex = Math.floor((mouseX / window.innerWidth) * sequenceImages.length);
+  currentImageIndex = imageIndex;
+  isMouseMoving = true;
+
+  clearTimeout(intervalId); // Clear the automatic image change interval
+  intervalId = setTimeout(() => {
+    isMouseMoving = false;
+    autoChangeImage();
+  }, autoChangeDelay);
+
+  updateImage();
+});
+
+
+function updateImage() {
+  if (currentImageElement) {
+    currentImageElement.remove();
+  }
+
+  const image = sequenceImages[currentImageIndex >= 0 ? currentImageIndex : 0];
+  currentImageElement = image.cloneNode();
+  currentImageElement.id = "showroomimg"; // Set the id of the current image element
+  let showroomContainer = document.getElementById("showroomcontainer");
+  showroomContainer.innerHTML = '';
+  showroomContainer.appendChild(currentImageElement);
+}
+
+function autoChangeImage() {
+  if (!isMouseMoving) {
+    currentImageIndex = (currentImageIndex + scrollIncrement);
+    if (currentImageIndex >= sequenceImages.length) {
+      currentImageIndex = 0;
+    }
+    if (!isLoadingImage) {
+      isLoadingImage = true;
+      const image = sequenceImages[currentImageIndex];
+      image.onload = () => {
+        isLoadingImage = false;
+        updateImage();
+        intervalId = setTimeout(autoChangeImage, autoChangeDelay);
+      };
+    }
+  }
+}
+
+function setup() {
+  updateImage();
+  intervalId = setTimeout(autoChangeImage, autoChangeDelay);
+}
+
+window.onload = setup;
+
+
+
+// START
+
+
+document.getElementById("home").addEventListener("click", function() {
+  var ambient = document.getElementById('ambient');
+  ambient.muted = false; // Unmute the selected audio
+  ambient.loop = true; // Enable looping
+  ambient.play();
+
     var homepage = document.getElementById('home');
-    homepage.style.opacity = '0';
+  homepage.style.opacity = '0';
+  // homepage.style.pointerEvents = 'none';
 
-    document.getElementById("main").style.overflow = 'scroll';
-    document.getElementById("header-logo").style.opacity = '1';
-    // document.body.style.display = 'content'
-  // }, 1);
-  }, 6000);
+  document.getElementById("main").style.overflow = 'scroll';
+  document.getElementById("header-logo").style.opacity = '1';
+  // document.body.style.display = 'content'
 
   setTimeout(function() {
     var homepage = document.getElementById('home');
     var commentedHTML = '<!-- ' + homepage.outerHTML + ' -->';
     homepage.outerHTML = commentedHTML;
-  // }, 1);
-  }, 8000);
+  }, 2000);
 });
+
+
+
+
 
 // POSITIF NEGATIF
   const colorSwitchButton = document.getElementById('colorSwitchButton');
@@ -272,6 +337,8 @@ window.addEventListener('load', function() {
 const opacityToggleBtn = document.getElementById('panelButton');
 const opacityToggleBtnMinus = document.getElementById('panelButtonminus');
 const targetElement = document.getElementById('specimen');
+const header = document.getElementById('header');
+const bout1 = document.getElementById('colorSwitchButton');
 
 opacityToggleBtn.addEventListener('click', togglePanel);
 opacityToggleBtnMinus.addEventListener('click', togglePanel);
@@ -282,20 +349,52 @@ function togglePanel() {
     targetElement.style.pointerEvents = 'none';
     opacityToggleBtnMinus.style.display = 'none';
     opacityToggleBtn.style.display = 'block';
+   
+      header.style.backgroundColor = 'var(--color-dark)';
+      header.style.color = 'var(--color-light)';
+      bout1.style.fill = 'var(--color-light)';
+      if(graveSubmitted == true){
+        header.style.backgroundColor = 'transparent';
+        header.style.color = 'var(--color-dark)';
+        bout1.style.fill = 'var(--color-dark)';
+      }
+      if(graveSubmitted == false){
+       
+        header.style.backgroundColor = 'var(--color-dark)';
+        header.style.color = 'var(--color-light)';
+        bout1.style.fill = 'var(--color-light)';
+      }
+    
+    // bout2.style.fill = 'var(--color-light)';
   } else {
     targetElement.style.left = '0%';
     if (targetElement.style.pointerEvents !== 'all') {
       targetElement.style.pointerEvents = 'all';
       opacityToggleBtnMinus.style.display = 'block';
       opacityToggleBtn.style.display = 'none';
+      if(graveSubmitted == true){
+        header.style.backgroundColor = 'var(--color-light)';
+        // header.style.color = 'var(--color-dark)';
+        // bout1.style.fill = 'var(--color-dark)';
+      }
+      if(graveSubmitted == false){
+        header.style.backgroundColor = 'var(--color-light)';
+        header.style.color = 'var(--color-dark)';
+        bout1.style.fill = 'var(--color-dark)';
+      }
+
+    
+      // bout2.style.fill = 'var(--color-dark)';
     }
   }
 }
 
+
+
 // SCROLL
 
-const prevArrow = document.getElementById("arrow-prev");
-const nextArrow = document.getElementById("arrow-next");
+const nextArrow = document.getElementById("next");
+const prevArrow = document.getElementById("prev");
 const navTop = document.querySelector(".navtop");
 
 const data = [
@@ -305,12 +404,12 @@ const data = [
   "NAME",
   "D. BIRTH\u2009–\u2009D. DEATH",
   "AMBIENT SONG",
-  "ENVIRONMENT",
+  // "ENVIRONMENT",
   "END/BEGINNING",
 ];
 
 let currentValue = 1;
-const totalValues = 9; // Change this value to match the total number of values
+const totalValues = 7; // Change this value to match the total number of values
 
 const numberDisplay = document.getElementById("navbottom");
 numberDisplay.textContent = `${currentValue}/${totalValues}`;
@@ -359,7 +458,7 @@ function updateNavTop() {
     prevArrow.style.display = "block";
   }
 
-  if (currentValue === 8) {
+  if (currentValue === 7) {
     nextArrow.style.display = "none";
   } else {
     nextArrow.style.display = "block";
@@ -385,6 +484,7 @@ function playAudio(selectedIndex){
     if (i == selectedIndex) {
       audioElements[i].muted = false; // Unmute the selected audio
       audioElements[i].loop = true; // Enable looping
+      ambient.muted = true;
 
       audioElements[i].play();
     } else {
@@ -395,85 +495,18 @@ function playAudio(selectedIndex){
 }
 
 
+  
+
+
+
 var typed = new Typed('#typedtitle', {
-    // strings: ['COEMETER'],
-    strings: ['L&#8217;an 2K23,<br>MMXXIII'],
-    typeSpeed: 90,
-    backSpeed: 10,
-    // smartBackspace: true, // this is a default
-    bindInputFocusEvents: true,
-    startDelay: 1000,
-    loop: true
-  });
+  strings: ['L&#8217;an 2K23,<br>MMXXIII'],
+  typeSpeed: 90,
+  backSpeed: 30,
+  backDelay: 3000,
+  bindInputFocusEvents: true,
+  startDelay: 100,
+  loop: true
+});
 
 
-// SHOWROOM
-
-// const sequenceImages = [];
-// let currentImageIndex = 0;
-// let currentImageElement = null;
-// let isMouseMoving = false;
-// let isLoadingImage = false;
-// let intervalId = null;
-
-// for (let i = 0; i <= 180; i++) {
-//   let image = new Image();
-//   image.src = `./imgs/showroom/paul_rand_${i}.png`;
-//   sequenceImages.push(image);
-// }
-
-// const scrollIncrement = 1; // Adjust this value to control the scroll speed
-// const autoChangeDelay = 30; // Delay in milliseconds for automatic image change
-
-// document.getElementById("showroomcontainer").addEventListener("mousemove", (e) => {
-//   const mouseX = e.clientX;
-//   const imageIndex = Math.floor((mouseX / window.innerWidth) * sequenceImages.length);
-//   currentImageIndex = imageIndex;
-//   isMouseMoving = true;
-
-//   clearTimeout(intervalId); // Clear the automatic image change interval
-//   intervalId = setTimeout(() => {
-//     isMouseMoving = false;
-//     autoChangeImage();
-//   }, autoChangeDelay);
-
-//   updateImage();
-// });
-
-
-// function updateImage() {
-//   if (currentImageElement) {
-//     currentImageElement.remove();
-//   }
-
-//   const image = sequenceImages[currentImageIndex >= 0 ? currentImageIndex : 0];
-//   currentImageElement = image.cloneNode();
-//   let showroomContainer = document.getElementById("showroomcontainer");
-//   showroomContainer.innerHTML = '';
-//   showroomContainer.appendChild(currentImageElement);
-// }
-
-// function autoChangeImage() {
-//   if (!isMouseMoving) {
-//     currentImageIndex = (currentImageIndex + scrollIncrement);
-//     if (currentImageIndex >= sequenceImages.length) {
-//       currentImageIndex = 0;
-//     }
-//     if (!isLoadingImage) {
-//       isLoadingImage = true;
-//       const image = sequenceImages[currentImageIndex];
-//       image.onload = () => {
-//         isLoadingImage = false;
-//         updateImage();
-//         intervalId = setTimeout(autoChangeImage, autoChangeDelay);
-//       };
-//     }
-//   }
-// }
-
-// function setup() {
-//   updateImage();
-//   intervalId = setTimeout(autoChangeImage, autoChangeDelay);
-// }
-
-// window.onload = setup;

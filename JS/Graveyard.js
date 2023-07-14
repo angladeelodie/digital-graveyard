@@ -17,17 +17,6 @@ import {
 import Grave from './Grave.js'
 import TWEEN from '@tweenjs/tween.js'
 
-// import { 
-//     RGBELoader
-//  } from 'three/examples/jsm/loaders/RGBELoader.js';
-// import { 
-//     PMREMGenerator 
-// } from 'three/src/extras/PMREMGenerator.js';
-// import { 
-//     PMREMCubeUVPacker 
-// } from 'three/src/extras/PMREMCubeUVPacker.js';
-
-
 
 export class Graveyard {
     constructor({
@@ -249,44 +238,33 @@ export class Graveyard {
 
         this.renderer.setSize(clientWidth, clientHeight);
 
-        // const resetCameraButton = document.getElementById('resetCameraButton');
-        // resetCameraButton.addEventListener('click', () => {
-        //     let targetCameraPosition;
-        //     if (this.id === 1) {
-        //         targetCameraPosition = new THREE.Vector3(0, 0, 400);
-        //     } else if (this.id === 2) {
-        //         targetCameraPosition = new THREE.Vector3(0, 50, 800);
-        //     }
+        // HDRI
+            //         var cubeMap = new THREE.CubeTexture( [] );
+            // cubeMap.format = THREE.RGBFormat;
+            // var loader = new THREE.ImageLoader();
+            // loader.load( 'public/imgs/backgrounds/mountain.jpg', function ( image ) {
+            //     var getSide = function ( x, y ) {
+            //     var size = 1024;
+            //     canvas.width = size;
+            //     canvas.height = size;
+            //     var context = canvas.getContext( '2d' );
+            //     context.drawImage( image, - x * size, - y * size );
+            //         return canvas;
+            //     };
+            //     cubeMap.images[ 0 ] = getSide( 2, 1 ); // px
+            //     cubeMap.images[ 1 ] = getSide( 0, 1 ); // nx
+            //     cubeMap.images[ 2 ] = getSide( 1, 0 ); // py
+            //     cubeMap.images[ 3 ] = getSide( 1, 2 ); // ny
+            //     cubeMap.images[ 4 ] = getSide( 1, 1 ); // pz
+            //     cubeMap.images[ 5 ] = getSide( 3, 1 ); // nz
+            //     cubeMap.needsUpdate = true;
+            // } );
 
-        //     const targetCameraRotation = new THREE.Euler(this.camAngle.x, this.camAngle.y, this.camAngle.z);
-        //     const duration = 2000;
-
-        //     new TWEEN.Tween(this.camera.position)
-        //         .to(targetCameraPosition, duration)
-        //         .easing(TWEEN.Easing.Quadratic.InOut)
-        //         .onUpdate(() => {
-        //             this.controls.target.set(this.camera.position.x, this.camera.position.y, this.camera.position.z);
-        //         })
-        //         .start();
-
-        //     new TWEEN.Tween(this.camera.rotation)
-        //         .to({
-        //             x: targetCameraRotation.x,
-        //             y: targetCameraRotation.y,
-        //             z: targetCameraRotation.z
-        //         }, duration)
-        //         .easing(TWEEN.Easing.Quadratic.InOut)
-        //         .onUpdate(() => {
-        //             this.camera.rotation.set(this.camera.rotation.x, this.camera.rotation.y, this.camera.rotation.z);
-        //         })
-        //         .start();
-        // });
 
         // LIGHTS
 
 
-        // let directionalLight = new THREE.DirectionalLight(0xF5D3B3, .3);
-        // directionalLight.position.set(300, 100, 800)
+        
         let directionalLight = new THREE.DirectionalLight(0xF5D3B3, .3);
         directionalLight.position.set(300, 5, 800)
 
@@ -324,39 +302,104 @@ export class Graveyard {
 
 
         // générer les tombes à partir de la base de données
-        for (let i = 0; i < database.graves.length; i++) {
-            this.graves.push(new Grave({
-                // position: {
-                //     x: random(-2000, 2000),
-                //     y: random(-10, -10),
-                //     z: random(-2000, 2000)
-                // },
+        // for (let i = 0; i < database.graves.length; i++) {
+        //     this.graves.push(new Grave({
+        //         // position: {
+        //         //     x: random(-2000, 2000),
+        //         //     y: random(-10, -10),
+        //         //     z: random(-2000, 2000)
+        //         // }
+                  
+        //         function getRandomNumber() {
+        //             var randomNumber;
+        //             do {
+        //               randomNumber = Math.floor(Math.random() * 4001) - 2000;
+        //             } while (randomNumber >= -500 && randomNumber <= 500);
+        //             return randomNumber;
+        //           },                  
 
-                position: {
-                    x: Math.random() < 0.5
-                      ? Math.floor(Math.random() * (800 - (-2000) + 1)) + (-2000)
-                      : Math.floor(Math.random() * (2000 - 800 + 1)) + 800,
-                    y: -10,
-                    z: Math.floor(Math.random() * (2000 - (-2000) + 1)) + (-2000)
-                  },
+        //         position: {
+        //             x: getRandomNumber(),
+        //             y: random(-10, -10),
+        //             z: getRandomNumber()
+        //           },
+
+        // function getRandomNumber() {
+        //     var randomNumber;
+        //     do {
+        //       randomNumber = Math.floor(Math.random() * 4001) - 2000;
+        //     } while (randomNumber >= -500 && randomNumber <= 500);
+        //     return randomNumber;
+        //   }
+          
+        //   for (let i = 0; i < database.graves.length; i++) {
+        //     this.graves.push(new Grave({
+        //       position: {
+        //         x: getRandomNumber(),
+        //         y: random(-10, -10),
+        //         z: getRandomNumber()
+        //       }
+        //     }));
+        //   }
+          
+                  
+
+        //         // position: {
+        //         //     x: Math.random() < 0.5
+        //         //       ? Math.floor(Math.random() * (1000 - (-2000) + 1)) + (-1000)
+        //         //       : Math.floor(Math.random() * (2000 - 1000 + 1)) + 1000,
+        //         //     y: random(-10, -10),
+        //         //     z: Math.floor(Math.random() * (2000 - (-2000) + 1)) + (-1000)
+        //         //   },
 
 
-                modelName: random(this.models),
-                birth: database.graves[i].age,
-                isVisible: true,
-                birthDate: database.graves[i].birthDate,
-                deathDate: database.graves[i].deathDate,
-                texture: random(this.textures),
-                textures: this.textures,
-                color: database.graves[i].color,
-                name: database.graves[i].name,
-                surname: database.graves[i].surname,
-                models: this.models,
-                scene: this.scene,
-            }))
+        //         modelName: random(this.models),
+        //         birth: database.graves[i].age,
+        //         isVisible: true,
+        //         birthDate: database.graves[i].birthDate,
+        //         deathDate: database.graves[i].deathDate,
+        //         texture: random(this.textures),
+        //         textures: this.textures,
+        //         color: database.graves[i].color,
+        //         name: database.graves[i].name,
+        //         surname: database.graves[i].surname,
+        //         models: this.models,
+        //         scene: this.scene,
+        //     }))
 
-        }
+        // }
         // console.log(this.graves)
+
+        function getRandomNumber() {
+            let randomNumber;
+            do {
+              randomNumber = Math.floor(Math.random() * 4001) - 3000;
+            } while (randomNumber >= -200 && randomNumber <= 200);
+            return randomNumber;
+          }
+          
+          for (let i = 0; i < database.graves.length; i++) {
+            this.graves.push(new Grave({
+              position: {
+                x: getRandomNumber(),
+                y: random(-10, 10),
+                z: getRandomNumber()
+              },
+              modelName: random(this.models),
+              birth: database.graves[i].age,
+              isVisible: true,
+              birthDate: database.graves[i].birthDate,
+              deathDate: database.graves[i].deathDate,
+              texture: random(this.textures),
+              textures: this.textures,
+              color: database.graves[i].color,
+              name: database.graves[i].name,
+              surname: database.graves[i].surname,
+              models: this.models,
+              scene: this.scene
+            }));
+          }
+          
 
     }
 
@@ -379,7 +422,7 @@ export class Graveyard {
             textures: this.textures,
             isVisible: true,
             id: 0,
-            text: "firstname \nlastname",
+            text: "firstname\nlastname",
             // name: "DC",
             name: "%",
             surname: "",

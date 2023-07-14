@@ -174,6 +174,7 @@ export default class Grave {
             material.map = null;
             material.needsUpdate = true;
             material.color = new THREE.Color(this.color);
+            material.shininess = 100;
         }
 
 

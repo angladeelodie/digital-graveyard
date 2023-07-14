@@ -14,17 +14,23 @@ export function getTexturePaths() {
             specularMap: "/imgs/maps/marble_specular.jpg",
         },
         {
-            diffuseMap: "/imgs/maps/gold.jpg",
-            // displacementMap: "/imgs/displacementMaps/gold_displacement.jpg",
+            colorMap: "/imgs/textures/gold/gold_color.jpg",
+            normalMap: "/imgs/textures/gold/gold_normal.jpg",
+            diffuseMap: "/imgs/textures/gold/gold_diffuse.png",
+            displacementMap: "/imgs/textures/gold/gold_roughness.jpg",
         },
         {
-            diffuseMap: "/imgs/maps/silver.jpg",
-            // displacementMap: "/imgs/displacementMaps/silver_displacement.jpg",
+            colorMap: "/imgs/textures/gold/silver_color.jpg",
+            normalMap: "/imgs/textures/gold/gold_normal.png",
+            diffuseMap: "/imgs/textures/gold/silver_diffuse.png",
+            displacementMap: "/imgs/textures/gold/silver_roughness.png",
+            metalness: 1,
         },
         {
             diffuseMap: "/imgs/maps/wood.jpg",
             normalMap: "/imgs/maps/wood_normal.jpg",
             specularMap: "/imgs/maps/wood_specular.jpg",
+            roughnessMap: "/imgs/maps/wood_specular.jpg",
         },
     ]
 
